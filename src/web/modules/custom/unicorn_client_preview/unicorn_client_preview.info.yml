@@ -1,0 +1,12 @@
+name: Unicorn Client Preview
+type: module
+description: Allows Client users to view flagged Sponsored Articles while they are still drafts.
+package: Unicorn Domain
+core_version_requirement: ^11
+dependencies:
+  - drupal:field
+  - drupal:node
+  - drupal:taxonomy
+  - drupal:user
+  - jsonapi_extras:jsonapi_extras
+  - unicorn_core:unicorn_core

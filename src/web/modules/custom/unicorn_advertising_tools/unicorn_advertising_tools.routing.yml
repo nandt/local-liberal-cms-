@@ -1,0 +1,4 @@
+route_callbacks:
+  - 'Drupal\unicorn_advertising_tools\Routing\Admin\RoutesProvider'
+  - 'Drupal\unicorn_advertising_tools\Routing\StatisticsRoutesProvider'
+  - 'Drupal\unicorn_advertising_tools\Routing\RoutesProvider'

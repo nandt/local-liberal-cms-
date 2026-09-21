@@ -1,0 +1,10 @@
+uuid: fbff10f6-cbd9-43fa-a17b-ec1aa8ea507f
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.repeated_featured_b
+label: 'Repeated Featured B'
+targetEntityType: node
+cache: true

@@ -1,0 +1,12 @@
+liberal_node_loader.ajaxcall:
+  path: '/api/node-loader/get/{nid}'
+  defaults:
+    _controller: '\Drupal\liberal_node_loader\Controller\LiberalNodeLoaderController::jsLiberalNodeLoad'
+  requirements:
+    _permission: 'access content'
+liberal_node_loader.preloadajax:
+  path: '/api/node-loader/preload/get/{section}'
+  defaults:
+    _controller: '\Drupal\liberal_node_loader\Controller\PreloadNidsController::preloadNids'
+  requirements:
+    _permission: 'access content'

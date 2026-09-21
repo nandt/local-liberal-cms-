@@ -1,0 +1,21 @@
+uuid: bcd75bc6-326c-4f20-8c42-ca3d4f04af22
+langcode: el
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_teleytaia_enimerosi
+    - node.type.article_liberal
+  module:
+    - datetime
+id: node.article_liberal.field_teleytaia_enimerosi
+field_name: field_teleytaia_enimerosi
+entity_type: node
+bundle: article_liberal
+label: 'Τελευταία Ενημέρωση'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: datetime

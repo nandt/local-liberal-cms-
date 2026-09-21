@@ -1,0 +1,2 @@
+route_callbacks:
+  - Drupal\unicorn_video_article\Routing\RoutesProvider

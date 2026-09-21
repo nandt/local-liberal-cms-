@@ -1,0 +1,15 @@
+langcode: el
+status: true
+dependencies: {  }
+id: taxonomy_term__oblations
+label: 'Taxonomy term: Oblations'
+tags:
+  og_image_url: '[term:field_ob_banner:liberal_wide_banner_1]'
+  og_title: '[term:name]'
+  og_url: '[liberal_custom_content:oblation-url]'
+  robots: 'index, follow'
+  title: '[term:name] | [site:name]'
+  twitter_cards_creator: '@LiberalGr'
+  twitter_cards_image: '[term:field_ob_banner:liberal_wide_banner_1]'
+  twitter_cards_title: '[term:name]'
+  twitter_cards_type: summary_large_image

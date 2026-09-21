@@ -1,0 +1,8 @@
+name: AMP Toolbar
+type: module
+description: Move the toolbar into an amp-sidebar region.
+core_version_requirement: '^10 || ^11'
+package: AMP
+dependencies:
+  - amp:amp
+  - drupal:toolbar

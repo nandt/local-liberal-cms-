@@ -1,0 +1,24 @@
+uuid: 5d240b20-a2c7-4427-b050-4cab2965b47b
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.node_same_category_articles
+  module:
+    - views
+  theme:
+    - liberal_theme
+id: views_block__node_same_category_articles_block_1
+theme: liberal_theme
+region: same_category_node
+weight: 0
+provider: null
+plugin: 'views_block:node_same_category_articles-block_1'
+settings:
+  id: 'views_block:node_same_category_articles-block_1'
+  label: ''
+  label_display: visible
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility: {  }

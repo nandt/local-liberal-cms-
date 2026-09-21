@@ -1,0 +1,37 @@
+uuid: 9bad03fe-5a4b-4671-91fb-bf64a450a5e2
+langcode: el
+status: true
+dependencies:
+  module:
+    - language
+    - taxonomy
+id: pathautoliberaltaxonomyterms
+label: PathAutoLiberalTaxonomyTerms
+type: 'canonical_entities:taxonomy_term'
+pattern: '[term:vocabulary:name]/[term:name]'
+selection_criteria:
+  e2826268-4a13-4c50-ae77-af886a7f0de9:
+    id: 'entity_bundle:taxonomy_term'
+    negate: false
+    uuid: e2826268-4a13-4c50-ae77-af886a7f0de9
+    context_mapping:
+      taxonomy_term: taxonomy_term
+    bundles:
+      arthrografos: arthrografos
+      category: category
+      tags: tags
+      writers: writers
+  6d0b7af6-9446-4eb8-8508-f5360d1a9280:
+    id: language
+    negate: false
+    uuid: 6d0b7af6-9446-4eb8-8508-f5360d1a9280
+    context_mapping:
+      language: 'taxonomy_term:langcode:language'
+    langcodes:
+      el: el
+      en: en
+selection_logic: and
+weight: -10
+relationships:
+  'taxonomy_term:langcode:language':
+    label: Γλώσσα

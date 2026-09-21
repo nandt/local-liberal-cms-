@@ -1,0 +1,29 @@
+uuid: e9af86af-639d-4362-a9ea-ee9b7f825018
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.international_region_2
+  module:
+    - system
+    - views
+  theme:
+    - liberal_theme
+id: views_block__international_region_2_block
+theme: liberal_theme
+region: international_2
+weight: 0
+provider: null
+plugin: 'views_block:international_region_2-block'
+settings:
+  id: 'views_block:international_region_2-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

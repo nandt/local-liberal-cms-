@@ -1,0 +1,18 @@
+uuid: 25726c62-2d46-4251-9651-94e431d0b22a
+langcode: en
+status: true
+dependencies:
+  module:
+    - liberal_dashboard_app
+    - serialization
+    - user
+id: custom_dashboard_mass_region_update_resource
+plugin_id: custom_dashboard_mass_region_update_resource
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - json
+  authentication:
+    - cookie

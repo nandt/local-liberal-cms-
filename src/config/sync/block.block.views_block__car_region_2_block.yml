@@ -1,0 +1,29 @@
+uuid: 26b04abc-78e3-492e-a3ac-070d7620c61d
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.car_region_2
+  module:
+    - system
+    - views
+  theme:
+    - liberal_theme
+id: views_block__car_region_2_block
+theme: liberal_theme
+region: car_2
+weight: 0
+provider: null
+plugin: 'views_block:car_region_2-block'
+settings:
+  id: 'views_block:car_region_2-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

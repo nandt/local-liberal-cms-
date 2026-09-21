@@ -1,0 +1,43 @@
+diff --git a/src/Asset/AmpCssCollectionRenderer.php b/src/Asset/AmpCssCollectionRenderer.php
+index 5a5bc7489809d8ae068a627a5ef6c57d52889d0b..107fbf413e2831b43438b16f36bbaaa9a407bba2 100644
+--- a/src/Asset/AmpCssCollectionRenderer.php
++++ b/src/Asset/AmpCssCollectionRenderer.php
+@@ -2,12 +2,12 @@
+
+ namespace Drupal\amp\Asset;
+
+-use Drupal\Core\Asset\CssCollectionRenderer;
+ use Drupal\amp\Service\AMPService;
+-use Drupal\Core\State\StateInterface;
+-use Drupal\Core\Render\RendererInterface;
++use Drupal\Core\Asset\CssCollectionRenderer;
+ use Drupal\Core\Config\ConfigFactoryInterface;
+ use Drupal\Core\File\FileUrlGeneratorInterface;
++use Drupal\Core\Render\RendererInterface;
++use Drupal\Core\State\StateInterface;
+
+ /**
+  * Renders CSS assets.
+@@ -47,6 +47,13 @@ class AmpCssCollectionRenderer extends CssCollectionRenderer {
+    */
+   protected $cssCollectionRenderer;
+
++  /**
++   * The state service.
++   *
++   * @var \Drupal\Core\State\StateInterface
++   */
++  protected $state;
++
+   /**
+    * AMP Service.
+    *
+@@ -165,7 +172,7 @@ class AmpCssCollectionRenderer extends CssCollectionRenderer {
+         else {
+           // Strip any querystring off the url.
+           if (strpos($url, '?') !== FALSE) {
+-            list($url, $query) = explode('?', $url);
++            [$url, $query] = explode('?', $url);
+           }
+           $css = file_get_contents(DRUPAL_ROOT . $url);
+           if ($needs_rewrite) {

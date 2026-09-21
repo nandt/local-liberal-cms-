@@ -1,0 +1,121 @@
+unicorn_api_alterations.latest_articles:
+  path: '/%jsonapi%/latest-articles'
+  defaults:
+    _jsonapi_resource: Drupal\unicorn_api_alterations\Resource\LatestArticles
+    _jsonapi_resource_types: ['node--article_liberal']
+  requirements:
+    _permission: 'access content'
+
+unicorn_api_alterations.article_feed:
+  path: '/%jsonapi%/article-feed'
+  defaults:
+    _jsonapi_resource: Drupal\unicorn_api_alterations\Resource\ArticleFeed
+    _jsonapi_resource_types: ['node--article_liberal']
+  requirements:
+    _permission: 'access content'
+
+unicorn_api_alterations.popular_articles:
+  path: '/%jsonapi%/popular-articles'
+  defaults:
+    _jsonapi_resource: Drupal\unicorn_api_alterations\Resource\PopularArticles
+    _jsonapi_resource_types: ['node--article_liberal']
+  requirements:
+    _permission: 'access content'
+
+unicorn_api_alterations.news_feed:
+  path: '/%jsonapi%/news-feed/{type}'
+  defaults:
+    _jsonapi_resource: Drupal\unicorn_api_alterations\Resource\NewsFeed
+    _jsonapi_resource_types: ['node--article_liberal']
+  requirements:
+    _permission: 'access content'
+
+unicorn_api_alterations.ai_summary:
+  path: '/customapi/ai/summary'
+  methods: [GET, POST]
+  defaults:
+    _controller: '\Drupal\unicorn_api_alterations\Controller\SummaryController::generate'
+  requirements:
+    _permission: 'access content'
+
+unicorn_api_alterations.home_layout_get:
+  path: '/customapi/home-layout'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\unicorn_api_alterations\Controller\HomePageLayoutController::get'
+  requirements:
+    _custom_access: '\Drupal\unicorn_api_alterations\Access\HomeLayoutAccess::access'
+
+unicorn_api_alterations.home_layout_save:
+  path: '/customapi/home-layout'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\unicorn_api_alterations\Controller\HomePageLayoutController::save'
+  requirements:
+    _custom_access: '\Drupal\unicorn_api_alterations\Access\HomeLayoutAccess::access'
+
+unicorn_api_alterations.feature_layout_save:
+  path: '/customapi/feature-layout'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\unicorn_api_alterations\Controller\FeatureLayoutController::save'
+  requirements:
+    _permission: 'administer site configuration'
+
+unicorn_api_alterations.debug_status:
+  path: '/customapi/debug-status'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\unicorn_api_alterations\Controller\DebugController::status'
+  requirements:
+    _access: 'TRUE'
+
+unicorn_api_alterations.api_index:
+  path: '/customapi'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\unicorn_api_alterations\Controller\ApiIndexController::index'
+  requirements:
+    _access: 'TRUE'
+
+unicorn_api_alterations.session_destroy:
+  path: '/customapi/session-destroy'
+  methods: [POST]
+  defaults:
+    _controller: '\Drupal\unicorn_api_alterations\Controller\SessionController::destroy'
+  requirements:
+    _access: 'TRUE'
+  options:
+    no_cache: TRUE
+
+unicorn_api_alterations.debug_admin_form:
+  path: '/admin/config/services/liberal-debug'
+  defaults:
+    _form: '\Drupal\unicorn_api_alterations\Form\DebugSettingsForm'
+    _title: 'Liberal3 Debug Mode'
+  requirements:
+    _permission: 'administer site configuration'
+
+unicorn_api_alterations.sections_usage:
+  path: '/customapi/sections-usage'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\unicorn_api_alterations\Controller\SectionsUsageController::usage'
+  requirements:
+    _permission: 'access content'
+
+unicorn_api_alterations.section_templates:
+  path: '/customapi/section-templates'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\unicorn_api_alterations\Controller\SectionTemplatesController::list'
+  requirements:
+    _permission: 'access content'
+
+unicorn_api_alterations.metatag_route:
+  path: '/customapi/metatag-route'
+  methods: [GET]
+  defaults:
+    _controller: '\Drupal\unicorn_api_alterations\Controller\MetatagRouteController::getData'
+  requirements:
+    _permission: 'access content'

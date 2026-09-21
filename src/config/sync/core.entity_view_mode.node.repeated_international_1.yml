@@ -1,0 +1,10 @@
+uuid: 893d5835-1308-43c4-a3da-0e1d875baa9b
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.repeated_international_1
+label: 'Repeated International 1'
+targetEntityType: node
+cache: true

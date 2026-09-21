@@ -1,0 +1,6 @@
+liberal_stocks_app.admin_settings:
+  title: 'Liberal Stocks App Configuration Form'
+  route_name: liberal_stocks_app.admin_settings
+  description: 'Configuration settings for the Liberal Stocks App Module'
+  parent: system.admin_config_system
+  weight: 99

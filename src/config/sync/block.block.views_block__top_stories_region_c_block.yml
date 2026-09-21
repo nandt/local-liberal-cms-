@@ -1,0 +1,24 @@
+uuid: ab4bc6d8-87f9-49d5-87b4-a5554a9a676d
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.top_stories_region_c
+  module:
+    - views
+  theme:
+    - liberal_theme
+id: views_block__top_stories_region_c_block
+theme: liberal_theme
+region: top_stories_3
+weight: 0
+provider: null
+plugin: 'views_block:top_stories_region_c-block'
+settings:
+  id: 'views_block:top_stories_region_c-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility: {  }

@@ -1,0 +1,25 @@
+uuid: 55bc4118-7e92-40e7-8048-99867b926516
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_weight
+    - node.type.article_liberal
+id: node.article_liberal.field_weight
+field_name: field_weight
+entity_type: node
+bundle: article_liberal
+label: weight
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  min: null
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

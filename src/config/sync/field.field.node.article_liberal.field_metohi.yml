@@ -1,0 +1,29 @@
+uuid: 528a11d5-91bb-41ed-b456-0ad9d3de0b36
+langcode: el
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_metohi
+    - node.type.article_liberal
+    - taxonomy.vocabulary.metohes
+id: node.article_liberal.field_metohi
+field_name: field_metohi
+entity_type: node
+bundle: article_liberal
+label: Μετοχή
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      metohes: metohes
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

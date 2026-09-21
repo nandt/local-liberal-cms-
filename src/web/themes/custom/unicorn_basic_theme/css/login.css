@@ -1,0 +1,247 @@
+/* Layout */
+
+/*
+ * Full-page takeover done entirely in CSS: no active-theme swap, so
+ * whatever the site theme renders around the login form stays in the DOM
+ * but is covered by this fixed, full-viewport layer. Scoped under
+ * .unicorn-login/.unicorn-login-page so no other page is affected — this
+ * stylesheet is only ever attached from LoginFormHooks::formUserLoginFormAlter().
+ */
+
+body.unicorn-login-page {
+  margin: 0;
+  overflow: hidden;
+}
+
+.unicorn-login {
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  margin: 0;
+  padding: 0;
+  background-color: #f0f5f8;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+.unicorn-login__topbar {
+  flex: none;
+  background-color: #1D5674;
+  padding: 7px 24px;
+}
+
+.unicorn-login__topbar-logo {
+  display: block;
+  height: 42px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+.unicorn-login__main {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 16px;
+}
+
+/* Card */
+
+.unicorn-login__card {
+  width: 600px;
+  max-width: calc(100% - 32px);
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.06);
+  padding: 30px;
+  text-align: center;
+  box-sizing: border-box;
+}
+
+@media (max-width: 640px) {
+  .unicorn-login__card {
+    padding: 32px 24px;
+  }
+}
+
+.unicorn-login__card-logo {
+  display: block;
+  height: 72px;
+  width: auto;
+  margin: 0 auto 15px;
+}
+
+.unicorn-login__title {
+  margin: 0 0 8px;
+  font-size: 32px;
+  line-height: 140%;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.unicorn-login__subtitle {
+  margin: 0 0 24px;
+  text-align: center;
+  font-size: 16px;
+  color: #595959;
+}
+
+/* Status messages (login errors, etc.) — markup built entirely by
+ * LoginFormHooks::renderMessageBanners(), not by the active theme's
+ * status-messages.html.twig, so these classes are always guaranteed. */
+
+.unicorn-login__card .unicorn-login__message {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin: 0 0 24px;
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 16px;
+  line-height: 150%;
+  text-align: left;
+}
+
+.unicorn-login__message-icon {
+  flex: none;
+  width: 18px;
+  height: 18px;
+  margin-top: 4px;
+}
+
+.unicorn-login__message--error,
+.unicorn-login__message--warning {
+  background-color: #FDEDED;
+  color: #991b1b;
+  border: none;
+}
+
+.unicorn-login__message--status {
+  background-color: #f0fdf4;
+  color: #166534;
+  border: none;
+}
+
+/* Form */
+
+.unicorn-login__card form {
+  text-align: left;
+}
+
+.unicorn-login__card .form-item {
+  position: relative;
+  margin: 0 0 18px;
+}
+
+.unicorn-login__card label {
+  position: absolute;
+  top: -8px;
+  left: 12px;
+  z-index: 1;
+  margin: 0;
+  padding: 0 4px;
+  background-color: #ffffff;
+  font-size: 12px;
+  font-weight: 400;
+  color: #595959;
+}
+
+.unicorn-login__card input[type="text"],
+.unicorn-login__card input[type="email"],
+.unicorn-login__card input[type="password"] {
+  box-sizing: border-box;
+  width: 100%;
+  height: 56px;
+  padding: 0 14px;
+  border: 1px solid #717171;
+  border-radius: 4px;
+  font-size: 16px;
+  color: #1a1a1a;
+  background-color: #ffffff;
+}
+
+.unicorn-login__card input:focus {
+  outline: none;
+  border-color: #226488;
+  box-shadow: 0 0 0 3px rgba(34, 100, 136, 0.15);
+}
+
+.unicorn-login__card input.unicorn-login-password {
+  padding-left: 40px;
+  padding-right: 48px;
+}
+
+/* Field icons (lock prefix, eye suffix) */
+
+.unicorn-login-field-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+.unicorn-login-toggle-password {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  padding: 0;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+}
+
+.unicorn-login-toggle-password:hover {
+  opacity: 0.7;
+}
+
+.unicorn-login-toggle-password__icon {
+  width: 24px;
+  height: 24px;
+}
+
+.unicorn-login-toggle-password__icon--visible-state {
+  display: none;
+}
+
+.unicorn-login-toggle-password[aria-pressed="true"] .unicorn-login-toggle-password__icon--hidden-state {
+  display: none;
+}
+
+.unicorn-login-toggle-password[aria-pressed="true"] .unicorn-login-toggle-password__icon--visible-state {
+  display: block;
+}
+
+/* Submit */
+
+.unicorn-login__card input[type="submit"] {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #226488;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 400;
+  cursor: pointer;
+}
+
+.unicorn-login__card input[type="submit"]:hover {
+  background-color: #1d5472;
+}
+
+.unicorn-login__card input[type="submit"]:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(34, 100, 136, 0.25);
+}

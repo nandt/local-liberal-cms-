@@ -1,0 +1,24 @@
+uuid: 7da3070c-5670-4751-abd8-e5b01e7a9405
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.repeated_home_region_c
+  module:
+    - views
+  theme:
+    - liberal_theme
+id: views_block__repeated_home_region_c_block_
+theme: liberal_theme
+region: home3repeated
+weight: 0
+provider: null
+plugin: 'views_block:repeated_home_region_c-block'
+settings:
+  id: 'views_block:repeated_home_region_c-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility: {  }

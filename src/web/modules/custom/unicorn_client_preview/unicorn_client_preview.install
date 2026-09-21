@@ -1,0 +1,92 @@
+<?php
+
+declare(strict_types=1);
+
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\unicorn_client_preview\Permissions\Permissions;
+
+/**
+ * Implements hook_install().
+ */
+function unicorn_client_preview_install(): void {
+  $field_storage = FieldStorageConfig::loadByName('node', 'field_show_to_client');
+  if (!$field_storage) {
+    $field_storage = FieldStorageConfig::create([
+      'field_name' => 'field_show_to_client',
+      'entity_type' => 'node',
+      'type' => 'boolean',
+      'cardinality' => 1,
+      'translatable' => FALSE,
+    ]);
+    $field_storage->save();
+  }
+
+  $field = FieldConfig::loadByName('node', 'article_liberal', 'field_show_to_client');
+  if (!$field) {
+    $field = FieldConfig::create([
+      'field_name' => 'field_show_to_client',
+      'entity_type' => 'node',
+      'bundle' => 'article_liberal',
+      'label' => 'Visible to client',
+      'description' => 'Allow Client users with the Article URL to view this Sponsored Article while it is a draft.',
+      'required' => FALSE,
+      'translatable' => FALSE,
+      'default_value' => [
+        ['value' => 0],
+      ],
+      'settings' => [
+        'on_label' => 'Visible',
+        'off_label' => 'Hidden',
+      ],
+    ]);
+    $field->save();
+  }
+
+  $role_storage = \Drupal::entityTypeManager()->getStorage('user_role');
+  $role = $role_storage->load('client');
+  if (!$role) {
+    $role = $role_storage->create([
+      'id' => 'client',
+      'label' => 'Client',
+    ]);
+  }
+  $role->grantPermission(Permissions::ViewClientPreview->value);
+  $role->save();
+
+  $resource_config = \Drupal::configFactory()
+    ->getEditable('jsonapi_extras.jsonapi_resource_config.node--article_liberal');
+  if (!$resource_config->isNew()) {
+    $resource_config
+      ->set('resourceFields.field_show_to_client', [
+        'disabled' => FALSE,
+        'fieldName' => 'field_show_to_client',
+        'publicName' => 'field_show_to_client',
+        'enhancer' => ['id' => ''],
+      ])
+      ->save();
+  }
+}
+
+/**
+ * Implements hook_uninstall().
+ */
+function unicorn_client_preview_uninstall(): void {
+  $field = FieldConfig::loadByName('node', 'article_liberal', 'field_show_to_client');
+  $field?->delete();
+
+  $field_storage = FieldStorageConfig::loadByName('node', 'field_show_to_client');
+  $field_storage?->delete();
+
+  $role_storage = \Drupal::entityTypeManager()->getStorage('user_role');
+  $role = $role_storage->load('client');
+  $role?->delete();
+
+  $resource_config = \Drupal::configFactory()
+    ->getEditable('jsonapi_extras.jsonapi_resource_config.node--article_liberal');
+  if (!$resource_config->isNew()) {
+    $resource_config
+      ->clear('resourceFields.field_show_to_client')
+      ->save();
+  }
+}

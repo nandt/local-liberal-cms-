@@ -1,0 +1,19 @@
+uuid: 1a43366f-71a1-4ff6-9716-039a2824fa7d
+langcode: el
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_homepage_bullets
+field_name: field_homepage_bullets
+entity_type: node
+type: entity_reference
+settings:
+  target_type: node
+module: core
+locked: false
+cardinality: -1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

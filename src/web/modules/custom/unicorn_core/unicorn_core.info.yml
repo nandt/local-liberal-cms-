@@ -1,0 +1,6 @@
+name: Unicorn Core
+description: Improvements and Abstractions, this module is agnostic and can be installed in any Drupal.
+package: Unicorn Domain
+type: module
+version: 1.0.0
+core_version_requirement: ^11

@@ -1,0 +1,22 @@
+uuid: 1e5c2bd6-97f9-4a93-a2e5-7f24dbd36877
+langcode: el
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - liberal_theme
+_core:
+  default_config_hash: 9EoWV2Lot6FVSr50t4hoKgiz1LIXYWNG-IIPYsWxBqo
+id: liberal_theme_content
+theme: liberal_theme
+region: content
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Περιεχόμενο κεντρικής σελίδας'
+  label_display: '0'
+  provider: system
+visibility: {  }

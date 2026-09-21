@@ -1,0 +1,633 @@
+langcode: el
+status: true
+dependencies:
+  config:
+    - node.type.article_liberal
+  module:
+    - jsonapi_defaults
+third_party_settings:
+  jsonapi_defaults:
+    page_limit: 70
+id: node--article_liberal
+disabled: false
+path: node/article_liberal
+resourceType: node--article_liberal
+resourceFields:
+  nid:
+    disabled: false
+    fieldName: nid
+    publicName: nid
+    enhancer:
+      id: ''
+  uuid:
+    disabled: false
+    fieldName: uuid
+    publicName: uuid
+    enhancer:
+      id: ''
+  vid:
+    disabled: true
+    fieldName: vid
+    publicName: vid
+    enhancer:
+      id: ''
+  langcode:
+    disabled: false
+    fieldName: langcode
+    publicName: langcode
+    enhancer:
+      id: ''
+  type:
+    disabled: false
+    fieldName: type
+    publicName: type
+    enhancer:
+      id: ''
+  revision_timestamp:
+    disabled: true
+    fieldName: revision_timestamp
+    publicName: revision_timestamp
+    enhancer:
+      id: ''
+  revision_uid:
+    disabled: true
+    fieldName: revision_uid
+    publicName: revision_uid
+    enhancer:
+      id: ''
+  revision_log:
+    disabled: true
+    fieldName: revision_log
+    publicName: revision_log
+    enhancer:
+      id: ''
+  status:
+    disabled: false
+    fieldName: status
+    publicName: status
+    enhancer:
+      id: ''
+  uid:
+    disabled: false
+    fieldName: uid
+    publicName: uid
+    enhancer:
+      id: ''
+  title:
+    disabled: false
+    fieldName: title
+    publicName: title
+    enhancer:
+      id: ''
+  created:
+    disabled: false
+    fieldName: created
+    publicName: created
+    enhancer:
+      id: ''
+  changed:
+    disabled: false
+    fieldName: changed
+    publicName: changed
+    enhancer:
+      id: ''
+  promote:
+    disabled: false
+    fieldName: promote
+    publicName: promote
+    enhancer:
+      id: ''
+  sticky:
+    disabled: false
+    fieldName: sticky
+    publicName: sticky
+    enhancer:
+      id: ''
+  default_langcode:
+    disabled: true
+    fieldName: default_langcode
+    publicName: default_langcode
+    enhancer:
+      id: ''
+  revision_default:
+    disabled: true
+    fieldName: revision_default
+    publicName: revision_default
+    enhancer:
+      id: ''
+  revision_translation_affected:
+    disabled: true
+    fieldName: revision_translation_affected
+    publicName: revision_translation_affected
+    enhancer:
+      id: ''
+  content_translation_source:
+    disabled: true
+    fieldName: content_translation_source
+    publicName: content_translation_source
+    enhancer:
+      id: ''
+  content_translation_outdated:
+    disabled: true
+    fieldName: content_translation_outdated
+    publicName: content_translation_outdated
+    enhancer:
+      id: ''
+  metatag:
+    disabled: false
+    fieldName: metatag
+    publicName: metatag
+    enhancer:
+      id: ''
+  path:
+    disabled: false
+    fieldName: path
+    publicName: path
+    enhancer:
+      id: ''
+  publish_on:
+    disabled: false
+    fieldName: publish_on
+    publicName: publish_on
+    enhancer:
+      id: ''
+  unpublish_on:
+    disabled: false
+    fieldName: unpublish_on
+    publicName: unpublish_on
+    enhancer:
+      id: ''
+  menu_link:
+    disabled: true
+    fieldName: menu_link
+    publicName: menu_link
+    enhancer:
+      id: ''
+  body:
+    disabled: false
+    fieldName: body
+    publicName: body
+    enhancer:
+      id: ''
+  field_ad_link_article:
+    disabled: false
+    fieldName: field_ad_link_article
+    publicName: field_ad_link_article
+    enhancer:
+      id: ''
+  field_arthrografos:
+    disabled: false
+    fieldName: field_arthrografos
+    publicName: field_arthrografos
+    enhancer:
+      id: ''
+  field_article_region:
+    disabled: false
+    fieldName: field_article_region
+    publicName: field_article_region
+    enhancer:
+      id: ''
+  field_block_flag:
+    disabled: false
+    fieldName: field_block_flag
+    publicName: field_block_flag
+    enhancer:
+      id: ''
+  field_eidos_arthrou:
+    disabled: false
+    fieldName: field_eidos_arthrou
+    publicName: field_eidos_arthrou
+    enhancer:
+      id: ''
+  field_emfanisi_arthrografoy_stin:
+    disabled: false
+    fieldName: field_emfanisi_arthrografoy_stin
+    publicName: field_emfanisi_arthrografoy_stin
+    enhancer:
+      id: ''
+  field_energos_ypertitlos:
+    disabled: false
+    fieldName: field_energos_ypertitlos
+    publicName: field_energos_ypertitlos
+    enhancer:
+      id: ''
+  field_homepage_bullets:
+    disabled: false
+    fieldName: field_homepage_bullets
+    publicName: field_homepage_bullets
+    enhancer:
+      id: ''
+  field_impression_image_url:
+    disabled: false
+    fieldName: field_impression_image_url
+    publicName: field_impression_image_url
+    enhancer:
+      id: ''
+  field_introduction:
+    disabled: false
+    fieldName: field_introduction
+    publicName: field_introduction
+    enhancer:
+      id: ''
+  field_kentriki_fotografia:
+    disabled: false
+    fieldName: field_kentriki_fotografia
+    publicName: field_kentriki_fotografia
+    enhancer:
+      id: ''
+  field_kodikas_impression_image:
+    disabled: false
+    fieldName: field_kodikas_impression_image
+    publicName: field_kodikas_impression_image
+    enhancer:
+      id: ''
+  field_lezanta_fotografias:
+    disabled: false
+    fieldName: field_lezanta_fotografias
+    publicName: field_lezanta_fotografias
+    enhancer:
+      id: ''
+  field_liberal_category:
+    disabled: false
+    fieldName: field_liberal_category
+    publicName: field_liberal_category
+    enhancer:
+      id: ''
+  field_liberal_tags:
+    disabled: false
+    fieldName: field_liberal_tags
+    publicName: field_liberal_tags
+    enhancer:
+      id: ''
+  field_linked_article:
+    disabled: false
+    fieldName: field_linked_article
+    publicName: field_linked_article
+    enhancer:
+      id: ''
+  field_metatags:
+    disabled: false
+    fieldName: field_metatags
+    publicName: field_metatags
+    enhancer:
+      id: ''
+  field_metohi:
+    disabled: false
+    fieldName: field_metohi
+    publicName: field_metohi
+    enhancer:
+      id: ''
+  field_migrated_id:
+    disabled: true
+    fieldName: field_migrated_id
+    publicName: field_migrated_id
+    enhancer:
+      id: ''
+  field_notification_liberal_count:
+    disabled: true
+    fieldName: field_notification_liberal_count
+    publicName: field_notification_liberal_count
+    enhancer:
+      id: ''
+  field_notification_liberal_time:
+    disabled: true
+    fieldName: field_notification_liberal_time
+    publicName: field_notification_liberal_time
+    enhancer:
+      id: ''
+  field_no_advertisements:
+    disabled: false
+    fieldName: field_no_advertisements
+    publicName: field_no_advertisements
+    enhancer:
+      id: ''
+  field_oblation_category:
+    disabled: false
+    fieldName: field_oblation_category
+    publicName: field_oblation_category
+    enhancer:
+      id: ''
+  field_pigi_arthroy:
+    disabled: false
+    fieldName: field_pigi_arthroy
+    publicName: field_pigi_arthroy
+    enhancer:
+      id: ''
+  field_pigi_fotografias:
+    disabled: false
+    fieldName: field_pigi_fotografias
+    publicName: field_pigi_fotografias
+    enhancer:
+      id: ''
+  field_post_fb_liberal_counter:
+    disabled: true
+    fieldName: field_post_fb_liberal_counter
+    publicName: field_post_fb_liberal_counter
+    enhancer:
+      id: ''
+  field_post_fb_liberal_latest_tim:
+    disabled: true
+    fieldName: field_post_fb_liberal_latest_tim
+    publicName: field_post_fb_liberal_latest_tim
+    enhancer:
+      id: ''
+  field_post_twitter_liberal_count:
+    disabled: true
+    fieldName: field_post_twitter_liberal_count
+    publicName: field_post_twitter_liberal_count
+    enhancer:
+      id: ''
+  field_post_twitter_liberal_lates:
+    disabled: true
+    fieldName: field_post_twitter_liberal_lates
+    publicName: field_post_twitter_liberal_lates
+    enhancer:
+      id: ''
+  field_quote:
+    disabled: false
+    fieldName: field_quote
+    publicName: field_quote
+    enhancer:
+      id: ''
+  field_show_summary:
+    disabled: false
+    fieldName: field_show_summary
+    publicName: field_show_summary
+    enhancer:
+      id: ''
+  field_subtitle:
+    disabled: false
+    fieldName: field_subtitle
+    publicName: field_subtitle
+    enhancer:
+      id: ''
+  field_teleytaia_enimerosi:
+    disabled: false
+    fieldName: field_teleytaia_enimerosi
+    publicName: field_teleytaia_enimerosi
+    enhancer:
+      id: ''
+  field_title:
+    disabled: false
+    fieldName: field_title
+    publicName: field_title
+    enhancer:
+      id: ''
+  field_additional_articles_weight:
+    disabled: true
+    fieldName: field_additional_articles_weight
+    publicName: field_additional_articles_weight
+    enhancer:
+      id: ''
+  field_afieroma2_weight:
+    disabled: true
+    fieldName: field_afieroma2_weight
+    publicName: field_afieroma2_weight
+    enhancer:
+      id: ''
+  field_analysts_weight:
+    disabled: true
+    fieldName: field_analysts_weight
+    publicName: field_analysts_weight
+    enhancer:
+      id: ''
+  field_blackbox_weight:
+    disabled: true
+    fieldName: field_blackbox_weight
+    publicName: field_blackbox_weight
+    enhancer:
+      id: ''
+  field_business_home_weight:
+    disabled: true
+    fieldName: field_business_home_weight
+    publicName: field_business_home_weight
+    enhancer:
+      id: ''
+  field_car_weight:
+    disabled: true
+    fieldName: field_car_weight
+    publicName: field_car_weight
+    enhancer:
+      id: ''
+  field_culture_and_arts_weight:
+    disabled: true
+    fieldName: field_culture_and_arts_weight
+    publicName: field_culture_and_arts_weight
+    enhancer:
+      id: ''
+  field_economy_weight:
+    disabled: true
+    fieldName: field_economy_weight
+    publicName: field_economy_weight
+    enhancer:
+      id: ''
+  field_featured_weight:
+    disabled: true
+    fieldName: field_featured_weight
+    publicName: field_featured_weight
+    enhancer:
+      id: ''
+  field_home_weight:
+    disabled: true
+    fieldName: field_home_weight
+    publicName: field_home_weight
+    enhancer:
+      id: ''
+  field_international_weight:
+    disabled: true
+    fieldName: field_international_weight
+    publicName: field_international_weight
+    enhancer:
+      id: ''
+  field_lm_main_articles_weight:
+    disabled: true
+    fieldName: field_lm_main_articles_weight
+    publicName: field_lm_main_articles_weight
+    enhancer:
+      id: ''
+  field_lm_top_stories_weight:
+    disabled: true
+    fieldName: field_lm_top_stories_weight
+    publicName: field_lm_top_stories_weight
+    enhancer:
+      id: ''
+  field_oblation_2_articles_weight:
+    disabled: true
+    fieldName: field_oblation_2_articles_weight
+    publicName: field_oblation_2_articles_weight
+    enhancer:
+      id: ''
+  field_oblation_3_articles_weight:
+    disabled: true
+    fieldName: field_oblation_3_articles_weight
+    publicName: field_oblation_3_articles_weight
+    enhancer:
+      id: ''
+  field_oblation_articles_weight:
+    disabled: true
+    fieldName: field_oblation_articles_weight
+    publicName: field_oblation_articles_weight
+    enhancer:
+      id: ''
+  field_oblation_main_article_weig:
+    disabled: false
+    fieldName: field_oblation_main_article_weig
+    publicName: field_oblation_main_article_weig
+    enhancer:
+      id: ''
+  field_oblation_zone_a_weight:
+    disabled: false
+    fieldName: field_oblation_zone_a_weight
+    publicName: field_oblation_zone_a_weight
+    enhancer:
+      id: ''
+  field_oblation_zone_b_weight:
+    disabled: false
+    fieldName: field_oblation_zone_b_weight
+    publicName: field_oblation_zone_b_weight
+    enhancer:
+      id: ''
+  field_politic_weight:
+    disabled: true
+    fieldName: field_politic_weight
+    publicName: field_politic_weight
+    enhancer:
+      id: ''
+  field_stoixima_weight:
+    disabled: true
+    fieldName: field_stoixima_weight
+    publicName: field_stoixima_weight
+    enhancer:
+      id: ''
+  field_technology_weight:
+    disabled: true
+    fieldName: field_technology_weight
+    publicName: field_technology_weight
+    enhancer:
+      id: ''
+  field_top_stories_weight:
+    disabled: true
+    fieldName: field_top_stories_weight
+    publicName: field_top_stories_weight
+    enhancer:
+      id: ''
+  field_views_weight:
+    disabled: true
+    fieldName: field_views_weight
+    publicName: field_views_weight
+    enhancer:
+      id: ''
+  field_weight:
+    disabled: true
+    fieldName: field_weight
+    publicName: field_weight
+    enhancer:
+      id: ''
+  field_z1_blackbox_weight:
+    disabled: true
+    fieldName: field_z1_blackbox_weight
+    publicName: field_z1_blackbox_weight
+    enhancer:
+      id: ''
+  field_z1_bottom_weight:
+    disabled: true
+    fieldName: field_z1_bottom_weight
+    publicName: field_z1_bottom_weight
+    enhancer:
+      id: ''
+  field_z1_home_weight:
+    disabled: true
+    fieldName: field_z1_home_weight
+    publicName: field_z1_home_weight
+    enhancer:
+      id: ''
+  field_z1_top_weight:
+    disabled: true
+    fieldName: field_z1_top_weight
+    publicName: field_z1_top_weight
+    enhancer:
+      id: ''
+  field_z2_bottom_weight:
+    disabled: true
+    fieldName: field_z2_bottom_weight
+    publicName: field_z2_bottom_weight
+    enhancer:
+      id: ''
+  field_z2_middle_weight:
+    disabled: true
+    fieldName: field_z2_middle_weight
+    publicName: field_z2_middle_weight
+    enhancer:
+      id: ''
+  field_z2_top_weight:
+    disabled: true
+    fieldName: field_z2_top_weight
+    publicName: field_z2_top_weight
+    enhancer:
+      id: ''
+  field_full_width_image:
+    disabled: false
+    fieldName: field_full_width_image
+    publicName: field_full_width_image
+    enhancer:
+      id: ''
+  field_attached_video_code:
+    disabled: false
+    fieldName: field_attached_video_code
+    publicName: field_attached_video_code
+    enhancer:
+      id: ''
+  field_attached_video_title:
+    disabled: false
+    fieldName: field_attached_video_title
+    publicName: field_attached_video_title
+    enhancer:
+      id: ''
+  field_attached_video_source:
+    disabled: false
+    fieldName: field_attached_video_source
+    publicName: field_attached_video_source
+    enhancer:
+      id: ''
+  field_vid_article_source_code:
+    disabled: false
+    fieldName: field_vid_article_source_code
+    publicName: field_vid_article_source_code
+    enhancer:
+      id: ''
+  field_vid_article_series:
+    disabled: false
+    fieldName: field_vid_article_series
+    publicName: field_vid_article_series
+    enhancer:
+      id: ''
+  field_vid_article_episode:
+    disabled: false
+    fieldName: field_vid_article_episode
+    publicName: field_vid_article_episode
+    enhancer:
+      id: ''
+  field_vid_article_duration:
+    disabled: false
+    fieldName: field_vid_article_duration
+    publicName: field_vid_article_duration
+    enhancer:
+      id: ''
+  field_vid_article_width:
+    disabled: false
+    fieldName: field_vid_article_width
+    publicName: field_vid_article_width
+    enhancer:
+      id: ''
+  field_vid_article_height:
+    disabled: false
+    fieldName: field_vid_article_height
+    publicName: field_vid_article_height
+    enhancer:
+      id: ''
+  field_show_to_client:
+    disabled: false
+    fieldName: field_show_to_client
+    publicName: field_show_to_client
+    enhancer:
+      id: ''

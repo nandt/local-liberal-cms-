@@ -1,0 +1,2 @@
+permission_callbacks:
+  - 'Drupal\unicorn_account\Permissions\Permissions::getAll'

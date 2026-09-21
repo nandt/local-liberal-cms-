@@ -1,0 +1,49 @@
+<?php
+
+use Drupal\Core\Url;
+use Drupal\liberal_custom_content\Utils\liberalCustomContentUtils;
+
+/**
+ * Implements hook_preprocess_page()
+ */
+function liberal_node_loader_preprocess_page(&$variables): void {
+
+  $route_match = \Drupal::routeMatch();
+
+  // check if it's the node page
+  if ($route_match->getRouteName() == 'entity.node.canonical') {
+    $node = \Drupal::routeMatch()->getParameter('node');
+
+    if (!empty($node) && $node->getType() == 'article_liberal') {
+      $nid = $node->id();
+      $variables['liberal_node_loader']['#markup'] = '<div class="liberal-node-loader" data-current="' . $nid . '"></div>';
+
+      // only present the loader if it's not an advertising article
+      $is_advertising_article = liberalCustomContentUtils::checkIfNodeIsAdvertising($node);
+
+      if (!$is_advertising_article) {
+        $variables['liberal_node_loader']['#attached']['library'][] = 'liberal_node_loader/liberal_node_loader_js';
+      }
+
+      $field_no_advertisements = $node->get('field_no_advertisements')->getValue();
+      $field_no_advertisements_value = 0;
+
+      // only run the code if there is at least 1 value
+      if (isset($field_no_advertisements[0]['value'])) {
+        $field_no_advertisements_value = $field_no_advertisements[0]['value'];
+      }
+
+      $rewrite_url = $variables['base_path'] != '/' ? substr((string) $variables['base_path'], 0, -1) : "";
+
+      // send variables to js
+      $variables['#attached']['drupalSettings']['liberal_node_loader'] = [
+        'base_path' => $rewrite_url,
+        'currentNode' => [
+          'nodeUrl' => Url::fromRoute('entity.node.canonical', ['node' => $node->id()])->toString(),
+          'nodeAds' => (int) $field_no_advertisements_value,
+          'nodeTitle' => $node->getTitle() . '| Liberal',
+        ],
+      ];
+    }
+  }
+}

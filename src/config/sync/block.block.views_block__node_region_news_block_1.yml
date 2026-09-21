@@ -1,0 +1,24 @@
+uuid: 68cbae24-9170-43c8-bf8f-d1075139096d
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.node_region_news
+  module:
+    - views
+  theme:
+    - liberal_theme
+id: views_block__node_region_news_block_1
+theme: liberal_theme
+region: recent_news_node
+weight: 0
+provider: null
+plugin: 'views_block:node_region_news-block_1'
+settings:
+  id: 'views_block:node_region_news-block_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility: {  }

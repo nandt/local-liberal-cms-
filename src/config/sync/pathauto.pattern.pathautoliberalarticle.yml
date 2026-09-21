@@ -1,0 +1,34 @@
+uuid: 0ccf57dc-80fc-449a-9811-48e8bc8583ff
+langcode: el
+status: true
+dependencies:
+  module:
+    - language
+    - node
+id: pathautoliberalarticle
+label: PathAutoLiberalArticle
+type: 'canonical_entities:node'
+pattern: '[node:field_liberal_category]/[node:title]'
+selection_criteria:
+  087efdb4-93ea-469a-8c2e-1547289fd9c2:
+    id: node_type
+    negate: false
+    uuid: 087efdb4-93ea-469a-8c2e-1547289fd9c2
+    context_mapping:
+      node: node
+    bundles:
+      article_liberal: article_liberal
+  78ca3673-6f6c-46f8-9e38-60cadcd754c5:
+    id: language
+    negate: false
+    uuid: 78ca3673-6f6c-46f8-9e38-60cadcd754c5
+    context_mapping:
+      language: 'node:langcode:language'
+    langcodes:
+      el: el
+      en: en
+selection_logic: and
+weight: -10
+relationships:
+  'node:langcode:language':
+    label: Γλώσσα

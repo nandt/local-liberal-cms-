@@ -1,0 +1,22 @@
+uuid: 48fe035d-1ad1-441b-aaa7-501d1a7eff3d
+langcode: el
+status: false
+dependencies:
+  module:
+    - system
+  theme:
+    - liberal_theme
+_core:
+  default_config_hash: oXUb3JZR2WW5VOdw4HrhRicCsq51mCgLfRyvheG68ck
+id: liberal_theme_breadcrumbs
+theme: liberal_theme
+region: navigation
+weight: 0
+provider: null
+plugin: system_breadcrumb_block
+settings:
+  id: system_breadcrumb_block
+  label: Breadcrumbs
+  label_display: '0'
+  provider: system
+visibility: {  }

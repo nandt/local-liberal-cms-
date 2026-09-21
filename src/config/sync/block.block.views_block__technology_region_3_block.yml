@@ -1,0 +1,29 @@
+uuid: c74c113d-60d2-408b-8a4f-969c68c0498a
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.technology_region_3
+  module:
+    - system
+    - views
+  theme:
+    - liberal_theme
+id: views_block__technology_region_3_block
+theme: liberal_theme
+region: technology_3
+weight: 0
+provider: null
+plugin: 'views_block:technology_region_3-block'
+settings:
+  id: 'views_block:technology_region_3-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

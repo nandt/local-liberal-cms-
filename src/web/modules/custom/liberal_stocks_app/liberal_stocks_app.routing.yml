@@ -1,0 +1,2 @@
+route_callbacks:
+  - Drupal\liberal_stocks_app\Routing\RoutesProvider

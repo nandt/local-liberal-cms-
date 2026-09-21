@@ -1,0 +1,10 @@
+uuid: 5804e56b-5b53-4445-bb05-49c7523bf302
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.repeated_featured_c
+label: 'Repeated Featured C'
+targetEntityType: node
+cache: true

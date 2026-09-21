@@ -1,0 +1,21 @@
+uuid: 47dd968e-ad7e-4da6-b169-87d76b7a80c5
+langcode: el
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_homepage_bullets
+    - node.type.article_liberal
+id: node.article_liberal.field_homepage_bullets
+field_name: field_homepage_bullets
+entity_type: node
+bundle: article_liberal
+label: 'Homepage Bullets'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings: {  }
+field_type: entity_reference

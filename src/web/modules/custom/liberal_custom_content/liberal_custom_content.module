@@ -1,0 +1,1243 @@
+<?php
+
+use Drupal\path_alias\Entity\PathAlias;
+use Drupal\liberal_podcasts\Utils\LiberalPodcastDurationUtility;
+use Drupal\Component\Utility\Html;
+use Drupal\Component\Utility\Xss;
+use Drupal\taxonomy\TermInterface;
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\node\NodeInterface;
+use Drupal\Core\Form\FormStateInterface;
+use Drupal\views\ViewExecutable;
+use Drupal\Core\Render\Markup;
+use Drupal\Core\Url;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+use Drupal\liberal_custom_content\Utils\liberalCustomContentUtils;
+use Drupal\Core\Entity\EntityInterface;
+use Drupal\file\Entity\File;
+use Drupal\image\Entity\ImageStyle;
+use Drupal\taxonomy\Entity\Term;
+use Drupal\block\Entity\Block;
+use Drupal\Core\Access\AccessResult;
+use Drupal\Core\Session\AccountInterface;
+use Drupal\Core\Render\Element;
+use Drupal\liberal_custom_content\liberalImpressionsRender;
+use Drupal\liberal_podcasts\Utils\LiberalPodcastUtility;
+
+/**
+ * Implements hook_metatags_alter().
+ */
+
+define('ROH_EIDISEON', 1);
+
+/**
+ * @param array<string, mixed> $metatags
+ * @param array<string, mixed> $context
+ */
+function liberal_custom_content_metatags_alter(array &$metatags, array $context): void {
+
+  // Check for a node.
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if ($node instanceof NodeInterface) {
+    // Run code only for liberal article node type
+    $type = $node->getType();
+
+    if ($type == 'article_liberal') {
+      // context is a node object at this point
+      $existing_image = $context['entity']->get('field_kentriki_fotografia')->getValue();
+
+      // if there is no image for the article, replace with image from category
+      if (empty($existing_image)) {
+        $metatags['og_image'] = "[node:field_liberal_category:0:entity:field_metatag_image]";
+        $metatags["twitter_cards_image"] = "[node:field_liberal_category:0:entity:field_metatag_image]";
+
+        // replace the image with category if it doesn't exist for schema. Set already serialized value
+        $metatags["schema_article_image"] = 'a:4:{s:5:"@type";s:11:"ImageObject";s:3:"url";s:69:"[node:field_liberal_category:0:entity:field_metatag_image:entity:url]";s:5:"width";s:64:"[node:field_liberal_category:0:entity:field_metatag_image:width]";s:6:"height";s:65:"[node:field_liberal_category:0:entity:field_metatag_image:height]";}';
+      }
+
+      // add hypertitle to the metatags if not empty
+      $hypertitle = $node->get('field_subtitle')->value;
+
+      // check if hypertitle exists and embed to message
+      if (!empty($hypertitle)) {
+        $hypertitle_text = "[node:field_subtitle:value] - ";
+        $metatags['og_title'] = $hypertitle_text . $metatags['og_title'];
+        $metatags["twitter_cards_title"] = $hypertitle_text . $metatags["twitter_cards_title"];
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_taxonomy_term_insert()
+ */
+
+function liberal_custom_content_taxonomy_term_insert(TermInterface $term): void {
+
+  // create alias when new oblation is created
+  if ($term->bundle() == 'oblations') {
+    $base_oblation_url = '/oblation/';
+
+    if (!empty($base_oblation_url)) {
+      // run the pathauto functions to clean the string first
+      $cleanTitle = \Drupal::service("pathauto.alias_cleaner")->cleanString($term->label());
+
+      $alias = '/oblation/' . $cleanTitle;
+      $alias = \Drupal::service("pathauto.alias_cleaner")->cleanAlias($alias);
+
+      $path_alias = PathAlias::create([
+        'path' => $base_oblation_url . $term->id(),
+        'alias' => $alias,
+      ]);
+
+      $path_alias->save();
+    }
+  }
+}
+
+/**
+ * Implements hook_node_delete()
+ */
+
+function liberal_custom_content_taxonomy_term_delete(TermInterface $term): void {
+
+  // delete path alias when oblation is deleted
+  if ($term->bundle() == 'oblations') {
+    $path_alias_manager = \Drupal::entityTypeManager()->getStorage('path_alias');
+    $alias_objects = $path_alias_manager->loadByProperties([
+      'path' => '/oblation/' . $term->id(),
+    ]);
+
+    // delete all aliases / languages
+    foreach ($alias_objects as $alias) {
+      $alias->delete();
+    }
+  }
+}
+
+/**
+ * Implements hook_node_presave()
+ */
+
+function liberal_custom_content_node_presave(NodeInterface $node): void {
+
+  if (in_array($node->bundle(), ['article_liberal', 'podcast'])) {
+    // find all the enabled apopseis and check what we need to clear
+    $article_category = $node->get('field_liberal_category')?->target_id;
+
+    if (!empty($article_category)) {
+      liberalCustomContentUtils::clearApopseisCache($article_category);
+    }
+
+    // construct the cache tags and send it for clearing
+    $categories_cache_tags = liberalCustomContentUtils::createTaxonomiesCacheTags($node);
+    if (!empty($categories_cache_tags)) {
+      liberalCustomContentUtils::clearTaxonomies($categories_cache_tags);
+    }
+
+    if ($node->isNew()) {
+      $categories = $node->get('field_liberal_category')->getValue();
+      $block_flags = $node->get('field_block_flag')->getValue();
+
+      $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')
+        ->loadByProperties(['name' => 'LIVE Χρηματιστήριο', 'vid' => 'category']);
+      $term = reset($term);
+      $exclude_cat = $term->id();
+      $set_flag = TRUE;
+
+      foreach ($categories as $category) {
+        if ($category['target_id'] == $exclude_cat) {
+          $set_flag = FALSE;
+        }
+      }
+
+      // if it exists already for some reason dont append again so flag it false
+      foreach ($block_flags as $block_flag) {
+        if ($block_flag['value'] == ROH_EIDISEON) {
+          $set_flag = FALSE;
+        }
+      }
+
+      if ($set_flag) {
+        $node->get('field_block_flag')->appendItem(['value' => ROH_EIDISEON]);
+      }
+    }
+  }
+}
+
+/**
+ * Alter the meta tags for any page prior to page attachment.
+ *
+ * @param array<string, mixed> $metatag_attachments
+ *   An array of metatag objects to be attached to the current page.
+ */
+function liberal_custom_content_metatags_attachments_alter(array &$metatag_attachments): void {
+
+  // Get current route object.
+  $route_match = \Drupal::routeMatch();
+  $route = $route_match->getRouteObject();
+  $route_name = $route_match->getRouteName();
+  $node = $route_match->getParameter('node');
+
+  if ($route) {
+    $view_id = $route->getDefault('view_id');
+    if (!empty($view_id)) {
+
+      // stocks / index
+      if ($view_id == 'live_ase_market_stock_internal_page'
+      || $view_id == 'live_ase_market_index_internal_page') {
+
+        $stc_idx_page = TRUE;
+        $vid = '';
+
+        $current_path = \Drupal::service('path.current')->getPath();
+        $title_inserted = [];
+        $arg = explode('/', $current_path);
+
+        // get the stock or index
+        switch ($view_id) {
+          case 'live_ase_market_stock_internal_page':
+            $vid = 'metohes';
+            $query_field = 'field_stc_symbol_en';
+            $tax_field = 'field_stc_company_name';
+            $text = "της μετοχής";
+            $text_title = "Τιμή Μετοχής ";
+            break;
+
+          case 'live_ase_market_index_internal_page':
+            $vid = 'indices';
+            $query_field = 'field_ase_idx_symbol_en';
+            $tax_field = 'field_ase_idx_company_name';
+            $text = "του δείκτη";
+            $text_title = "Τιμή Δείκτη ";
+            break;
+        }
+
+        $term_result = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadByProperties([
+          $query_field => $arg['3'],
+          'vid' => $vid,
+        ]);
+
+        if (!empty($term_result)) {
+          $term = array_shift($term_result);
+
+          $name = $term->label();
+          $company_name = $term->{$tax_field}->value;
+
+          $metatag_attachments['#attached']['html_head'][] = [
+            [
+              '#tag' => 'meta',
+              '#attributes' => [
+                'name' => 'description',
+                'content' => "Η τιμή " . $text . " " . $company_name . ", " . "με κωδικό χρηματιστηρίου " . $name . ". Σε ζωντανή ενημέρωση.",
+              ],
+            ],
+            'description',
+          ];
+        }
+      }
+    }
+  }
+
+  // code for all pages, preserve the title
+  foreach ($metatag_attachments['#attached']['html_head'] as $key => $metatag_attachment) {
+    // preserve the title meta tag to be printed by changing the key
+    if ($metatag_attachment[1] == 'title') {
+
+      if (isset($stc_idx_page) && isset($term)) {
+        $metatag_attachments['#attached']['html_head'][$key] = [
+          [
+            '#tag' => 'meta',
+            '#attributes' => [
+              'name' => 'title',
+              'content' => $text_title . $name . ", " . $company_name . " | " . \Drupal::token()->replace("[site:name]"),
+            ],
+          ],
+          'title',
+        ];
+      }
+
+      // copy the title into another element with different key so it will be printed
+      $title_inserted = $metatag_attachments['#attached']['html_head'][$key];
+      $title_inserted['1'] = 'liberal_preserve_title';
+      $title_inserted_key = $key;
+
+      // insert after the 1st occurance
+      if (isset($title_inserted_key)) {
+        array_splice($metatag_attachments['#attached']['html_head'], $title_inserted_key, 0, [$title_inserted]);
+      }
+
+      break;
+    }
+  }
+
+  // add facebook app id meta to the pages we need
+  if (($node instanceof NodeInterface
+    && in_array($node->bundle(), ['article_liberal', 'podcast'])) || $route_name == 'view.oblation_microsite.page') {
+    $config_facebook = \Drupal::config('liberal_socials_post.settings');
+    $fb_app_id = $config_facebook->get('facebook_app_id_1');
+
+    $metatag_attachments["#attached"]["html_head"][] = [
+      0 => [
+        '#tag' => "meta",
+        '#attributes' => [
+          'property' => 'fb:app_id',
+          'content' => $fb_app_id,
+        ],
+      ],
+      1 => 'liberal_fb_app_id',
+    ];
+  }
+
+  if ($node instanceof NodeInterface
+        && in_array($node->bundle(), ['article_liberal', 'podcast'])) {
+
+    // see if there is an author, if not change to LiberalNewsRoom without url
+    foreach ($metatag_attachments['#attached']['html_head'] as $key => $metatag_attachment) {
+
+      /* Works in conjuction with τηε setting in Drupal. You can set 2 values
+      comma separated and if the first value is empty, the second is used */
+      if ($metatag_attachment[1] == 'schema_article_author_0') {
+        $author_name = $metatag_attachment[0]['#attributes']['content']['name'];
+        if (empty($author_name[0])) {
+          $author_name_print = $author_name[1];
+        }
+        else {
+          $author_name_print = $author_name[0];
+        }
+
+        $metatag_attachments['#attached']['html_head'][$key][0]['#attributes']['content']['name'] = $author_name_print;
+      }
+
+      // main article of entity page overwrite
+      if ($metatag_attachment[1] == "schema_article_main_entity_of_page") {
+        // new attributes
+        $main_entity_page = [
+          '@type' => 'Webpage',
+          '@id' => $metatag_attachment[0]['#attributes']['content'],
+        ];
+
+        $metatag_attachments['#attached']['html_head'][$key][0]['#attributes']['content'] = $main_entity_page;
+      }
+
+      // social meta, inject this tag near the other twitter tags
+      if (str_starts_with((string) $metatag_attachment[1], 'twitter_cards') && !isset($flag_twitter_site)) {
+        $twitter_site = [
+          0 => [
+            '#tag' => "meta",
+            '#attributes' => [
+              'name' => 'twitter:site',
+              'content' => '@LiberalGr',
+            ],
+          ],
+          1 => 'liberal_twitter_cards_site',
+        ];
+
+        $flag_twitter_key = $key;
+        $flag_twitter_site = TRUE;
+      }
+    }
+
+    // insert after the 1st occurance
+    if (isset($flag_twitter_key)) {
+      array_splice($metatag_attachments["#attached"]["html_head"], $flag_twitter_key + 1, 0, [$twitter_site]);
+    }
+
+    // Keywords field
+    $tag_ids = $node->field_liberal_tags->getValue();
+
+    if (!empty($tag_ids)) {
+      $tag_ids = array_column($node->field_liberal_tags->getValue(), 'target_id');
+
+      $loaded_tags = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->loadMultiple($tag_ids);
+      $tags = [];
+
+      foreach ($loaded_tags as $loaded_tag) {
+        $tags[] = $loaded_tag->label();
+      }
+
+      $metatag_attachments["#attached"]["html_head"][] = [
+        0 => [
+          '#tag' => "meta",
+          '#attributes' => [
+            'name' => 'keywords',
+            'content' => implode(',', $tags),
+            'group' => 'schema_article',
+            'schema_metatag' => TRUE,
+          ],
+        ],
+        1 => 'liberal_schema_article_keywords',
+      ];
+    }
+    if ($node->bundle() === 'podcast') {
+      if (isset($metatag_attachments['#attached']['html_head'])) {
+        foreach ($metatag_attachments['#attached']['html_head'] as $key => $tag) {
+          if (isset($tag[1]) && $tag[1] === 'schema_article_type') {
+            $metatag_attachments['#attached']['html_head'][$key][0]['#attributes']['content'] = 'VideoObject';
+          }
+        }
+
+        $duration = $node->field_podcast_duration->getValue();
+        $metatag_attachments["#attached"]["html_head"][] = [
+          [
+            '#tag' => "meta",
+            '#attributes' => [
+              'name' => 'duration',
+              'content' => LiberalPodcastDurationUtility::getDuration($duration[0]['value'] ?? 0),
+              'group' => 'schema_article',
+              'schema_metatag' => TRUE,
+            ],
+          ], 'liberal_podcast_duration',
+        ];
+
+        $embed_field = $node->field_podcast_source_code->getValue();
+        $embed_html = $embed_field[0]['value'] ?? '';
+        if (preg_match('/<iframe[^>]+src=["\']([^"\']+)["\']/i', $embed_html, $matches)) {
+          $embed_url = $matches[1];
+          $iframe_url = strtok($matches[1], '?');
+        }
+
+        if (str_contains($embed_url, 'cloudflarestream.com')) {
+
+          if (preg_match('/cloudflarestream\.com\/([^\/]+)\//', $iframe_url, $id_match)) {
+            $video_id = $id_match[1];
+            $media_video['url'] = "https://videodelivery.net/$video_id/manifest/video.m3u8";
+
+            $metatag_attachments["#attached"]["html_head"][] = [
+              [
+                '#tag' => "script",
+                '#attributes' => [
+                  'name' => 'contentUrl',
+                  'content' => $media_video['url'],
+                  'group' => 'schema_article',
+                  'schema_metatag' => TRUE,
+                ],
+              ],
+              'liberal_podcast_contentUrl',
+            ];
+          }
+        }
+        $metatag_attachments["#attached"]["html_head"][] = [
+          [
+            '#tag' => "meta",
+            '#attributes' => [
+              'name' => 'embedUrl',
+              'content' => strtok($embed_url, '?'),
+              'group' => 'schema_article',
+              'schema_metatag' => TRUE,
+            ],
+          ],
+          'liberal_podcast_source_code',
+
+        ];
+
+        $hypertitle = $node->field_subtitle->getValue();
+        $hypertitle_name = $hypertitle[0]['value'] ?? '';
+        $hypertitle_name = trim(strip_tags($hypertitle_name));
+        $title = $node->getTitle();
+        $about = [
+          "@type" => "Thing",
+          "name" => $hypertitle_name ? "{$hypertitle_name} : {$title}" : $title,
+        ];
+        $metatag_attachments["#attached"]["html_head"][] = [
+          [
+            '#tag' => "meta",
+            '#attributes' => [
+              'name' => 'about',
+              'content' => $about,
+              'group' => 'schema_article',
+              'schema_metatag' => TRUE,
+            ],
+          ],
+          'liberal_podcast_about',
+        ];
+
+        $podcast_category = $node->field_liberal_category->getValue();
+        $term = '';
+        if (!empty($podcast_category)) {
+          $first_category = reset($podcast_category);
+          if (!empty($first_category['target_id'])) {
+            $term = Term::load($first_category['target_id']);
+          }
+        }
+        if ($term) {
+          $metatag_attachments["#attached"]["html_head"][] = [
+            [
+              '#tag' => "meta",
+              '#attributes' => [
+                'name' => 'genre',
+                'content' => $term->getName(),
+                'group' => 'schema_article',
+                'schema_metatag' => TRUE,
+              ],
+            ],
+            'liberal_podcast_genre',
+          ];
+        }
+        $language = 'el';
+        $metatag_attachments["#attached"]["html_head"][] = [
+          ['#tag' => "meta",
+            '#attributes' => [
+              'name' => 'inLanguage',
+              'content' => $language,
+              'group' => 'schema_article',
+              'schema_metatag' => TRUE,
+            ],
+          ], 'liberal_podcast_language',
+        ];
+      }
+    }
+    if ($node->bundle() === 'article_liberal') {
+
+      $liberal_category = $node->field_liberal_category->getValue();
+
+      if (!empty($liberal_category)) {
+        $liberal_category = reset($liberal_category);
+        $loaded_category = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($liberal_category['target_id']);
+
+        $metatag_attachments["#attached"]["html_head"][] = [
+          [
+            '#tag' => "meta",
+            '#attributes' => [
+              'name' => 'articleSection',
+              'content' => $loaded_category->label(),
+              'group' => 'schema_article',
+              'schema_metatag' => TRUE,
+            ],
+          ],
+          'liberal_schema_article_article_section',
+        ];
+      }
+
+      $body_value = $node->body->value ?? '';
+      $metatag_attachments["#attached"]["html_head"][] = [
+        [
+          '#tag' => "meta",
+          '#attributes' => [
+            'name' => 'articleBody',
+            'content' => strip_tags($body_value),
+            'group' => 'schema_article',
+            'schema_metatag' => TRUE,
+          ],
+        ],
+        'liberal_schema_article_article_body',
+      ];
+    }
+    $metatag_attachments["#attached"]["html_head"][] = [
+      [
+        '#tag' => "meta",
+        '#attributes' => [
+          'name' => 'type',
+          'content' => 'article',
+        ],
+      ],
+      'liberal_meta_tyoe_article',
+    ];
+
+    $metatag_attachments["#attached"]["html_head"][] = [
+      [
+        '#tag' => "meta",
+        '#attributes' => [
+          'property' => 'article:publisher',
+          'content' => 'https://www.facebook.com/liberalgr',
+        ],
+      ],
+      'liberal_article_publisher',
+    ];
+  }
+}
+
+/**
+ * Implements hook_metatag_route_entity()
+ * Return the taxonomy_term entity so it works like the default taxonomy entity
+ */
+
+function liberal_custom_content_metatag_route_entity(RouteMatchInterface $route_match) {
+  if ($route_match->getRouteName() == 'view.oblation_microsite.page') {
+    if ($tid = $route_match->getParameter('taxonomy_term')) {
+      $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($tid);
+      return $term;
+    }
+  }
+}
+
+/**
+ * Implements hook_page_attachments().
+ * @param array<string, mixed> $page
+ */
+function liberal_custom_content_page_attachments(array &$page): void {
+
+  global $base_url;
+
+  // Get the current path
+  $path = \Drupal::service('path.current')->getPath();
+  $is_front = \Drupal::service('path.matcher')->isFrontPage();
+
+  // Check if its a stocks page
+  if ($is_front || $path == '/liberal-markets' || str_starts_with($path, '/live-ase-market')) {
+
+    $stocks_translations = [
+      "eidiseis" => t("eidiseis"),
+      "analyseis" => t("analyseis"),
+      "den_uparxoyn_diathesimes_analuseis" => t("den_uparxoyn_diathesimes_analuseis"),
+      "den_uparxoyn_diathesimes_eidiseis" => t("den_uparxoyn_diathesimes_eidiseis"),
+      "xrimastirio_athinon" => t("xrimastirio_athinon"),
+      "ksenes_agores" => t("ksenes_agores"),
+      "emporeumata" => t("emporeumata"),
+      "crypto" => t("crypto"),
+      "general_index" => t("general_index"),
+      "stocks" => t("stocks"),
+      "indexes" => t("indexes"),
+      "anazitisi_deiktwn" => t("anazitisi_deiktwn"),
+      "symbol" => t("symbol"),
+      "price" => t("price"),
+      "metab_percent" => t("metab_percent"),
+      "volume" => t("volume"),
+      "capitalization" => t("capitalization"),
+      "search_stocks" => t("search_stocks"),
+      "loading" => t("loading"),
+      "opening_price" => t("opening_price"),
+      "buyer" => t("buyer"),
+      "seller" => t("seller"),
+      "gmv" => t("gmv"),
+      "last_closing" => t("last_closing"),
+      "num_stocks" => t("num_stocks"),
+      "hour" => t("hour"),
+      "search" => t("search"),
+      "select_hour" => t("select_hour"),
+      "transition_percent" => t("transition_percent"),
+      "all_stocks" => t("all_stocks"),
+      "date" => t("date"),
+      "high" => t("high"),
+      "opening" => t("opening"),
+      "closing" => t("closing"),
+      "low" => t("low"),
+      "fifteen_minutes_delay" => t("fifteen_minutes_delay"),
+      "no_entries_found" => t("no_entries_found"),
+      "error_occured" => t("error_occured"),
+      "den_exoun_kataxorithei_analuseis_gia_ti_sugkekrimeni_metohi" => t("den_exoun_kataxorithei_analuseis_gia_ti_sugkekrimeni_metohi"),
+      "all_indexes" => t("all_indexes"),
+      "den_uparxoyn_diathesimes_analyseis" => t("den_uparxoyn_diathesimes_analyseis"),
+      "transition_amount" => t("transition_amount"),
+      "transition_amount_index" => t("transition_amount_index"),
+      "rt" => t("rt"),
+      "cryptocurrency_widget_title" => t("cryptocurrency_widget_title"),
+      "foreign_markets_widget_title" => t("foreign_markets_widget_title"),
+      "forex_widget_title" => t("forex_widget_title"),
+      "xrimatistirio_athinon" => t("xrimatistirio_athinon"),
+      "forex" => t("forex"),
+      "select_year" => t("select_year"),
+      "select_month" => t("select_month"),
+      "den_exoun_kataxorithei_eidiseis_gia_ti_sugkekrimeni_metohi" => t("den_exoun_kataxorithei_eidiseis_gia_ti_sugkekrimeni_metohi"),
+      "history" => t("history"),
+      "transactions" => t("transactions"),
+      "gd" => t("gd"),
+      "MONTHS[0]" => t("MONTHS[0]"),
+      "MONTHS[1]" => t("MONTHS[1]"),
+      "MONTHS[2]" => t("MONTHS[2]"),
+      "MONTHS[3]" => t("MONTHS[3]"),
+      "MONTHS[4]" => t("MONTHS[4]"),
+      "MONTHS[5]" => t("MONTHS[5]"),
+      "MONTHS[6]" => t("MONTHS[6]"),
+      "MONTHS[7]" => t("MONTHS[7]"),
+      "MONTHS[8]" => t("MONTHS[8]"),
+      "MONTHS[9]" => t("MONTHS[9]"),
+      "MONTHS[10]" => t("MONTHS[10]"),
+      "MONTHS[11]" => t("MONTHS[11]"),
+      "day" => t("day"),
+      "year" => t("year"),
+      "xrimastistirio_athinon" => t("xrimastistirio_athinon"),
+      "monday" => t("monday"),
+      "tuesday" => t("tuesday"),
+      "wednesday" => t("wednesday"),
+      "thursday" => t("thursday"),
+      "friday" => t("friday"),
+      "saturday" => t("saturday"),
+      "sunday" => t("sunday"),
+      "thousands" => t("thousands"),
+      "millions" => t("millions"),
+      "billions" => t("billions"),
+      "minutes_delay" => t("minutes_delay"),
+      "display" => t("display"),
+      "from" => t("from"),
+      "to" => t('to'),
+      "records" => t("records"),
+      "capitalization_sort" => t('capitalization_sort'),
+      "no_transactions" => t('no_transactions'),
+      "real_time" => t("real_time"),
+      "no_bid" => t("no_bid"),
+      "no_ask" => t("no_ask"),
+      "last_closing_short" => t("last_closing_short"),
+      "last_closing_mobile" => t("last_closing_mobile"),
+      "dhmosieush" => t("dhmosieush"),
+      "teleutaia_enhmerosh" => t("teleutaia_enhmerosh"),
+    ];
+
+    $page['#attached']['html_head'][] = [
+      [
+        '#type' => 'html_tag',
+        '#tag' => 'script',
+        '#value' => "window.stocks_translations = " . json_encode($stocks_translations, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_AMP | JSON_HEX_QUOT | JSON_UNESCAPED_UNICODE),
+      ],
+      'liberal_custom_content/stocks_app_translations',
+    ];
+
+  }
+}
+
+function liberal_custom_content_views_pre_render(ViewExecutable $view): void {
+
+  // change the title of the page dynamically according to the search filter
+  if ($view->id() == 'search_solr' && $view->current_display == 'page_1') {
+    $exposed_input = $view->getExposedInput();
+    $search_filter = $exposed_input['search_keys'] ?? '';
+    $view->setTitle(t('Search for ') . $search_filter);
+  }
+}
+
+function liberal_custom_content_form_alter(&$form, FormStateInterface $form_state, $form_id): void {
+  // check if the form is a Views exposed form.
+  if (str_contains((string) $form_id, 'views_exposed_form') && isset($form['search_keys'])) {
+    // add placeholder
+    $form['search_keys']['#attributes']['placeholder'] = t('Αναζήτηση στο liberal.gr');
+    $form['search_keys']['#type'] = 'search';
+  }
+}
+
+/**
+ * Implements hook_views_pre_view().
+ * @param array<int, mixed> $args
+ */
+function liberal_custom_content_views_pre_view(ViewExecutable $view, $display_id, array &$args): void {
+
+  if (in_array($view->id(), liberalCustomContentUtils::feedPagesViewIds)
+      && $view->current_display == 'default') {
+
+    $search_input_date = $args[0];
+
+    if ($search_input_date instanceof Datetime) {
+      $display = $view->getDisplay();
+      $filters = $display->getOption('filters');
+
+      $search_start_date = $search_input_date->modify('today')->format('Y-m-d H:i:s');
+      liberalCustomContentUtils::getEoDayDatetime($search_input_date);
+      $search_end_date = $search_input_date->format('Y-m-d H:i:s');
+
+      // get beginning and end of day from argument date
+      $filters['created']['value']['min'] = $search_start_date;
+      $filters['created']['value']['max'] = $search_end_date;
+      $display->overrideOption('filters', $filters);
+    }
+  }
+
+  // Trick views into thinking that the exposed form must be rendered
+  if ($view->id() == 'search_solr' && $view->current_display == 'page_1') {
+    $display = $view->getDisplay();
+    $display->setOption('exposed_block', FALSE);
+  }
+
+  if ($view->id() == 'category') {
+    // apply to all display_ids
+    if (in_array($args[0], array_keys(liberalCustomContentUtils::taxonomyLiberalHasChildren))) {
+      $cid = 'liberalchildcats:' . $args[0];
+
+      // Get the filter handler for the contextual filter.
+      $filter = $view->display_handler->getHandler('argument', 'tid');
+
+      // Set the filter to allow multiple values.
+      if (!empty($filter)) {
+        // cache the results for 24 hours then auto-expire
+        if ($cache = \Drupal::cache()->get($cid)) {
+          $results = $cache->data;
+        }
+        else {
+          $connection = \Drupal::database();
+          $query = $connection->select('taxonomy_term__parent', 'ttp')
+            ->fields('ttp', ['entity_id', 'bundle'])
+            ->condition('parent_target_id', $args[0], '=');
+
+          $executed = $query->execute();
+
+          // Get all the results
+          $results = $executed->fetchAllAssoc('entity_id');
+
+          \Drupal::cache()
+            ->set(
+                $cid,
+                $results,
+                Drupal::time()->getRequestTime() + 86400
+            );
+        }
+
+        $filter->options['break_phrase'] = TRUE;
+        $filter->options['validate_options']['multiple'] = 1;
+
+        // set the title using our const for these categories
+        $filter->options['title'] = liberalCustomContentUtils::taxonomyLiberalHasChildren[$args[0]];
+
+        if (!empty($results)) {
+          $args[0] = $args[0] . '+' . implode('+', array_keys($results));
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ * @param array<string, mixed> $variables
+*/
+function liberal_custom_content_theme_suggestions_field_alter(array &$suggestions, array $variables): void {
+  if ($variables['element']['#bundle'] == "article_liberal"
+  && $variables['element']['#field_name'] == "field_homepage_bullets"
+  && ($variables['element']['#view_mode'] == "full" || $variables['element']['#view_mode'] == "amp")) {
+    $suggestions[] = 'field__article_read_more';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ * @param array<string, mixed> $variables
+*/
+function liberal_custom_content_theme_suggestions_node_alter(array &$suggestions, array $variables): void {
+  if ($variables['elements']['#node']->getType() == 'article_liberal'
+      && $variables['elements']['#view_mode'] == "read_more") {
+    $suggestions[] = 'node__article_read_more';
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+*/
+function liberal_custom_content_theme_suggestions_page_alter(array &$suggestions, array $variables): void {
+  $node = \Drupal::routeMatch()->getParameter('node');
+  $route_name = \Drupal::routeMatch()->getRouteName();
+
+  if ($node instanceof NodeInterface && $route_name == 'entity.node.canonical') {
+    $suggestions[] = 'page__' . $node->bundle();
+
+    $is_advertising_article = liberalCustomContentUtils::checkIfNodeIsAdvertising($node);
+
+    if ($is_advertising_article) {
+      $suggestions[] = 'page__advertising_article';
+    }
+  }
+}
+
+/**
+ * Implements hook_theme_suggestions_HOOK_alter().
+ * @param array<string, mixed> $variables
+*/
+function liberal_custom_content_theme_suggestions_region_alter(array &$suggestions, array $variables): void {
+  $node = \Drupal::routeMatch()->getParameter('node');
+  $route_name = \Drupal::routeMatch()->getRouteName();
+
+  if ($variables['elements']['#region'] == 'header' &&
+    $node instanceof NodeInterface && $route_name == 'entity.node.canonical') {
+    $is_advertising_article = liberalCustomContentUtils::checkIfNodeIsAdvertising($node);
+
+    if ($is_advertising_article) {
+      $suggestions[] = 'region__header__advertising_article';
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_view_mode_alter().
+ */
+function liberal_custom_content_entity_view_mode_alter(&$view_mode, EntityInterface $entity, $context): void {
+
+  // AMP modules has the same hook so we execute ours last so we avoid interfering with the view mode
+  if ($entity instanceof NodeInterface && ($view_mode == 'full' || $view_mode == 'amp')) {
+    $is_advertising_article = liberalCustomContentUtils::checkIfNodeIsAdvertising($entity);
+
+    // when it's an advertising article instead of full swap to advertising_article
+    if ($is_advertising_article) {
+      switch ($view_mode) {
+        case 'full':
+          $view_mode = 'advertising_article';
+          break;
+
+        case 'amp':
+          $view_mode = 'amp_advertising_article';
+          break;
+      }
+    }
+  }
+}
+
+/**
+ * Implementation of hook_ENTITY_TYPE_view_alter();
+ * @param array<string, mixed> $build
+ */
+function liberal_custom_content_node_view_alter(array &$build, NodeInterface $node, EntityViewDisplayInterface $display): void {
+  $type = $node->getType();
+
+  // create the oblation url field
+  if ((in_array($build['#view_mode'], ['full', 'advertising_article', 'amp', 'amp_advertising_article']))
+      && in_array($type, ['article_liberal', 'podcast'])) {
+
+    $options = ['absolute' => TRUE];
+    $node_url = Url::fromRoute('entity.node.canonical', ['node' => $node->id()], $options);
+    $node_url_str = $node_url->toString();
+
+    // facebook messenger share
+    $build['liberal_node_url'] = [
+      '#markup' => $node_url_str,
+      '#cache' => [
+        'max-age' => -1,
+      ],
+    ];
+
+    if ($build['#view_mode'] != 'amp' && $build['#view_mode'] != 'amp_advertising_article') {
+      $config = \Drupal::config('liberal_socials_post.settings');
+      $facebook_app_id = $config->get('facebook_app_id_1');
+
+      $facebook_messenger_params = [
+        'app_id' => $facebook_app_id,
+        'link' => $node_url_str,
+        'redirect_uri' => $node_url_str,
+      ];
+
+      $facebook_messenger_params_mobile = [
+        'app_id' => $facebook_app_id,
+        'link' => $node_url_str,
+      ];
+
+      // facebook messenger share
+      $build['liberal_fb_messenger'] = [
+        '#desktop' => Url::fromUri('http://www.facebook.com/dialog/send', ['query' => $facebook_messenger_params])->toString(),
+        '#mobile' => 'fb-messenger://share/?' . http_build_query($facebook_messenger_params_mobile),
+        '#cache' => [
+          'max-age' => -1,
+        ],
+      ];
+    }
+
+    if (isset($node->field_oblation_category->target_id)) {
+
+      $oblation_id = $node->field_oblation_category->target_id;
+      $oblation_url = Url::fromUri('internal:/oblation/' . $oblation_id);
+      $oblation_title = $build['field_oblation_category'][0]['#title'];
+
+      // add cache max-age -1 like all other fields have
+      $oblation_link = [
+        '#type' => 'link',
+        '#title' => Markup::create($oblation_title),
+        '#url' => $oblation_url,
+        '#cache' => [
+          'max-age' => -1,
+        ],
+      ];
+
+      // Replace the original link field with the modified render array.
+      $build['liberal_oblation_link'] = $oblation_link;
+    }
+  }
+
+  // Apopsi view mode
+  if ($build['#view_mode'] == 'apopsi' && in_array($type, ['article_liberal', 'podcast'])) {
+
+    $apopseis_settings = \Drupal::config('liberal_custom_content.apopseis_settings')->get();
+
+    if (isset($node->view) && $node->view instanceof ViewExecutable) {
+      $view_id = $node->view->id();
+    }
+
+    $node_settings = $apopseis_settings[$view_id . '_fieldset'] ?? NULL;
+
+    if (isset($node_settings) && $node_settings['apopseis_region_option'] == "category") {
+      $ap_name = $node_settings['apopseis_region_name'];
+      $ap_surname = $node_settings['apopseis_region_surname'];
+      $ap_file = is_array($node_settings['file']) ? array_shift($node_settings['file']) : "";
+      $ap_url = Url::fromRoute("entity.taxonomy_term.canonical", ["taxonomy_term" => $node_settings['apopseis_region']])->toString();
+      $build['#cache']['tags'][] = "config:liberal_custom_content.apopseis_settings";
+
+      // Load the image style url for author
+      if (is_array($ap_file) && !empty($ap_file)) {
+        $style = ImageStyle::load('liberal_author_image');
+        // initialize value to prevent warning even with
+        $ap_style_url = '';
+        $apopseis_fid = array_shift($ap_file);
+
+        if (!empty($style) && isset($apopseis_fid)) {
+          $apopseis_uri = File::load($apopseis_fid);
+          $ap_style_url = $style->buildUrl($apopseis_uri->getFileUri());
+        }
+      }
+    }
+    else {
+      $author_obj = $node->field_arthrografos?->target_id ? Term::load($node->field_arthrografos->target_id) : NULL;
+      $build['#cache']['tags'][] = "config:liberal_custom_content.apopseis_settings";
+
+      if ($author_obj instanceof TermInterface) {
+        // Load the image style url for author
+        $style = ImageStyle::load('liberal_author_image');
+        // initialize value to prevent warning even with
+        $ap_style_url = '';
+        $author_pic_fid = $author_obj->field_author_profile->target_id;
+
+        if (!empty($style) && isset($author_pic_fid)) {
+          $author_pic_uri = File::load($author_pic_fid)->getFileUri();
+          $ap_style_url = $style->buildUrl($author_pic_uri);
+        }
+
+        $ap_name = $author_obj->field_author_firstname->value;
+        $ap_surname = $author_obj->field_author_lastname->value;
+        $ap_url = Url::fromRoute("entity.taxonomy_term.canonical", ["taxonomy_term" => $author_obj->id()])->toString();
+        $build['#cache']['tags'][] = "taxonomy_term:" . $author_obj->id();
+      }
+    }
+
+    if (!empty($ap_name)) {
+      $build['liberal_author_firstname'] = [
+        '#cache' => [
+          'max-age' => -1,
+        ],
+        '#markup' => Html::escape($ap_name),
+      ];
+    }
+
+    if (!empty($ap_surname)) {
+      $build['liberal_author_lastname'] = [
+        '#cache' => [
+          'max-age' => -1,
+        ],
+        '#markup' => Html::escape($ap_surname),
+      ];
+    }
+
+    $build['liberal_author_url'] = [
+      '#cache' => [
+        'max-age' => -1,
+      ],
+      '#markup' => $ap_url ?? "",
+    ];
+
+    // only add an image if there is actually one
+    if (!empty($ap_style_url)) {
+      $build['liberal_author_pic'] = [
+        '#cache' => [
+          'max-age' => -1,
+        ],
+        '#markup' => $ap_style_url ?? "",
+      ];
+    }
+
+    $body = $node->get('body');
+    $summary = $body->summary;
+
+    $build['liberal_body_summary'] = [
+      '#cache' => [
+        'max-age' => -1,
+      ],
+      '#markup' => Xss::filter($summary),
+    ];
+  }
+
+  // if view mode is not full or amp then only print 2 values of homebullet field
+  if ((in_array($type, ['article_liberal', 'podcast']))
+    && $build['#view_mode'] != 'advertising_article'
+    && !in_array($build['#view_mode'], liberalCustomContentUtils::readMoreOnlyInViewModes)) {
+    if (isset($build['field_homepage_bullets']['#items'])) {
+      $items = $build['field_homepage_bullets']['#items']->getValue();
+      $count_items = count($items);
+
+      if (!empty($items) && $count_items > liberalCustomContentUtils::readMoreBulletValues) {
+        // perhaps also remove the items from the field list but for the purposes of printing this is not needed
+        for ($i = 0; $i < $count_items; $i++) {
+          if ($i < liberalCustomContentUtils::readMoreBulletValues) {
+            continue;
+          }
+          if (isset($build['field_homepage_bullets'][$i])) {
+            unset($build['field_homepage_bullets'][$i]);
+          }
+        }
+      }
+    }
+  }
+
+  /*
+   * Add the img url for impressions if it has value
+   * and we are in frontpage or read more
+   */
+  if (in_array($type, ['article_liberal', 'podcast'])) {
+    $is_front = \Drupal::service('path.matcher')->isFrontPage();
+
+    if (in_array($build['#view_mode'], liberalCustomContentUtils::printImpressionsImageViewModes) || $is_front) {
+
+      /*
+       * if at homepage and the article also has bullets
+       * then add the impressions img tag if it exists
+       */
+      if (isset($build['field_homepage_bullets']['#items']) && $is_front) {
+        $bullet_children = Element::children($build['field_homepage_bullets']);
+
+        if (!empty($bullet_children)) {
+          foreach ($bullet_children as $bullet_child) {
+            if (isset($build['field_homepage_bullets'][$bullet_child]['#entity']->field_kodikas_impression_image->value)) {
+              // use a post render function to append the html of the img tag to the field value
+              $build['field_homepage_bullets'][$bullet_child]['#post_render'][] = [liberalImpressionsRender::class, 'addImpressionsImage'];
+            }
+          }
+        }
+      }
+
+      if (isset($node->field_kodikas_impression_image->value)) {
+        $build['liberal_impression_image'] = [
+          '#cache' => [
+            'max-age' => -1,
+          ],
+          '#weight' => -9999,
+          '#markup' => $node->field_kodikas_impression_image->value,
+        ];
+      }
+    }
+  }
+
+  // only for amp pages, only act when we should show ads
+  if ($build['#view_mode'] == 'read_more' && ($type == 'article_liberal' || $type == 'podcast')) {
+
+    // if image exists, then set alt and title to title of node
+    if (!empty($node->field_kentriki_fotografia->target_id)
+      && !empty($build['field_kentriki_fotografia']['#formatter'])
+      && ($build['field_kentriki_fotografia']['#formatter'] == "image"
+      || $build['field_kentriki_fotografia']['#formatter'] == "amp_image")) {
+
+      $img_attributes = [
+        'class' => ['article_read_more__item__image', 'object-fit-cover'],
+      ];
+
+      $kentriki_image_vals = $build['field_kentriki_fotografia']['0']['#item']->getValue();
+      $kentriki_image_vals['alt'] = $node->getTitle();
+      $kentriki_image_vals['title'] = $node->getTitle();
+      $kentriki_image_vals['width'] = 135;
+      $kentriki_image_vals['height'] = 90;
+      $build['field_kentriki_fotografia']['0']['#item']->setValue($kentriki_image_vals);
+
+      // if active theme is amp, then change the formatter by hand
+
+      if (isset($build['field_kentriki_fotografia']['0']['#item_attributes']) &&
+        is_array($build['field_kentriki_fotografia']['0']['#item_attributes'])) {
+        $build['field_kentriki_fotografia']['0']['#item_attributes'] += $img_attributes;
+      }
+      else {
+        $build['field_kentriki_fotografia']['0']['#item_attributes'] = $img_attributes;
+      }
+    }
+  }
+}
+
+function liberal_custom_content_critical_css_file_paths_suggestion_alter(array &$file_paths, $entity): void {
+  // if advertising article then add own critical css
+  if ($entity instanceof NodeInterface
+    && $entity->bundle() == 'article_liberal'
+    && isset($entity->field_eidos_arthrou->target_id)) {
+    $eidos_arthrou = $entity->field_eidos_arthrou->target_id;
+    $advertising_article_id = liberalCustomContentUtils::getArticleTypeAdvertisingTid();
+    $active_theme = \Drupal::theme()->getActiveTheme()->getName();
+
+    if ($eidos_arthrou == $advertising_article_id) {
+      array_unshift($file_paths, 'themes/custom/' . $active_theme . '/critical-css/advertising_article.css');
+    }
+  }
+}
+
+/**
+ * Implements hook_entity_update().
+ */
+function liberal_custom_content_entity_update(EntityInterface $entity): void {
+  /* only when a node is unpublished aka Draft.
+  This hook needs to execute before the one of pathauto.
+   */
+  if ($entity instanceof NodeInterface) {
+    // if the node is unpublished still, or if it was unpublished and now it's published
+    if ((!$entity->isPublished() || ($entity->isPublished() && !$entity->getOriginal()->isPublished()))
+        && in_array($entity->bundle(), ['article_liberal', 'podcast'])) {
+
+      $categories = $entity->get('field_liberal_category')->first()?->getValue();
+      $original_categories = $entity->getOriginal()->get('field_liberal_category')->first()?->getValue();
+
+      // only act if title or category changes. Otherwise the alias won't change anyway
+      if ($entity->getTitle() != $entity->getOriginal()->getTitle()
+        || $categories != $original_categories) {
+
+        $path_alias_manager = \Drupal::entityTypeManager()->getStorage('path_alias');
+        $alias_objects = $path_alias_manager->loadByProperties([
+          'path' => '/node/' . $entity->id(),
+        ]);
+
+        // delete all aliases / languages
+        foreach ($alias_objects as $alias) {
+          $alias->delete();
+        }
+      }
+    }
+  }
+}
+
+/**
+ * Implements hook_preprocess_html()
+ */
+function liberal_custom_content_preprocess_html(&$variables): void {
+
+  if (strcasecmp(getenv("NO_INDEX"), "true") == 0) {
+    $robots_meta = [
+      '#tag' => 'meta',
+      '#attributes' => [
+        'name' => 'robots',
+        'content' => 'noindex, nofollow',
+      ],
+    ];
+
+    $variables['page']['#attached']['html_head'][] = [$robots_meta, 'robots'];
+  }
+}
+
+function liberal_custom_content_module_implements_alter(&$implementations, $hook): void {
+  if ($hook == 'entity_update') {
+    $group = $implementations['liberal_custom_content'];
+    unset($implementations['liberal_custom_content']);
+    $implementations = ['liberal_custom_content' => $group] + $implementations;
+  }
+
+  if ($hook == 'entity_view_mode_alter') {
+    unset($implementations['liberal_custom_content']);
+    $implementations['liberal_custom_content'] = 'liberal_custom_content';
+  }
+}
+
+// Control the visibility of certain blocks programmatically
+function liberal_custom_content_block_access(Block $block, $operation, AccountInterface $account) {
+
+  if (($block->id() == 'footer'
+    || $block->getPluginId() == 'views_exposed_filter_block:search_solr-page_1')
+    && $operation == 'view') {
+
+    $node = \Drupal::routeMatch()->getParameter('node');
+
+    if ($node instanceof NodeInterface) {
+      $is_advertising_article = liberalCustomContentUtils::checkIfNodeIsAdvertising($node);
+
+      // hide footer block and search
+      if ($is_advertising_article) {
+        return AccessResult::forbidden()
+          ->addCacheableDependency($block);
+      }
+    }
+  }
+
+  // No opinion. Defer judgement to other function
+  return AccessResult::neutral();
+}
+
+/**
+ * @param array<string, mixed> $form
+ */
+function liberal_custom_content_form_contact_message_epikoinonia_form_alter(array &$form, FormStateInterface $form_state): void {
+  array_splice($form['actions']['submit']['#submit'], 1, 0, [
+    function (array &$form, FormStateInterface $form_state): void {
+      $form_state->getFormObject()->getEntity()->set('subject', '');
+    },
+  ]);
+}

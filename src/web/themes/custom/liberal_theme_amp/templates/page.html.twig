@@ -1,0 +1,24 @@
+{% if page.header %}
+	{{ page.header }}
+{% endif %}
+
+{% if page.navigation %}
+	{{ page.navigation }}
+{% endif %}
+
+<div class="app-wrapper container {{isLiberalMarketsArticle ? 'liberal-markets liberal-markets-wrapper ' : 'liberal-markets liberal-markets-wrapper '}}{{ liberal.no_advertisements ? 'no-advertisements' : '' }}">
+	<main role="main" class="node-wrapper">
+    {% if page.content %}
+        {{ page.content }}
+    {% endif %}
+
+		{% if page.read_more_articles %}
+			{{ page.read_more_articles }}
+		{% endif %}
+	</main>
+</div>
+
+{% if page.footer %}
+	<hr class="mb-0"/>
+	{{ page.footer }}
+{% endif %}

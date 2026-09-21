@@ -1,0 +1,2 @@
+route_callbacks:
+  - Drupal\unicorn_socials_post\Routing\RoutesProvider

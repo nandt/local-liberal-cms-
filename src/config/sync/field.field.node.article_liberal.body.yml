@@ -1,0 +1,23 @@
+uuid: 32e94bc4-49f3-422c-8746-65a58cb1da34
+langcode: el
+status: true
+dependencies:
+  config:
+    - field.storage.node.body
+    - node.type.article_liberal
+  module:
+    - text
+id: node.article_liberal.body
+field_name: body
+entity_type: node
+bundle: article_liberal
+label: Κείμενο
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  display_summary: true
+  required_summary: false
+field_type: text_with_summary

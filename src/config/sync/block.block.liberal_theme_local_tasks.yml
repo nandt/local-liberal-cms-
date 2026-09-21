@@ -1,0 +1,22 @@
+uuid: 8ff090a2-e831-4f63-abf2-82fc33f2c2f8
+langcode: el
+status: true
+dependencies:
+  theme:
+    - liberal_theme
+_core:
+  default_config_hash: X9I1OB0W3WlWtrK-CNcg6hNWwa8wficanpH8pYnDZDE
+id: liberal_theme_local_tasks
+theme: liberal_theme
+region: content
+weight: -40
+provider: null
+plugin: local_tasks_block
+settings:
+  id: local_tasks_block
+  label: Καρτέλες
+  label_display: '0'
+  provider: core
+  primary: true
+  secondary: true
+visibility: {  }

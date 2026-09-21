@@ -1,0 +1,9 @@
+langcode: el
+status: true
+dependencies: {  }
+id: liberal_custom_content.live_ase_market
+label: /live-ase-market
+tags:
+  description: 'Όλες οι μετοχές του Χρηματιστηρίου Αθηνών σε ζωντανή ενημέρωση.'
+  keywords: 'Χρηματιστήριο , μετοχές , δείκτες , τιμή μετοχής, τιμή γενικού δείκτη'
+  title: 'Χρηματιστήριο Live | [site:name]'

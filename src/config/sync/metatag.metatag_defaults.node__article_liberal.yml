@@ -1,0 +1,28 @@
+langcode: el
+status: true
+dependencies: {  }
+id: node__article_liberal
+label: 'Content: Άρθρο Liberal'
+tags:
+  og_site_name: '[site:name]'
+  og_type: article
+  schema_article_author: 'a:3:{s:5:"@type";s:6:"Person";s:4:"name";s:37:"[node:field_arthrografos:entity:name]";s:3:"url";s:36:"[node:field_arthrografos:entity:url]";}'
+  schema_article_date_modified: '[node:field_teleytaia_enimerosi:date:html_datetime]'
+  schema_article_date_published: '[node:created:html_datetime]'
+  schema_article_description: '[node:summary]'
+  schema_article_headline: '[node:title]'
+  schema_article_image: 'a:4:{s:5:"@type";s:11:"ImageObject";s:3:"url";s:43:"[node:field_kentriki_fotografia:entity:url]";s:5:"width";s:38:"[node:field_kentriki_fotografia:width]";s:6:"height";s:39:"[node:field_kentriki_fotografia:height]";}'
+  schema_article_main_entity_of_page: 'a:2:{s:5:"@type";s:7:"Webpage";s:3:"@id";s:10:"[node:url]";}'
+  schema_article_name: '[node:title]'
+  schema_article_publisher: 'a:5:{s:5:"@type";s:12:"Organization";s:4:"name";s:7:"Liberal";s:3:"url";s:10:"[site:url]";s:6:"sameAs";s:66:"https://www.facebook.com/liberalgr/, https://twitter.com/LiberalGr";s:4:"logo";a:4:{s:5:"@type";s:11:"ImageObject";s:3:"url";s:71:"https://www.liberal.gr/themes/custom/liberal_theme/img/liberal_logo.svg";s:5:"width";s:3:"251";s:6:"height";s:3:"150";}}'
+  schema_article_type: NewsArticle
+  schema_article_keywords: '[node:field_liberal_tags]'
+  schema_article_section: '[node:field_liberal_category:entity:name]'
+  schema_article_body: '[node:body]'
+  twitter_cards_site: '@LiberalGr'
+  article_publisher: 'https://www.facebook.com/liberalgr'
+  twitter_cards_description: '[node:summary]'
+  article_published_time: '[node:created:html_datetime]'
+  article_modified_time: '[node:field_teleytaia_enimerosi:date:html_datetime]'
+  article_section: '[node:field_liberal_category:entity:name]'
+  article_tag: '[node:field_liberal_tags]'

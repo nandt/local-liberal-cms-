@@ -1,0 +1,19 @@
+uuid: a112f7ed-cb14-41e9-924c-884eb8c32141
+langcode: el
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_ad_link_article
+    - node.type.article_liberal
+id: node.article_liberal.field_ad_link_article
+field_name: field_ad_link_article
+entity_type: node
+bundle: article_liberal
+label: 'Ad Link Article'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string_long

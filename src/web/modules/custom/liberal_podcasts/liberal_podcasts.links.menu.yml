@@ -1,0 +1,6 @@
+liberal_podcasts.admin_settings:
+  title: 'Liberal Podcasts Configuration Form'
+  route_name: liberal_podcasts.admin_settings
+  description: 'Configuration settings for the Liberal Podcasts Module'
+  parent: system.admin_config_system
+  weight: 99

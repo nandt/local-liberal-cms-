@@ -1,0 +1,7 @@
+services:
+  # amp module doesn't alias its own service by FQCN, so it can't be
+  # autowired by type without this.
+  Drupal\amp\Routing\AmpContext: '@router.amp_context'
+  # CacheBackendInterface has multiple cache-bin implementations, so core
+  # doesn't alias it to one by default; matches \Drupal::cache()'s bin.
+  Drupal\Core\Cache\CacheBackendInterface: '@cache.default'

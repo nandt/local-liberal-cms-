@@ -1,0 +1,29 @@
+uuid: f28fd8a5-bf9c-4430-bacc-a94b4000542a
+langcode: el
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_eidos_arthrou
+    - node.type.article_liberal
+    - taxonomy.vocabulary.eidi_arthron
+id: node.article_liberal.field_eidos_arthrou
+field_name: field_eidos_arthrou
+entity_type: node
+bundle: article_liberal
+label: 'Είδος Άρθρου'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      eidi_arthron: eidi_arthron
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

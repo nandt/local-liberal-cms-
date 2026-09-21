@@ -1,0 +1,17 @@
+version: "3.4"
+services:
+  drupal:
+    build:
+      args:
+        UID: ${USERID}
+        GID: ${GROUPID}
+        USERNAME: ${USERNAME}
+        STOCKS_APP_WEB_TAG: ${STOCKS_APP_WEB_TAG}
+        DASHBOARD_APP_WEB_TAG: ${DASHBOARD_APP_WEB_TAG}
+    volumes:
+      - type: bind
+        source: ./migration
+        target: /opt/drupal/migration
+      - type: bind
+        source: ./src
+        target: /opt/drupal

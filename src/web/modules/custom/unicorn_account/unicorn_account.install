@@ -1,0 +1,290 @@
+<?php
+
+declare(strict_types=1);
+
+use Drupal\Core\Config\Entity\ConfigEntityInterface;
+use Drupal\Core\Entity\FieldableEntityInterface;
+use Drupal\unicorn_account\Roles\Role;
+use Drupal\unicorn_account\Roles\RoleProvisioner;
+
+/**
+ * Implements hook_install().
+ */
+function unicorn_account_install(): void {
+  _unicorn_account_provision_roles();
+  _unicorn_account_provision_scopes();
+}
+
+/**
+ * Implements hook_modules_installed().
+ *
+ * @param string[] $modules
+ */
+function unicorn_account_modules_installed(array $modules): void {
+  if (in_array('unicorn_account', $modules, TRUE)) {
+    return;
+  }
+
+  _unicorn_account_provision_roles();
+}
+
+function _unicorn_account_provision_roles(): void {
+  $provisioner = new RoleProvisioner(
+    \Drupal::entityTypeManager(),
+    array_keys(\Drupal::service('user.permissions')->getPermissions()),
+  );
+
+  foreach (Role::cases() as $role) {
+    $provisioner->provision($role);
+
+    $skipped = $provisioner->skippedFor($role);
+    if ($skipped !== []) {
+      \Drupal::logger('unicorn_account')->notice(
+        'Role @role: skipped @count permission(s) whose module is not enabled yet: @list',
+        [
+          '@role' => $role->value,
+          '@count' => count($skipped),
+          '@list' => implode(', ', $skipped),
+        ],
+      );
+    }
+  }
+}
+
+/**
+ * Creates the dashboard umbrella scope and the role scopes under it.
+ *
+ * Καλείται και από το hook_install(), αλλιώς σε νέο περιβάλλον τα scopes δεν
+ * υπάρχουν ποτέ: το Drupal γράφει το τελευταίο schema number κατευθείαν και
+ * προσπερνά όλα τα update hooks. Οι ρόλοι είναι οι τελικοί του LIBER-4250 —
+ * τα update_10004/10008 τους διόρθωναν εκ των υστέρων.
+ */
+function _unicorn_account_provision_scopes(): void {
+  $storage = \Drupal::entityTypeManager()->getStorage('oauth2_scope');
+  $grant_types = [
+    'password' => ['status' => TRUE],
+    'authorization_code' => ['status' => TRUE],
+    'refresh_token' => ['status' => TRUE],
+  ];
+
+  if ($storage->load('dashboard') === NULL) {
+    $storage->create([
+      'id' => 'dashboard',
+      'name' => 'dashboard',
+      'description' => 'Dashboard umbrella scope: offers all dashboard roles; the token keeps only the roles the user actually has.',
+      'grant_types' => $grant_types,
+      'umbrella' => TRUE,
+      'parent' => NULL,
+      'granularity_id' => 'role',
+      'granularity_configuration' => ['role' => 'authenticated'],
+    ])->save();
+  }
+
+  $scopes = [
+    'admin' => Role::Administrator->value,
+    'editor' => Role::Editor->value,
+    'commercial' => Role::Commercial->value,
+    'client' => Role::Client->value,
+  ];
+  foreach ($scopes as $id => $role) {
+    if ($storage->load($id) === NULL) {
+      $storage->create([
+        'id' => $id,
+        'name' => $id,
+        'description' => ucfirst($id) . ' role scope.',
+        'grant_types' => $grant_types,
+        'umbrella' => FALSE,
+        'parent' => 'dashboard',
+        'granularity_id' => 'role',
+        'granularity_configuration' => ['role' => $role],
+      ])->save();
+    }
+  }
+}
+
+/**
+ * Creates the OAuth role scopes and the dashboard umbrella scope (LIBER-4180).
+ */
+function unicorn_account_update_10001(): string {
+  _unicorn_account_provision_scopes();
+
+  return 'Created OAuth role scopes (editor, commercial, client) and the dashboard umbrella scope.';
+}
+
+/**
+ * Allows the dashboard scope on the Liberal3 BFF consumer (LIBER-4180).
+ */
+function unicorn_account_update_10002(): string {
+  $consumers = \Drupal::entityTypeManager()->getStorage('consumer')->loadByProperties(['label' => 'Liberal3 BFF']);
+  $consumer = reset($consumers);
+  if (!$consumer instanceof FieldableEntityInterface) {
+    return 'Liberal3 BFF consumer not found; add the dashboard scope to the consumer manually.';
+  }
+
+  $scopes = $consumer->get('scopes')->getValue();
+  if (!in_array('dashboard', array_column($scopes, 'scope_id'), TRUE)) {
+    $scopes[] = ['scope_id' => 'dashboard'];
+    $consumer->set('scopes', $scopes);
+    $consumer->save();
+  }
+
+  return 'Allowed the dashboard scope on the Liberal3 BFF consumer.';
+}
+
+/**
+ * Provisions the Liberal roles on deploy for already-installed modules (LIBER-4209).
+ */
+function unicorn_account_update_10003(): string {
+  _unicorn_account_provision_roles();
+
+  return 'Provisioned the Liberal roles (administrator, editor, commercial, client).';
+}
+
+/**
+ * Aligns OAuth scopes and roles to the real role machine names (LIBER-4235).
+ */
+function unicorn_account_update_10004(): string {
+  $storage = \Drupal::entityTypeManager()->getStorage('oauth2_scope');
+  $roles = [
+    'editor' => 'liberal_editor',
+    'commercial' => 'liberal_commercial',
+    'client' => 'liberal_client',
+  ];
+  foreach ($roles as $scope_id => $role) {
+    $scope = $storage->load($scope_id);
+    if ($scope instanceof ConfigEntityInterface) {
+      $scope->set('granularity_configuration', ['role' => $role]);
+      $scope->save();
+    }
+  }
+
+  _unicorn_account_provision_roles();
+
+  return 'Aligned OAuth scopes and roles to the real machine names (liberal_editor, liberal_commercial, liberal_client).';
+}
+
+/**
+ * Grants access to the Refresh on Viewable settings (LIBER-4179).
+ */
+function unicorn_account_update_10005(): string {
+  _unicorn_account_provision_roles();
+
+  return 'Granted access to the Refresh on Viewable settings.';
+}
+
+/**
+ * Grants the oblations Feature term permissions to the roles (LIBER-4247).
+ */
+function unicorn_account_update_10006(): string {
+  _unicorn_account_provision_roles();
+
+  return 'Provisioned the special features (oblations) term permissions on the editor and administrator roles.';
+}
+
+/**
+ * Grants the OAuth login baseline to the commercial and client roles (LIBER-4248).
+ */
+function unicorn_account_update_10007(): string {
+  _unicorn_account_provision_roles();
+
+  return 'Provisioned the OAuth login permission (grant simple_oauth codes) on the non-admin roles.';
+}
+
+/**
+ * Removes the duplicate dashboard roles and points Editor at the existing
+ * Content Editor role, moving affected users over (LIBER-4250).
+ */
+function unicorn_account_update_10008(): string {
+  $role_storage = \Drupal::entityTypeManager()->getStorage('user_role');
+  $user_storage = \Drupal::entityTypeManager()->getStorage('user');
+
+  // Old duplicate role => the canonical role its users belong to.
+  $migrations = [
+    'editor' => 'liberal_content_editor',
+    'liberal_editor' => 'liberal_content_editor',
+    'client' => 'liberal_client',
+    'commercial' => 'liberal_commercial',
+  ];
+
+  $moved = 0;
+  foreach ($migrations as $old => $new) {
+    $old_role = $role_storage->load($old);
+    if ($old_role === NULL) {
+      continue;
+    }
+    if ($role_storage->load($new) !== NULL) {
+      $uids = $user_storage->getQuery()->accessCheck(FALSE)->condition('roles', $old)->execute();
+      foreach ($user_storage->loadMultiple($uids) as $user) {
+        if (!$user instanceof \Drupal\user\UserInterface) {
+          continue;
+        }
+        $user->addRole($new);
+        $user->removeRole($old);
+        $user->save();
+        $moved++;
+      }
+    }
+    $old_role->delete();
+  }
+
+  // LIBER-4235 pointed the editor scope at the now-removed liberal_editor role.
+  $scope = \Drupal::entityTypeManager()->getStorage('oauth2_scope')->load('editor');
+  if ($scope instanceof ConfigEntityInterface) {
+    $scope->set('granularity_configuration', ['role' => 'liberal_content_editor']);
+    $scope->save();
+  }
+
+  _unicorn_account_provision_roles();
+
+  return sprintf('Removed duplicate roles, moved %d user(s) to the canonical roles, and re-provisioned.', $moved);
+}
+
+/**
+ * Creates the OAuth scopes on environments that were installed without them.
+ *
+ * Το update_10001 προσπερνιέται σε fresh install, οπότε το dashboard scope έλειπε
+ * από κάθε νέο περιβάλλον. Idempotent — δημιουργεί μόνο ό,τι λείπει.
+ */
+function unicorn_account_update_10009(): string {
+  _unicorn_account_provision_scopes();
+
+  return 'Ensured the dashboard umbrella scope and the editor, commercial, client role scopes.';
+}
+
+/**
+ * Adds the administrator scope under the dashboard umbrella (LIBER-4326).
+ */
+function unicorn_account_update_10010(): string {
+  _unicorn_account_provision_scopes();
+
+  return 'Added the administrator scope under the dashboard umbrella so admin tokens keep the administrator role.';
+}
+
+/**
+ * Provisions the new dashboard capabilities on existing environments (LIBER-4328).
+ */
+function unicorn_account_update_10011(): string {
+  _unicorn_account_provision_roles();
+
+  return 'Provisioned the Liberal Markets, SEO & Metadata and Commercial special-features view capabilities.';
+}
+
+/**
+ * Makes Commercial a read-only article viewer and drops its special features (LIBER-4426).
+ *
+ * Re-provisioning is additive, so the special-features view permission granted
+ * by the previous role map survives on its own — it is revoked explicitly here.
+ */
+function unicorn_account_update_10012(): string {
+  _unicorn_account_provision_roles();
+
+  $role = \Drupal::entityTypeManager()->getStorage('user_role')->load('liberal_commercial');
+  if ($role instanceof \Drupal\user\RoleInterface && $role->hasPermission('view oblations')) {
+    $role->revokePermission('view oblations');
+    $role->save();
+
+    return 'Provisioned the Commercial article-view capability and removed its special-features access.';
+  }
+
+  return 'Provisioned the Commercial article-view capability.';
+}

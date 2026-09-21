@@ -1,0 +1,7 @@
+liberal_sitemap_generator.batchform:
+  path: 'liberal-sitemap-generator/form'
+  defaults:
+    _form: '\Drupal\liberal_sitemap_generator\Form\LiberalSitemapGeneratorForm'
+    _title: 'Generate Sitemaps'
+  requirements:
+    _permission: 'administer site configuration'

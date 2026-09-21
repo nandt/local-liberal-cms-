@@ -1,0 +1,22 @@
+uuid: f6016809-a5ae-4c95-8dc9-6fd5d9ddba5c
+langcode: el
+status: true
+dependencies:
+  module:
+    - help
+  theme:
+    - liberal_theme
+_core:
+  default_config_hash: 8I8iACSa0sKO3k3jlvUG1ge52rfcKX7USJAQYnzuBgg
+id: liberal_theme_help
+theme: liberal_theme
+region: content
+weight: -30
+provider: null
+plugin: help_block
+settings:
+  id: help_block
+  label: Βοήθεια
+  label_display: '0'
+  provider: help
+visibility: {  }

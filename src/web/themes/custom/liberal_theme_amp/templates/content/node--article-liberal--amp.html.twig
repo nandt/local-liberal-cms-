@@ -1,0 +1,117 @@
+{% if content.unicorn_video_embed %}
+  <!-- unicorn_video_embed (replaces featured image) -->
+  {{ content.unicorn_video_embed }}
+{% else %}
+  <!--field_kentriki_fotografia -->
+  {{ content.field_kentriki_fotografia }}
+
+  {% if node.field_kentriki_fotografia.entity.uri.value %}
+    {% if node.field_pigi_fotografias.value %}
+      <!-- field_pigi_fotografias -->
+      <div class="article__main-photo-source-wrapper">
+        {{ content.field_pigi_fotografias }}
+      </div>
+    {% endif %}
+    {% if node.field_lezanta_fotografias.value %}
+      <!-- field_lezanta_fotografias -->
+      <div class="article__main-photo-details">
+        {{ content.field_lezanta_fotografias }}
+      </div>
+    {% endif %}
+  {% endif %}
+{% endif %}
+
+<div class="article__share-wrapper">
+  <div class="article__share">{{'Share'|t}}</div>
+    {% for amp_social in amp_socials %}
+        {{ amp_social }}
+    {% endfor %}
+  </div>
+</div>
+
+{% if node.field_subtitle.value and node.field_energos_ypertitlos.value == '1' %}
+  <!-- field_subtitle -->
+  <div class="article__hypertitle">
+    {{ content.field_subtitle }}
+  </div>
+{% endif %}
+
+{% if node.title.value %}
+  <!-- field_title -->
+  <div class="article__title">
+  {{ title_suffix }}
+    {{ node.label }}
+  {{ title_prefix}}
+  </div>
+{% endif %}
+
+<!-- Main article content -->
+<div class="article__content">
+  {% if node.field_introduction.value %}
+    <!-- field_introduction -->
+    <div class="article__overview article__overview">
+      {{ content.field_introduction }}
+    </div>
+  {% endif %}
+
+  <div class="article__author">
+
+      {{ content.liberal_author_image }}
+
+      <div>
+          <!-- field_arthrografos -->
+          {% if content.field_arthrografos %}
+            <div class="article__author-name">{{ content.field_arthrografos }}</div>
+          {% endif %}
+          <!-- publish_date -->
+          <div class="article__publish-date">
+					{% if liberal_created is not null %}
+						{{ liberal_created }}
+					{% endif %}
+					{% if field_teleytaia_enimerosi is not null %}
+					/ {{ liberal_updated_label }}: {{ field_teleytaia_enimerosi }}
+					{% endif %}
+          </div>
+          <!-- category -->
+          {% if content.field_liberal_category %}
+            <div class="article__category">{{ content.field_liberal_category }}</div>
+          {% endif %}
+          {% if content.field_oblation_category %}
+          <!-- oblation -->
+              <div class="article__oblation">
+                  {{ content.field_oblation_category }}
+              </div>
+          {% endif %}
+          <!-- field_pigi_arthroy -->
+          {% if content.field_pigi_arthroy %}
+            <div class="article__source">{{ content.field_pigi_arthroy }}</div>
+          {% endif %}
+      </div>
+
+  </div>
+
+  <!-- body -->
+  <div class="row article__body js-article-{{ node.id }}">
+    {{ content.body }}
+    {{ content.unicorn_impression_pixel }}
+  </div>
+
+  {% if node.field_ad_link_article.value %}
+    <!-- field_ad_link_article -->
+    <div class="article__ad-link">
+      <div class="article__ad-link-wrapper">
+        {{ node.field_ad_link_article.value }}
+      </div>
+    </div>
+  {% endif %}
+
+  <!-- field_homepage_bullets -->
+  {{ content.field_homepage_bullets }}
+
+  {% if content.field_liberal_tags %}
+    <!-- field_liberal_tags -->
+    <div class="article__tags">
+      {{ content.field_liberal_tags }}
+    </div>
+  {% endif %}
+</div>

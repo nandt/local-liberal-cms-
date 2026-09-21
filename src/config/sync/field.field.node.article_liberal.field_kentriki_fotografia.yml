@@ -1,0 +1,45 @@
+uuid: 3a599059-8a70-4ad1-8260-ebb6330f7137
+langcode: el
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_kentriki_fotografia
+    - node.type.article_liberal
+  module:
+    - content_translation
+    - image
+third_party_settings:
+  content_translation:
+    translation_sync:
+      alt: alt
+      title: title
+      file: '0'
+id: node.article_liberal.field_kentriki_fotografia
+field_name: field_kentriki_fotografia
+entity_type: node
+bundle: article_liberal
+label: 'Κεντρική Φωτογραφία'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:file'
+  handler_settings: {  }
+  file_directory: '[date:custom:Y]-[date:custom:m]'
+  file_extensions: 'png gif jpg jpeg'
+  max_filesize: '1 MB'
+  max_resolution: ''
+  min_resolution: ''
+  alt_field: true
+  alt_field_required: false
+  title_field: true
+  title_field_required: false
+  default_image:
+    uuid: ''
+    alt: ''
+    title: ''
+    width: null
+    height: null
+field_type: image

@@ -1,0 +1,29 @@
+uuid: 80b56d86-9eb9-4a5a-b8de-a009f95780ac
+langcode: el
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_arthrografos
+    - node.type.article_liberal
+    - taxonomy.vocabulary.arthrografos
+id: node.article_liberal.field_arthrografos
+field_name: field_arthrografos
+entity_type: node
+bundle: article_liberal
+label: Αρθρογράφος
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      arthrografos: arthrografos
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

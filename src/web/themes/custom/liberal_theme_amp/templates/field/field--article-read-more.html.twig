@@ -1,0 +1,10 @@
+<div class="article_read_more container">
+<h2 class="article_read_more__title"><span>{{ 'Read More'|t }}</span></h2>
+    <div class="row">
+    {%- for item in items -%}
+        <div class="full-column">
+            {{ item.content }}
+        </div>
+    {%- endfor -%}
+    </div>
+</div>

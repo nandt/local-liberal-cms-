@@ -1,0 +1,5 @@
+name: 'Unicorn Field Mapper'
+type: module
+description: 'Map fields across different drupal installations'
+package: Unicorn Domain
+core_version_requirement: ^10 || ^11

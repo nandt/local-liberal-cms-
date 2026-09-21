@@ -1,0 +1,111 @@
+<?php
+
+/**
+ * @file
+ * DB-state reconciliation after the headless module cleanup.
+ *
+ * Το develop branch αφαίρεσε πολλά modules (files), αλλά κάθε βάση (local,
+ * develop, staging, prod) εξακολουθεί να τα έχει enabled στο core.extension και
+ * κρατάει config που δείχνει σε removed plugins. Αυτό σπάει το router rebuild.
+ *
+ * Οι συναρτήσεις εδώ βρίσκουν ΓΕΝΙΚΑ (όχι hardcoded) ό,τι είναι orphaned και το
+ * καθαρίζουν. Idempotent — τρέχει μία φορά ανά περιβάλλον με το drush updb, και
+ * αν ξανατρέξει δεν βρίσκει τίποτα.
+ */
+
+/**
+ * Reconcile DB state — remove orphaned modules and orphaned config.
+ */
+function unicorn_migration_cleanup_update_10001(): string {
+  return _unicorn_migration_cleanup_run();
+}
+
+/**
+ * Shared cleanup routine. Idempotent.
+ *
+ * Επίσης καλείται από hook_install ώστε να τρέχει και σε fresh install (όπου τα
+ * update hooks παρακάμπτονται).
+ */
+function _unicorn_migration_cleanup_run(): string {
+  $messages = [];
+  $messages[] = _unicorn_migration_cleanup_orphaned_modules();
+  $messages[] = _unicorn_migration_cleanup_orphaned_rest();
+
+  $messages = array_filter($messages);
+
+  return $messages ? implode(' | ', $messages) : 'Nothing to clean — DB already reconciled.';
+}
+
+/**
+ * Remove modules that are enabled in core.extension but have no files.
+ */
+function _unicorn_migration_cleanup_orphaned_modules(): string {
+  $extension_list = \Drupal::service('extension.list.module');
+  $config = \Drupal::configFactory()->getEditable('core.extension');
+  $modules = $config->get('module');
+  $schema = \Drupal::keyValue('system.schema');
+
+  $removed = [];
+  foreach (array_keys($modules) as $name) {
+    $name = (string) $name;
+    if (!$extension_list->exists($name)) {
+      unset($modules[$name]);
+      $schema->delete($name);
+      $removed[] = $name;
+    }
+  }
+
+  if (!$removed) {
+    return '';
+  }
+
+  $config->set('module', $modules)->save();
+  \Drupal::logger('unicorn_migration_cleanup')
+    ->notice('Removed @count orphaned modules: @list', [
+      '@count' => count($removed),
+      '@list' => implode(', ', $removed),
+    ]);
+
+  return sprintf('Removed %d orphaned modules (%s)', count($removed), implode(', ', $removed));
+}
+
+/**
+ * Remove rest_resource_config entities whose plugin no longer exists.
+ *
+ * Τέτοια config σπάει το router rebuild με "plugin does not exist".
+ */
+function _unicorn_migration_cleanup_orphaned_rest(): string {
+  $manager = \Drupal::service('plugin.manager.rest');
+  $valid = array_keys($manager->getDefinitions());
+  $config_factory = \Drupal::configFactory();
+
+  $removed = [];
+  foreach ($config_factory->listAll('rest.resource.') as $config_name) {
+    $plugin_id = $config_factory->get($config_name)->get('plugin_id');
+    if ($plugin_id && !in_array($plugin_id, $valid, TRUE)) {
+      $config_factory->getEditable($config_name)->delete();
+      $removed[] = $plugin_id;
+    }
+  }
+
+  if (!$removed) {
+    return '';
+  }
+
+  \Drupal::logger('unicorn_migration_cleanup')
+    ->notice('Removed @count orphaned REST resources: @list', [
+      '@count' => count($removed),
+      '@list' => implode(', ', $removed),
+    ]);
+
+  return sprintf('Removed %d orphaned REST resources (%s)', count($removed), implode(', ', $removed));
+}
+
+/**
+ * Implements hook_install().
+ *
+ * Τρέχει το cleanup και σε fresh install (τα update hooks παρακάμπτονται εκεί).
+ */
+function unicorn_migration_cleanup_install(): void {
+  \Drupal::logger('unicorn_migration_cleanup')->notice(_unicorn_migration_cleanup_run());
+}

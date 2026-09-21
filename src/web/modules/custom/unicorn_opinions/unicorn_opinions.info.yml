@@ -1,0 +1,9 @@
+name: Unicorn Opinions
+description: Opinions Section
+package: Unicorn Domain
+type: module
+version: 1.0.0
+dependencies:
+  - jsonapi_resources:jsonapi_resources
+  - unicorn_core:unicorn_core
+core_version_requirement: ^11

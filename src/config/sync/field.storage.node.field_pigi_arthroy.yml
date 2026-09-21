@@ -1,0 +1,20 @@
+uuid: efc91a02-cf96-45c5-b834-10f52fb51e9b
+langcode: el
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_pigi_arthroy
+field_name: field_pigi_arthroy
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

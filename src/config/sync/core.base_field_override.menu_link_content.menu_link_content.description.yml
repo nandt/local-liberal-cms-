@@ -1,0 +1,18 @@
+uuid: a3750f35-74df-4738-9106-c0c45f50ad38
+langcode: el
+status: true
+dependencies:
+  module:
+    - menu_link_content
+id: menu_link_content.menu_link_content.description
+field_name: description
+entity_type: menu_link_content
+bundle: menu_link_content
+label: Περιγραφή
+description: 'Προβάλλεται όταν ο κέρσορας βρίσκεται πάνω από τον σύνδεσμο του μενού.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

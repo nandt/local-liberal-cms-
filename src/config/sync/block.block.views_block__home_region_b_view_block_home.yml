@@ -1,0 +1,29 @@
+uuid: d1d381ab-3693-45e9-912b-000d599c0249
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.home_region_b
+  module:
+    - system
+    - views
+  theme:
+    - liberal_theme
+id: views_block__home_region_b_view_block_home
+theme: liberal_theme
+region: home2
+weight: -11
+provider: null
+plugin: 'views_block:home_region_b-view_block_home'
+settings:
+  id: 'views_block:home_region_b-view_block_home'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

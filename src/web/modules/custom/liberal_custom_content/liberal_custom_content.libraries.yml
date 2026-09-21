@@ -1,0 +1,18 @@
+liberal-articles:
+  js:
+    js/liberal_articles.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+apopseis-form:
+  js:
+    js/apopseis_form.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings
+    - core/once
+  css:
+    layout:
+      css/apopseis_form.css: {}

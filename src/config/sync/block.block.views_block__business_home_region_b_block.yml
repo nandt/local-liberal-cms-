@@ -1,0 +1,24 @@
+uuid: 7f581839-5381-486d-9583-ddb60522b3e7
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.business_home_region_b
+  module:
+    - views
+  theme:
+    - liberal_theme
+id: views_block__business_home_region_b_block
+theme: liberal_theme
+region: business_home_2
+weight: 0
+provider: null
+plugin: 'views_block:business_home_region_b-block'
+settings:
+  id: 'views_block:business_home_region_b-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility: {  }

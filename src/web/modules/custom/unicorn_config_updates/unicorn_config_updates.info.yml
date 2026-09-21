@@ -1,0 +1,15 @@
+name: Unicorn Config Updates
+type: module
+description: Applies targeted configuration updates without importing the full Drupal configuration.
+package: Unicorn Domain
+core_version_requirement: ^11
+dependencies:
+  - drupal:field
+  - drupal:image
+  - drupal:node
+  - drupal:taxonomy
+  - drupal:text
+  - jsonapi_extras:jsonapi_extras
+  - search_api:search_api
+  - unicorn_search:unicorn_search
+  - drupal:views

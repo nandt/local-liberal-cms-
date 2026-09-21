@@ -1,0 +1,94 @@
+#liberal-apopseis-admin-form .form-item {
+    label {
+        display: block;
+    }
+}
+
+#liberal-apopseis-admin-form .fieldset .fieldset__wrapper {
+    height: 100%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
+
+.form-readonly input[type="text"] {
+    color: #6c757d;
+    border-color: var(--input--disabled-border-color);
+    background-color: var(--input--disabled-bg-color);
+    box-shadow: none;
+  }
+
+#liberal-apopseis-admin-form .fieldset .fieldset__wrapper > div {
+    margin-right: 1.2%;
+    margin-bottom: 0;
+}
+
+.custom-form-error .form-managed-file__main input[type="file"] {
+    border: 1px solid #dc2323;
+}
+
+.custom-form-error .form-item__description {
+    color: #dc2323;
+}
+
+.custom-form-error .form-item__label.has-error {
+    color: #000;
+}
+
+.form-type--managed-file .messages--error {
+    display: none;
+}
+
+.custom-fieldset-handler .messages-list {
+    display: none;
+}
+
+#liberal-apopseis-admin-form .fieldset .fieldset__wrapper .form-item--apopseis-region-1-fieldset-apopseis-region-status {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+#liberal-apopseis-admin-form .fieldset .fieldset__wrapper .form-item--apopseis-region-2-fieldset-apopseis-region-status {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+#liberal-apopseis-admin-form .fieldset .fieldset__wrapper .form-item--apopseis-region-3-fieldset-apopseis-region-status {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+#liberal-apopseis-admin-form .fieldset .fieldset__wrapper .form-item--apopseis-region-4-fieldset-apopseis-region-status {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+#liberal-apopseis-admin-form .fieldset .fieldset__wrapper .form-item--apopseis-region-5-fieldset-apopseis-region-status {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+#liberal-apopseis-admin-form .fieldset .fieldset__wrapper .form-item--apopseis-region-6-fieldset-apopseis-region-status {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+#liberal-apopseis-admin-form .fieldset .fieldset__wrapper .form-item--apopseis-region-7-fieldset-apopseis-region-status {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+#liberal-apopseis-admin-form .fieldset .fieldset__wrapper .form-item--apopseis-region-8-fieldset-apopseis-region-status {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+#liberal-apopseis-admin-form .fieldset .fieldset__wrapper .form-item--apopseis-region-9-fieldset-apopseis-region-status {
+    width: 100%;
+    margin-bottom: 0;
+}
+
+.form-type--select label:after {
+    display: none;
+}

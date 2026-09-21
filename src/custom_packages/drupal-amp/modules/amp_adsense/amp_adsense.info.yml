@@ -1,0 +1,8 @@
+name: AMP Adsense
+type: module
+description: Helps render blocks created by the Google Adsense module as AMP elements
+core_version_requirement: '^10 || ^11'
+package: AMP
+dependencies:
+  - amp:amp
+  - adsense:adsense

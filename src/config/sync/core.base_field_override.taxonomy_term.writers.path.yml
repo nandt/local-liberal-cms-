@@ -1,0 +1,20 @@
+uuid: ca5156cf-9631-4065-9567-2262e60a779e
+langcode: el
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.writers
+  module:
+    - path
+id: taxonomy_term.writers.path
+field_name: path
+entity_type: taxonomy_term
+bundle: writers
+label: 'Ψευδώνυμο URL'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: path

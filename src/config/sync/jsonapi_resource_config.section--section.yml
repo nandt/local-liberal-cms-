@@ -1,0 +1,10 @@
+langcode: el
+status: true
+dependencies:
+  module:
+    - unicorn_api_alterations
+id: section--section
+disabled: false
+path: section/section
+resourceType: section--section
+resourceFields: {  }

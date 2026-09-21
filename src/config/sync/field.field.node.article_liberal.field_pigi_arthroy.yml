@@ -1,0 +1,29 @@
+uuid: f2b3e529-b813-418f-9e34-7fe4de752c89
+langcode: el
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_pigi_arthroy
+    - node.type.article_liberal
+    - taxonomy.vocabulary.piges_arthron
+id: node.article_liberal.field_pigi_arthroy
+field_name: field_pigi_arthroy
+entity_type: node
+bundle: article_liberal
+label: 'Πηγή Άρθρου'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      piges_arthron: piges_arthron
+    sort:
+      field: name
+      direction: asc
+    auto_create: true
+    auto_create_bundle: ''
+field_type: entity_reference

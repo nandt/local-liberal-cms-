@@ -1,0 +1,26 @@
+<!-- should transform to amp-img -->
+<img src="file:///tmp/kitten.jpg" />
+
+<!-- should transform to amp-img with fixed layout, preserving the width and height -->
+<img src="file:///tmp/kitten.jpg" width="125" height="96" />
+
+<!-- nonexistent image, should refuse to convert to amp-img and keep it as it is -->
+<img src="file:///tmp/nope.jpg" />
+
+<!-- should provide layout and height width and make layout responsive -->
+<amp-img src="file:///tmp/kitten.jpg"></amp-img>
+
+<!-- since only width exists, overwrite with height and width from original image -->
+<amp-img layout="responsive" src="file:///tmp/kitten.jpg" width="200"></amp-img>
+
+<!-- since height is illegal, overwrite with height and width from original image -->
+<amp-img layout="responsive" src="file:///tmp/kitten.jpg" width="200" height="auto"></amp-img>
+
+<!-- since units are inconsistent, overwrite with height+width from original image -->
+<amp-img layout="responsive" src="file:///tmp/kitten.jpg" width="200rem" height="100"></amp-img>
+
+<!-- should transform to amp-pixel -->
+<img src="file:///tmp/pixel.gif" />
+
+<!-- should transform to amp-img instead of amp-anim because of default option['use_amp_anim_tag'] = false -->
+<img src="file:///tmp/cat_animation.gif" />

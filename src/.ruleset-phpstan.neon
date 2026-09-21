@@ -1,0 +1,27 @@
+includes:
+	- .phpstan-baseline.neon
+
+parameters:
+    level: 8
+
+    paths:
+        - web/modules/custom
+        - web/themes/custom
+
+    excludePaths:
+        analyse:
+            - web/modules/custom/*/node_modules
+            - web/modules/custom/*/vendor
+            - web/themes/custom/*/node_modules
+            - web/themes/custom/*/vendor
+            - web/themes/custom/*/dist
+            - web/themes/custom/*/build
+
+    tmpDir: var/phpstan
+
+    reportUnmatchedIgnoredErrors: false
+    treatPhpDocTypesAsCertain: false
+
+    parallel:
+        jobSize: 15
+        minimumNumberOfJobsPerProcess: 2

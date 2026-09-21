@@ -1,0 +1,7 @@
+name: Unicorn Lazy Load Advertising Tools
+type: module
+description: Provides lazy load advertising settings endpoints.
+core_version_requirement: ^10 || ^11
+package: Unicorn
+dependencies:
+  - unicorn_core:unicorn_core

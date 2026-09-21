@@ -1,0 +1,6 @@
+base:
+  css:
+    theme:
+      # Hand-maintained, keep minified: nothing downstream minifies it, and
+      # AMP hard-caps inlined <style amp-custom> at 75,000 bytes.
+      css/styles_min.css : { preprocess: false, minified: true }

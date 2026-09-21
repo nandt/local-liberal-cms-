@@ -1,0 +1,3 @@
+scan:
+  skip-files:
+    - docker/app/sql/liberal_drupal_dev.sql

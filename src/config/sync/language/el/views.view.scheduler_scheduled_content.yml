@@ -1,0 +1,73 @@
+display:
+  default:
+    display_options:
+      exposed_form:
+        options:
+          submit_button: Filter
+          reset_button_label: Reset
+          exposed_sorts_label: 'Sort by'
+          sort_asc_label: Asc
+          sort_desc_label: Desc
+      pager:
+        options:
+          tags:
+            previous: '‹ previous'
+            next: 'next ›'
+            first: '« first'
+            last: 'last »'
+      fields:
+        node_bulk_form:
+          action_title: Ενέργεια
+        title:
+          label: Τίτλος
+          separator: ', '
+        type:
+          label: 'Τύπος περιεχομένου'
+          separator: ', '
+        name:
+          label: Author
+          separator: ', '
+        status:
+          label: Κατάσταση
+          settings:
+            format_custom_true: Δημοσιευμένο
+            format_custom_false: 'Μη δημοσιευμένο'
+          separator: ', '
+        publish_on:
+          separator: ', '
+        unpublish_on:
+          separator: ', '
+        operations:
+          label: Λειτουργίες
+      filters:
+        title:
+          expose:
+            label: Τίτλος
+        type:
+          expose:
+            label: 'Τύπος περιεχομένου'
+        status:
+          expose:
+            label: Κατάσταση
+          group_info:
+            label: 'Κατάσταση δημοσίευσης'
+            group_items:
+              1:
+                title: Δημοσιευμένο
+              2:
+                title: 'Μη δημοσιευμένο'
+        langcode:
+          expose:
+            label: Γλώσσα
+  overview:
+    display_options:
+      tab_options:
+        title: Content
+  user_page:
+    display_options:
+      tab_options:
+        title: Content
+      arguments:
+        uid:
+          exception:
+            title: Όλες

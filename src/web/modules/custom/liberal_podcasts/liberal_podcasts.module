@@ -1,0 +1,167 @@
+<?php
+
+use Drupal\liberal_podcasts\Utils\LiberalPodcastUtility;
+use Drupal\node\NodeInterface;
+use Drupal\views\ViewExecutable;
+use Drupal\Core\Url;
+use Drupal\Core\Cache\CacheableMetadata;
+use Drupal\Core\Entity\Display\EntityViewDisplayInterface;
+
+function liberal_podcasts_node_presave(NodeInterface $node): void {
+
+  if ($node->bundle() === 'podcast' && ($node->isNew() || $node->getOriginal() !== NULL &&
+              $node->field_podcast_source_code->value !== $node->getOriginal()->field_podcast_source_code->value)) {
+    $source_code = $node->field_podcast_source_code->value;
+    if ($source_code) {
+      $video_id = LiberalPodcastUtility::extractVideoId($source_code);
+    }
+
+    if ($video_id) {
+      $video_data = \Drupal::service('liberal_podcasts.get_data')->getData($video_id);
+      $node->field_podcast_duration->value = $video_data['duration'];
+      if (!empty($video_data['width'])) {
+        $node->field_podcast_width->value = (int) $video_data['width'];
+      }
+      else {
+        $node->field_podcast_width->value = NULL;
+      }
+
+      if (!empty($video_data['height'])) {
+        $node->field_podcast_height->value = (int) $video_data['height'];
+      }
+      else {
+        $node->field_podcast_height->value = NULL;
+      }
+    }
+
+  }
+}
+
+/**
+ * Implements hook_views_pre_view().
+ * @param array<int, mixed> $args
+ */
+function liberal_podcasts_views_pre_view(ViewExecutable $view, $display_id, array &$args): void {
+  if ($view->id() !== 'liberal_articles') {
+    return;
+  }
+
+  $name = trim((string) \Drupal::request()->query->get('eidosName'));
+  $handlers = $view->display_handler->getHandlers('argument');
+  $keys = array_keys($handlers);
+  $idx = array_search('tid_5', $keys, TRUE);
+
+  if ($idx === FALSE) {
+    return;
+  }
+
+  $tid = \Drupal::entityQuery('taxonomy_term')
+    ->condition('vid', 'eidi_arthron')
+    ->condition('name', $name)
+    ->accessCheck(TRUE)
+    ->execute();
+
+  $tid = !empty($tid) ? array_shift($tid) : NULL;
+
+  if (!$tid) {
+    return;
+  }
+
+  $args[$idx] = $tid;
+}
+
+/**
+ * Implements hook_node_view_alter().
+ * @param array<string, mixed> $build
+ */
+function liberal_podcasts_node_view_alter(array &$build, NodeInterface $node, EntityViewDisplayInterface $display): void {
+  if ($display->getMode() !== 'full' || $node->bundle() !== 'podcast') {
+    return;
+  }
+
+  $tid = $node->get('field_podcast_series')->target_id;
+  if (!$tid) {
+    return;
+  }
+
+  $current_episode_number = $node->get('field_podcast_episode')->value;
+  if ($current_episode_number === NULL) {
+    return;
+  }
+
+  $load_items = [];
+
+  // NEXT EPISODE
+  $next_query = \Drupal::entityQuery('node')
+    ->condition('status', 1)
+    ->condition('type', 'podcast')
+    ->condition('field_podcast_series', $tid)
+    ->condition('field_podcast_episode', $current_episode_number, '>')
+    ->sort('field_podcast_episode', 'ASC')
+    ->range(0, 1)
+    ->accessCheck(FALSE);
+  $next_nids = $next_query->execute();
+  $next_id = !empty($next_nids) ? reset($next_nids) : NULL;
+
+  // PREVIOUS EPISODE
+  $prev_query = \Drupal::entityQuery('node')
+    ->condition('status', 1)
+    ->condition('type', 'podcast')
+    ->condition('field_podcast_series', $tid)
+    ->condition('field_podcast_episode', $current_episode_number, '<')
+    ->sort('field_podcast_episode', 'DESC')
+    ->range(0, 1)
+    ->accessCheck(FALSE);
+  $prev_nids = $prev_query->execute();
+  $prev_id = !empty($prev_nids) ? reset($prev_nids) : NULL;
+
+  if (!$prev_id && !$next_id) {
+    return;
+  }
+
+  if ($prev_id) {
+    $load_items[] = $prev_id;
+  }
+  if ($next_id) {
+    $load_items[] = $next_id;
+  }
+
+  $nav_nodes = Drupal::entityTypeManager()->getStorage('node')->loadMultiple($load_items);
+
+  $cm = new CacheableMetadata();
+  $cm->addCacheTags($node->getCacheTags());
+  $cm->addCacheTags(['term:' . $tid]);
+
+  if ($prev_id) {
+    $prev_link = [
+      '#markup' => Url::fromRoute('entity.node.canonical', ['node' => $prev_id], ['absolute' => TRUE])->toString(),
+      '#cache' => ['max-age' => -1],
+    ];
+    $prev_title = [
+      '#markup' => $nav_nodes[$prev_id] ? $nav_nodes[$prev_id]->label() : '',
+      '#cache' => ['max-age' => -1],
+    ];
+    $cm->addCacheTags(['node:' . $prev_id]);
+    $cm->applyTo($prev_link);
+    $cm->applyTo($prev_title);
+  }
+
+  if ($next_id) {
+    $next_link = [
+      '#markup' => Url::fromRoute('entity.node.canonical', ['node' => $next_id], ['absolute' => TRUE])->toString(),
+      '#cache' => ['max-age' => -1],
+    ];
+    $next_title = [
+      '#markup' => $nav_nodes[$next_id] ? $nav_nodes[$next_id]->label() : '',
+      '#cache' => ['max-age' => -1],
+    ];
+    $cm->addCacheTags(['node:' . $next_id]);
+    $cm->applyTo($next_link);
+    $cm->applyTo($next_title);
+  }
+
+  $build['prev_podcast_title'] = $prev_title ?? NULL;
+  $build['next_podcast_title'] = $next_title ?? NULL;
+  $build['prev_podcast_url'] = $prev_link ?? NULL;
+  $build['next_podcast_url'] = $next_link ?? NULL;
+}

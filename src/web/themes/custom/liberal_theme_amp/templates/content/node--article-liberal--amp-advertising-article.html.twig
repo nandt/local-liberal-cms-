@@ -1,0 +1,98 @@
+<!-- start advertising article -->
+
+<!-- field_subtitle -->
+{% if node.field_subtitle.value %}
+<div class="advertising_article__hypertitle">
+		{{ content.field_subtitle }}
+</div>
+{% endif %}
+
+<!-- field_title -->
+{% if node.title.value %}
+<div class="advertising_article__title">
+	{{ content.field_title }}
+ </div>
+{% endif %}
+
+{% if node.field_introduction.value %}
+	<div class="advertising_article__introduction">
+		{{ content.field_introduction }}
+	</div>
+{% endif %}
+
+<!-- publish date -->
+<div class="advertising_article__publish-date">
+	{% if liberal_created_ad is not null %}
+		{{ liberal_created_ad }}
+	{% endif %}
+</div>
+
+{% if node.field_kentriki_fotografia.target_id %}
+	<div class="advertising_article__main-photo-container">
+		<!--field_kentriki_fotografia -->
+		{{ content.field_kentriki_fotografia }}
+	</div>
+
+	{% if node.field_lezanta_fotografias.value %}
+		<!-- field_lezanta_fotografias -->
+		<div class="advertising_article__main-photo-description">
+			{{ content.field_lezanta_fotografias }}
+		</div>
+	{% endif %}
+{% endif %}
+
+
+<!-- field quote -->
+{% if node.field_quote.value %}
+	<div class="advertising_article__quote">
+		<div class="article__quote-icon-wrapper">
+			<amp-img class="article__quote-desktop-icon object-fit-contain" alt="print_article" src="{{ base_path ~ directory }}/img/quote_gray.svg" width="21" height="21" layout="fixed"></amp-img>
+		</div>
+		<div class="advertising_article__quote-desktop-text">
+			{{ content.field_quote }}
+		</div>
+	</div>
+{% endif %}
+
+<!-- body -->
+<div class="advertising_article__body">
+		{{ content.body }}
+		{{ content.unicorn_impression_pixel }}
+</div>
+
+<!-- field liberal tags -->
+{% if node.field_liberal_tags.0.target_id %}
+	<div class="advertising_article__tags">
+		{{ content.field_liberal_tags }}
+	</div>
+{% endif %}
+
+{% if node.field_arthrografos.target_id %}
+	<!-- author -->
+	<div class="advertising_article__author">
+		<div class="img-wrapper">{{ content.liberal_author_image }}</div>
+		<div class="advertising_article__author-name">{{ content.field_arthrografos }}</div>
+	</div>
+{% endif %}
+
+<!-- category -->
+{% if node.field_liberal_category.0.target_id %}
+	<div class="advertising_article__category">{{ content.field_liberal_category }}</div>
+{% endif %}
+
+{% if node.field_oblation_category.target_id %}
+	<!-- oblation -->
+	<div class="advertising_article__oblation">
+		{{ content.liberal_oblation_link }}
+	</div>
+{% endif %}
+
+<!-- social media -->
+<div class="article__share-wrapper advertising_article__share-wrapper">
+    {% for amp_social in amp_socials %}
+        {{ amp_social }}
+    {% endfor %}
+  </div>
+</div>
+
+<!-- end advertising article -->

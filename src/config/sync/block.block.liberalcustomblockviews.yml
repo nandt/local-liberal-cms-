@@ -1,0 +1,22 @@
+uuid: 22a64c25-49a4-4872-837e-a3fd2b07d075
+langcode: en
+status: true
+dependencies:
+  module:
+    - liberal_custom_block_views
+  theme:
+    - liberal_theme
+id: liberalcustomblockviews
+theme: liberal_theme
+region: header
+weight: 0
+provider: null
+plugin: liberal_custom_block_views
+settings:
+  id: liberal_custom_block_views
+  label: 'Liberal Custom Block Views'
+  label_display: '0'
+  provider: liberal_custom_block_views
+  region: home
+  elements: '3'
+visibility: {  }

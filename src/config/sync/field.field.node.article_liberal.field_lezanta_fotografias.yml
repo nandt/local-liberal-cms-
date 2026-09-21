@@ -1,0 +1,19 @@
+uuid: 499d2863-0695-4fb0-97de-b257107a7183
+langcode: el
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_lezanta_fotografias
+    - node.type.article_liberal
+id: node.article_liberal.field_lezanta_fotografias
+field_name: field_lezanta_fotografias
+entity_type: node
+bundle: article_liberal
+label: 'Λεζάντα Φωτογραφίας'
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

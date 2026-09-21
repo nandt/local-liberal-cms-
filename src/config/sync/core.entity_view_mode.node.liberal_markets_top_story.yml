@@ -1,0 +1,10 @@
+uuid: 593f164e-f9ef-4d12-9e3e-9d189e8a7047
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.liberal_markets_top_story
+label: 'Liberal markets top story'
+targetEntityType: node
+cache: true

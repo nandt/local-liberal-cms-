@@ -1,0 +1,18 @@
+uuid: 31e1fe6a-9729-40aa-af71-56056103a1a5
+langcode: el
+status: true
+dependencies:
+  config:
+    - comment.type.comment
+id: comment.comment.subject
+field_name: subject
+entity_type: comment
+bundle: comment
+label: Θέμα
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

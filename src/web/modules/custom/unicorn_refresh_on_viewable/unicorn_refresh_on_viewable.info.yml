@@ -1,0 +1,7 @@
+name: Unicorn Refresh on Viewable
+type: module
+description: Provides Refresh on Viewable settings endpoints.
+core_version_requirement: ^10 || ^11
+package: Unicorn
+dependencies:
+  - unicorn_core:unicorn_core

@@ -1,0 +1,5 @@
+services:
+  Drupal\unicorn_account\Access\ArticleViewAccess:
+    autowire: true
+  Drupal\unicorn_account\Access\SectionAccess:
+    autowire: true

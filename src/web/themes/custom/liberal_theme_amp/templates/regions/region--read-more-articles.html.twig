@@ -1,0 +1,17 @@
+{% if content %}
+<div class="container">
+    <div class="article_read_more">
+         {% if rm_print_title or is_node_loader %}
+            <h2 class="article_read_more__title"><span>{{ 'Read More'|t }}</span></h2>
+        {% endif %}
+            <span class="title-placeholder"></span>
+            <div class="row">
+                <div>
+                    {% block content %}
+                        {{ content }}
+                    {% endblock %}
+                </div>
+            </div>
+    </div>
+</div>
+{% endif %}

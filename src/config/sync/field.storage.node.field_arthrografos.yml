@@ -1,0 +1,20 @@
+uuid: 9782fb2e-1ff3-4f36-bb14-556be48d8c3c
+langcode: el
+status: true
+dependencies:
+  module:
+    - node
+    - taxonomy
+id: node.field_arthrografos
+field_name: field_arthrografos
+entity_type: node
+type: entity_reference
+settings:
+  target_type: taxonomy_term
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

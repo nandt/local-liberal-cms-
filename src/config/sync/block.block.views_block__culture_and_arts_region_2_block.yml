@@ -1,0 +1,29 @@
+uuid: 1c463e05-f732-4d99-a6d7-f8dd9dc636dd
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.culture_and_arts_region_2
+  module:
+    - system
+    - views
+  theme:
+    - liberal_theme
+id: views_block__culture_and_arts_region_2_block
+theme: liberal_theme
+region: culture_and_arts_2
+weight: 0
+provider: null
+plugin: 'views_block:culture_and_arts_region_2-block'
+settings:
+  id: 'views_block:culture_and_arts_region_2-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

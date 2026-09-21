@@ -1,0 +1,4 @@
+'view unpublished for preview':
+  title: 'View unpublished content for headless preview'
+  description: 'Allows viewing a single unpublished node for the Next.js preview service (per-request access, not listing).'
+  restrict access: true

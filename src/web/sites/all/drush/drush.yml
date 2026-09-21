@@ -1,0 +1,3 @@
+# Drush related configs
+options:
+  uri: ${env.DRUSH_OPTIONS_URI}

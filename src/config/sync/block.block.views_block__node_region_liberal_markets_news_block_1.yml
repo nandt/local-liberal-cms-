@@ -1,0 +1,24 @@
+uuid: 983297c0-5d15-49b7-b9bf-73fed16d769b
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.node_region_liberal_markets_news
+  module:
+    - views
+  theme:
+    - liberal_theme
+id: views_block__node_region_liberal_markets_news_block_1
+theme: liberal_theme
+region: recent_lm_node
+weight: 0
+provider: null
+plugin: 'views_block:node_region_liberal_markets_news-block_1'
+settings:
+  id: 'views_block:node_region_liberal_markets_news-block_1'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility: {  }

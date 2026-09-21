@@ -1,0 +1,10 @@
+services:
+  unicorn_api_alterations.jsonapi_config_auto_export:
+    class: Drupal\unicorn_api_alterations\EventSubscriber\JsonapiConfigAutoExportSubscriber
+    arguments: ['@logger.factory']
+    tags:
+      - { name: event_subscriber }
+  unicorn_api_alterations.jsonapi_write_auth_route_subscriber:
+    class: Drupal\unicorn_api_alterations\Routing\JsonApiWriteAuthRouteSubscriber
+    tags:
+      - { name: event_subscriber }

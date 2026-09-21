@@ -1,0 +1,20 @@
+uuid: 00bb0472-4452-42dc-8076-05b762f7f3bb
+langcode: el
+status: true
+dependencies:
+  theme:
+    - liberal_theme
+_core:
+  default_config_hash: 13GQpeITIJsp1kyPniXtWZfyFH87vb1xxJCHifL4UeE
+id: liberal_theme_local_actions
+theme: liberal_theme
+region: content
+weight: -20
+provider: null
+plugin: local_actions_block
+settings:
+  id: local_actions_block
+  label: 'Πρωτεύουσες ενέργειες διαχείρισης'
+  label_display: '0'
+  provider: core
+visibility: {  }

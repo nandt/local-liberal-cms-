@@ -1,0 +1,19 @@
+uuid: cb0758db-a422-4a80-a4ea-5fd5dce305d3
+langcode: el
+status: true
+dependencies:
+  module:
+    - serialization
+    - user
+id: entity.user
+plugin_id: 'entity:user'
+granularity: resource
+configuration:
+  methods:
+    - GET
+    - POST
+    - DELETE
+  formats:
+    - json
+  authentication:
+    - cookie

@@ -1,0 +1,12 @@
+name: 'Liberal API Alterations'
+type: module
+description: 'Custom JSON:API resources, BFF auto-setup (OAuth + Editor role), revalidate webhooks for Liberal3 headless'
+core_version_requirement: ^10 || ^11
+package: Custom
+dependencies:
+  - drupal:jsonapi
+  - drupal:node
+  - simple_oauth:simple_oauth
+  - simple_oauth_password_grant:simple_oauth_password_grant
+  - consumers:consumers
+  - unicorn_core:unicorn_core

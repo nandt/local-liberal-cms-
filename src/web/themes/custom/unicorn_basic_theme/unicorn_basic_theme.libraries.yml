@@ -1,0 +1,9 @@
+login:
+  css:
+    theme:
+      css/login.css: {}
+  js:
+    js/login.js: {}
+  dependencies:
+    - core/drupal
+    - core/once

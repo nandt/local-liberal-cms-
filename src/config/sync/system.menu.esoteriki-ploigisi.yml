@@ -1,0 +1,8 @@
+uuid: dc31f755-e98a-4665-a0ff-c21ad9206320
+langcode: en
+status: true
+dependencies: {  }
+id: esoteriki-ploigisi
+label: 'Εσωτερική πλοήγηση'
+description: 'Site section links'
+locked: false

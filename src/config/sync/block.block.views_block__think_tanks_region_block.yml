@@ -1,0 +1,29 @@
+uuid: 7518d46d-2891-4a2f-a16a-95009e2dd9c4
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.think_tanks_region
+  module:
+    - system
+    - views
+  theme:
+    - liberal_theme
+id: views_block__think_tanks_region_block
+theme: liberal_theme
+region: think_tanks
+weight: 0
+provider: null
+plugin: 'views_block:think_tanks_region-block'
+settings:
+  id: 'views_block:think_tanks_region-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

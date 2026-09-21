@@ -1,0 +1,10 @@
+uuid: 75f0217d-a574-46be-9c31-85a7562f31c5
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.repeated_economy_2
+label: 'Repeated Economy 2'
+targetEntityType: node
+cache: true

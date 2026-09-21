@@ -1,0 +1,20 @@
+uuid: 675d35d4-1483-43bc-bf02-cb8c216c163a
+langcode: el
+status: true
+dependencies:
+  module:
+    - system
+  theme:
+    - liberal_theme
+id: periehomenokentrikisselidas
+theme: liberal_theme
+region: article_contents
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Περιεχόμενο κεντρικής σελίδας'
+  label_display: '0'
+  provider: system
+visibility: {  }

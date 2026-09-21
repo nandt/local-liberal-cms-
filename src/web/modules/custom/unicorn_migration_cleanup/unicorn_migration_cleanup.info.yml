@@ -1,0 +1,5 @@
+name: Unicorn Migration Cleanup
+type: module
+description: 'Reconciles DB state after the headless cleanup — removes modules enabled in core.extension without files, and config that references removed plugins. Idempotent, per-environment.'
+package: Unicorn Domain
+core_version_requirement: ^10 || ^11

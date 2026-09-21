@@ -1,0 +1,18 @@
+uuid: 3a85b45a-e5d0-4cfa-84ca-9bd316ca2399
+langcode: el
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.eidi_arthron
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: taxonomy_term.eidi_arthron
+target_entity_type_id: taxonomy_term
+target_bundle: eidi_arthron
+default_langcode: site_default
+language_alterable: true

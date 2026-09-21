@@ -1,0 +1,247 @@
+<?php
+
+use Drupal\Core\Datetime\DrupalDateTime;
+use Drupal\datetime\Plugin\Field\FieldType\DateTimeItemInterface;
+use Drupal\liberal_custom_content\Utils\liberalCustomContentUtils;
+use Drupal\node\NodeInterface;
+
+/**
+ * Implements hook_theme().
+ */
+function liberal_theme_amp_theme($existing, $type, $theme, $path) {
+  return [
+    'amp_skip_link' => [
+      'variables' => [
+        'skiptext' => NULL,
+      ],
+    ],
+  ];
+}
+
+/**
+ * Implements hook_library_info_alter().
+ */
+function liberal_theme_amp_library_info_alter(&$libraries, $extension): void {
+  // This library persists even if listed in libraries-override.
+  // This code will pull it out for good.
+  if ($extension == 'core' && isset($libraries['html5shiv'])) {
+    unset($libraries['html5shiv']);
+  }
+}
+
+function liberal_theme_amp_preprocess_image(&$vars): void {
+  /*
+   * with layout responsive the image needs width & height
+   * loading attribute not needed
+   */
+
+  if (isset($vars['attributes']['layout'])
+      && ($vars['attributes']['layout'] == 'responsive' || $vars['attributes']['layout'] == 'fixed')) {
+    $vars['attributes']['width'] = $vars["width"];
+    $vars['attributes']['height'] = $vars["height"];
+    unset($vars['attributes']['loading']);
+  }
+
+  // change the width and height arbitarilly if the class is related to read more
+  if (isset($vars["attributes"]["class"][0]) && $vars["attributes"]["class"][0] == "article_read_more__item__image") {
+    $vars['attributes']['width'] = 135;
+    $vars['attributes']['height'] = 90;
+    unset($vars['attributes']['loading']);
+  }
+}
+
+function liberal_theme_amp_preprocess_block(&$variables): void {
+  if (!isset($variables['base_path'])) {
+    global $base_path;
+    $variables['base_path'] = $base_path;
+  }
+}
+
+function liberal_theme_amp_preprocess_region(&$variables): void {
+  if (!isset($variables['base_path'])) {
+    global $base_path;
+    $variables['base_path'] = $base_path;
+  }
+
+  if ($variables['region'] == "read_more_articles") {
+    $node = \Drupal::routeMatch()->getParameter('node');
+
+    if ($node instanceof NodeInterface) {
+      if (count($node->get('field_homepage_bullets')->getValue()) > 0) {
+        $variables['rm_print_title'] = TRUE;
+      }
+    }
+  }
+}
+
+/**
+ * @param $variables
+ */
+function liberal_theme_amp_preprocess_node(&$variables): void {
+
+  if (!isset($variables['base_path'])) {
+    global $base_path;
+    $variables['base_path'] = $base_path;
+  }
+
+  if (!isset($variables['base_url'])) {
+    global $base_url;
+    $variables['base_url'] = $base_url;
+  }
+
+  $type = $variables['node']->getType();
+
+  if ($variables['view_mode'] == 'read_more') {
+    $variables['is_promoted_article'] = !empty($variables['elements']['#unicorn_promoted']);
+  }
+
+  if (in_array('article_liberal', ['article_liberal', 'podcast']) && ($variables['view_mode'] == 'amp' || $variables['view_mode'] == 'amp_advertising_article')) {
+
+    // providers to support for sharing. Modify the array as you see fit
+    $icon_width = 24;
+    $icon_height = 24;
+
+    // facebook_app_id. Required by amp-social-share
+    $socials_config = \Drupal::config('liberal_socials_post.settings');
+
+    $providers = [
+      'facebook',
+      'twitter',
+      'email',
+    ];
+
+    $providers_render = [];
+
+    foreach ($providers as $key => $provider) {
+      $providers_render[$key] = [
+        '#type' => 'html_tag',
+        '#tag' => 'amp-social-share',
+        '#attributes' => [
+          'type' => $provider,
+          'class' => ['rounded', 'bw'],
+          'width' => $icon_width,
+          'height' => $icon_height,
+          'data-target' => '_blank',
+          'data-param-url' => $variables['content']['liberal_node_url']['#markup'],
+          'aria-label' => t('Share on %provider', ['%provider' => $provider]),
+        ],
+      ];
+
+      // overrides to default array below
+      switch ($provider) {
+        case 'facebook':
+          $providers_render[$key]['#attributes']['data-param-app_id'] = $socials_config->get('facebook_app_id');
+          break;
+      }
+    }
+
+    $variables['amp_socials'] = $providers_render;
+  }
+
+  $node = $variables['elements']['#node'];
+  $formatter = \Drupal::service('date.formatter');
+  $published_time = $node->getCreatedTime();
+  $variables['liberal_created'] = $formatter->format($published_time, 'custom', 'd/m/Y • H:i');
+  $variables['liberal_created_date'] = $formatter->format($published_time, 'custom', 'd/m');
+  $variables['liberal_created_time'] = $formatter->format($published_time, 'custom', 'H:i');
+  $published_time_compare = $formatter->format($published_time, 'custom', 'd/m/Y');
+  $variables['liberal_created_ad'] = $formatter->format($published_time, 'custom', 'd F Y');
+
+  $variables['liberal_updated_label'] = t('Last Updated');
+
+  if ($node->hasField('field_teleytaia_enimerosi')) {
+    $field_teleytaia_enimerosi = $node->get('field_teleytaia_enimerosi')->first()?->getValue();
+    if (!empty($field_teleytaia_enimerosi)) {
+      $site_timezone = new \DateTimeZone('Europe/Athens');
+      $timezone = new \DateTimeZone(DateTimeItemInterface::STORAGE_TIMEZONE);
+      $datetime = new DrupalDateTime($field_teleytaia_enimerosi['value'], $timezone);
+      $datetime->setTimezone($site_timezone);
+
+      $datetime_flag = liberalCustomContentUtils::isSimpleFormatLastUpdated($published_time_compare, $datetime->format('d/m/Y'));
+      $datetime_format = $datetime_flag ? liberalCustomContentUtils::teleytaiaEnimerosiFormat : 'd/m/Y • H:i';
+      $variables['field_teleytaia_enimerosi'] = $datetime->format($datetime_format);
+    }
+  }
+}
+
+function liberal_theme_amp_preprocess_page(&$variables): void {
+
+  if (isset($variables['node'])) {
+    // Run code only for liberal article node type
+    $type = $variables['node']->getType();
+    $variables['nodeType'] = $type;
+
+    if (in_array('article_liberal', ['article_liberal', 'podcast'])) {
+
+      global $base_url;
+      $variables['base_url'] = $base_url;
+
+      // add no advertisement flag for the page of the node
+      $no_advertisements = $variables['node']->field_no_advertisements->value;
+
+      if (!empty($no_advertisements)) {
+        $variables['liberal']['no_advertisements'] = $no_advertisements;
+      }
+
+      // Check if node has Liberal market article type
+      $isLiberalMarketsArticle = FALSE;
+      $articleTypes = $variables['node']->field_eidos_arthrou->getValue();
+
+      foreach ($articleTypes as $type) {
+        if ($type['target_id'] != NULL && $type['target_id'] == 136) {
+          $isLiberalMarketsArticle = TRUE;
+        }
+      }
+
+      $variables['isLiberalMarketsArticle'] = $isLiberalMarketsArticle;
+    }
+  }
+}
+
+function liberal_theme_amp_preprocess_html(&$variables): void {
+
+  /* if it's an advertising article remove amp-script and amp-next-page as they are
+   * not needed */
+  $node = \Drupal::routeMatch()->getParameter('node');
+  $route_name = \Drupal::routeMatch()->getRouteName();
+  if ($node instanceof NodeInterface && $route_name == 'entity.node.canonical') {
+    $is_advertising = liberalCustomContentUtils::checkIfNodeIsAdvertising($node);
+
+    if ($is_advertising) {
+      $remove_key = array_search('amp/amp.next-page', $variables['page']['#attached']['library']);
+      unset($variables['page']['#attached']['library'][$remove_key]);
+    }
+  }
+
+  // Add skip link render array.
+  $variables['amp_skip_link'] = [
+    '#theme' => 'amp_skip_link',
+    '#skiptext' => t('Skip to main content'),
+  ];
+
+  // remove the toolbar unconditionally
+  if (isset($variables['page_top']['toolbar'])) {
+    unset($variables['page_top']['toolbar']);
+  }
+
+  // Check for a node.
+  $node = \Drupal::routeMatch()->getParameter('node');
+  if ($node instanceof NodeInterface) {
+    // Run code only for liberal article node type
+    $type = $node->getType();
+
+    if (in_array('article_liberal', ['article_liberal', 'podcast'])) {
+      // Check if node has Liberal market article type
+      $isLiberalMarketsArticle = FALSE;
+      $articleTypes = $node->field_eidos_arthrou->getValue();
+
+      foreach ($articleTypes as $type) {
+        if ($type['target_id'] != NULL && $type['target_id'] == 136) {
+          $isLiberalMarketsArticle = TRUE;
+        }
+      }
+
+      $variables['isLiberalMarketsArticle'] = $isLiberalMarketsArticle;
+    }
+  }
+}

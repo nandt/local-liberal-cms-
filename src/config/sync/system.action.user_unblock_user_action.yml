@@ -1,0 +1,13 @@
+uuid: aa9581e8-96f5-4f5b-a775-494cba60d719
+langcode: el
+status: true
+dependencies:
+  module:
+    - user
+_core:
+  default_config_hash: SPsUXsR3Rc8d1y3gewzaAKWa1ncea_ywXX3f7LTn7k0
+id: user_unblock_user_action
+label: 'Άρση αποκλεισμού για τον(υς) επιλεγμένο(υς) χρήστη(ες)'
+type: user
+plugin: user_unblock_user_action
+configuration: {  }

@@ -1,0 +1,20 @@
+uuid: d2a40425-e969-4f7a-94e3-40e96fac8d09
+langcode: en
+status: false
+dependencies:
+  module:
+    - system
+  theme:
+    - liberal_theme
+id: mainpagecontent
+theme: liberal_theme
+region: header
+weight: 0
+provider: null
+plugin: system_main_block
+settings:
+  id: system_main_block
+  label: 'Main page content'
+  provider: system
+  label_display: '0'
+visibility: {  }

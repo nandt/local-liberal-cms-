@@ -1,0 +1,11 @@
+uuid: 68f0c16b-ecee-4e35-ab79-daa76e06e1b1
+langcode: en
+status: true
+dependencies:
+  config:
+    - file_entity.type.potranslations
+id: file.potranslations
+target_entity_type_id: file
+target_bundle: potranslations
+default_langcode: site_default
+language_alterable: false

@@ -1,0 +1,21 @@
+uuid: f0e4a43d-8a54-4c21-9b40-ed2d40023f17
+langcode: el
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_lezanta_fotografias
+field_name: field_lezanta_fotografias
+entity_type: node
+type: string
+settings:
+  max_length: 255
+  case_sensitive: false
+  is_ascii: false
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

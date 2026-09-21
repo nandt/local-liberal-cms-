@@ -1,0 +1,22 @@
+uuid: 8497796e-53d6-43fd-96d1-4ebc95c94d43
+langcode: el
+status: true
+dependencies:
+  config:
+    - node.type.page
+id: node.page.sticky
+field_name: sticky
+entity_type: node
+bundle: page
+label: 'Καρφιτσωμένο στην κορυφή στις λίστες'
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: Ανοικτό
+  off_label: Κλειστό
+field_type: boolean

@@ -1,0 +1,18 @@
+uuid: 32ca4244-a661-4f67-88cf-96c1a3a7dec8
+langcode: el
+status: true
+dependencies:
+  config:
+    - node.type.article
+id: node.article.changed
+field_name: changed
+entity_type: node
+bundle: article
+label: Τροποποιημένο
+description: 'The time that the node was last edited.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

@@ -1,0 +1,20 @@
+uuid: 1344986b-9e67-4003-b5b1-c34024575430
+langcode: el
+status: true
+dependencies:
+  config:
+    - comment.type.comment
+id: comment.comment.name
+field_name: name
+entity_type: comment
+bundle: comment
+label: Όνομα
+description: 'Το όνομα του συντάκτη του σχολίου.'
+required: false
+translatable: false
+default_value:
+  -
+    value: ''
+default_value_callback: ''
+settings: {  }
+field_type: string

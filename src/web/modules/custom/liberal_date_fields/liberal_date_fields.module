@@ -1,0 +1,28 @@
+<?php
+
+use Drupal\node\NodeInterface;
+
+/**
+ * Entity-type specific version of hook_scheduler_publish_process().
+ */
+function liberal_date_fields_scheduler_node_publish_process(NodeInterface $node) {
+  // set a temporary variable to know when scheduler is publishing
+  $node->liberal_scheduler_processed = TRUE;
+
+  // always return 0, we want the default process to continue
+  return 0;
+}
+
+/**
+ * Implements hook_node_presave()
+ */
+
+function liberal_date_fields_node_presave(NodeInterface $node): void {
+  // if we are not in a scheduler save and was unpublished and now it's published
+  if (!isset($node->liberal_scheduler_processed) && empty($node->publish_on->value) &&
+    ($node->isPublished() && $node->getOriginal() !== NULL && !$node->getOriginal()->isPublished())
+      && in_array($node->bundle(), ['article_liberal', 'podcast'])) {
+    $time = \Drupal::time()->getRequestTime();
+    $node->setCreatedTime($time);
+  }
+}

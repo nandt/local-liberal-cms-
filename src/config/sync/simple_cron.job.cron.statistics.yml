@@ -1,0 +1,14 @@
+uuid: 721db773-0112-4275-a711-9ad95a5b45ec
+langcode: el
+status: true
+dependencies:
+  module:
+    - statistics
+id: cron.statistics
+crontab: '*/15 * * * *'
+plugin: cron
+type: statistics
+configuration: {  }
+provider: statistics
+single: false
+weight: 0

@@ -1,0 +1,9 @@
+name: 'Unicorn Sources'
+type: module
+description: 'Validation and deletion safeguards for Article Sources.'
+package: Unicorn
+core_version_requirement: ^11
+dependencies:
+  - drupal:node
+  - drupal:taxonomy
+  - unicorn_core:unicorn_core

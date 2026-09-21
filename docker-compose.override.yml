@@ -1,0 +1,12 @@
+version: "3.4"
+services:
+  drupal:
+    build:
+      target: ${DRUPAL_ENV:-prod}
+      args:
+        STOCKS_APP_WEB_TAG: ${STOCKS_APP_WEB_TAG}
+        DASHBOARD_APP_WEB_TAG: ${DASHBOARD_APP_WEB_TAG}
+    container_name: liberal-cms-drupal
+    image: liberal-cms:latest-${DRUPAL_ENV:-prod}
+    ports: !override
+      - "${DRUPAL_PORT:-8200}:80"

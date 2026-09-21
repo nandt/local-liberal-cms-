@@ -1,0 +1,5 @@
+name: 'Unicorn Query Optimizer'
+type: module
+description: 'Ξαναγράφει το entity query των node listings ώστε να μη χρειάζεται GROUP BY, και εμποδίζει τη MariaDB να διαλέξει index_merge. Ίδια αποτελέσματα, ίδιο API.'
+package: Unicorn
+core_version_requirement: ^10 || ^11

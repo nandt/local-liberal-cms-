@@ -1,0 +1,29 @@
+uuid: 5a802aa0-4c3a-4512-b843-b42b896285e6
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.economy_region_4
+  module:
+    - system
+    - views
+  theme:
+    - liberal_theme
+id: views_block__economy_region_4_block
+theme: liberal_theme
+region: economy_4
+weight: 0
+provider: null
+plugin: 'views_block:economy_region_4-block'
+settings:
+  id: 'views_block:economy_region_4-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

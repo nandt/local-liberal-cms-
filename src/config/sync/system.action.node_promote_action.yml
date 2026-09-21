@@ -1,0 +1,13 @@
+uuid: 9ea185e1-dc23-4dd8-bc36-d602b05a237e
+langcode: el
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: N0RDBTqiK4dKoN4p4oW2j0SGWycdHyALUe9M-Ofp89U
+id: node_promote_action
+label: 'Προβιβασμός περιεχομένου στην αρχική σελίδα'
+type: node
+plugin: node_promote_action
+configuration: {  }

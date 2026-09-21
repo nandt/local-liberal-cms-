@@ -1,0 +1,14 @@
+name: Accelerated Mobile Pages (AMP)
+type: module
+description: Google AMP integration
+core_version_requirement: '^10 || ^11'
+package: AMP
+dependencies:
+  - drupal:image
+  - drupal:node
+  - token:token
+  - schema_metatag:schema_metatag
+test_dependencies:
+  - amptheme:amptheme
+  - adsense:adsense
+configure: amp.settings

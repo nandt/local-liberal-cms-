@@ -1,0 +1,23 @@
+uuid: ef7e0da5-4a9d-4114-91db-30d9e0439401
+langcode: en
+status: true
+dependencies:
+  module:
+    - file
+    - hal
+    - serialization
+    - user
+id: entity.file
+plugin_id: 'entity:file'
+granularity: resource
+configuration:
+  methods:
+    - GET
+    - POST
+    - DELETE
+    - PATCH
+  formats:
+    - hal_json
+    - json
+  authentication:
+    - cookie

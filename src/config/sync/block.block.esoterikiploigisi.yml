@@ -1,0 +1,29 @@
+uuid: c8c16b34-70bf-49df-a4b4-b6c692990721
+langcode: en
+status: true
+dependencies:
+  config:
+    - system.menu.esoteriki-ploigisi
+  module:
+    - system
+  theme:
+    - liberal_theme
+id: esoterikiploigisi
+theme: liberal_theme
+region: inner_navigation
+weight: 0
+provider: null
+plugin: 'system_menu_block:esoteriki-ploigisi'
+settings:
+  id: 'system_menu_block:esoteriki-ploigisi'
+  label: 'Εσωτερική πλοήγηση'
+  label_display: '0'
+  provider: system
+  level: 1
+  depth: 0
+  expand_all_items: false
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

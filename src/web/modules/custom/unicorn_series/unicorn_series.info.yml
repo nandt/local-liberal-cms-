@@ -1,0 +1,9 @@
+name: 'Unicorn Series'
+type: module
+description: 'Validation and deletion safeguards for Video Series.'
+package: Unicorn
+core_version_requirement: ^11
+dependencies:
+  - drupal:node
+  - drupal:taxonomy
+  - unicorn_core:unicorn_core

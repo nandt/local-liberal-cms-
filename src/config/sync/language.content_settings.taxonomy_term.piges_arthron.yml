@@ -1,0 +1,18 @@
+uuid: 220b8228-1cc7-4de0-9b22-c1560de8e1f4
+langcode: el
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.piges_arthron
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: taxonomy_term.piges_arthron
+target_entity_type_id: taxonomy_term
+target_bundle: piges_arthron
+default_langcode: site_default
+language_alterable: true

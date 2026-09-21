@@ -1,0 +1,7 @@
+unicorn_refresh_on_viewable.settings:
+  type: config_object
+  label: 'Unicorn Refresh on Viewable settings'
+  mapping:
+    enabled_home:
+      type: boolean
+      label: 'Refresh on Viewable status for homepage'

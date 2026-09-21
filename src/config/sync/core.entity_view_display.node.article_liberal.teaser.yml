@@ -1,0 +1,79 @@
+uuid: 3e402aff-079f-41a4-b40c-2aae3775e155
+langcode: el
+status: false
+dependencies:
+  config:
+    - core.entity_view_mode.node.teaser
+    - field.field.node.article_liberal.body
+    - field.field.node.article_liberal.field_ad_link_article
+    - field.field.node.article_liberal.field_arthrografos
+    - field.field.node.article_liberal.field_article_region
+    - field.field.node.article_liberal.field_eidos_arthrou
+    - field.field.node.article_liberal.field_emfanisi_arthrografoy_stin
+    - field.field.node.article_liberal.field_energos_ypertitlos
+    - field.field.node.article_liberal.field_homepage_bullets
+    - field.field.node.article_liberal.field_impression_image_url
+    - field.field.node.article_liberal.field_introduction
+    - field.field.node.article_liberal.field_kentriki_fotografia
+    - field.field.node.article_liberal.field_kodikas_impression_image
+    - field.field.node.article_liberal.field_lezanta_fotografias
+    - field.field.node.article_liberal.field_liberal_category
+    - field.field.node.article_liberal.field_liberal_tags
+    - field.field.node.article_liberal.field_metatags
+    - field.field.node.article_liberal.field_metohi
+    - field.field.node.article_liberal.field_pigi_arthroy
+    - field.field.node.article_liberal.field_pigi_fotografias
+    - field.field.node.article_liberal.field_quote
+    - field.field.node.article_liberal.field_show_summary
+    - field.field.node.article_liberal.field_subtitle
+    - field.field.node.article_liberal.field_teleytaia_enimerosi
+    - field.field.node.article_liberal.field_title
+    - field.field.node.article_liberal.field_weight
+    - node.type.article_liberal
+  module:
+    - text
+    - user
+id: node.article_liberal.teaser
+targetEntityType: node
+bundle: article_liberal
+mode: teaser
+content:
+  body:
+    type: text_summary_or_trimmed
+    label: hidden
+    settings:
+      trim_length: 600
+    third_party_settings: {  }
+    weight: 101
+    region: content
+  links:
+    settings: {  }
+    third_party_settings: {  }
+    weight: 100
+    region: content
+hidden:
+  field_ad_link_article: true
+  field_arthrografos: true
+  field_article_region: true
+  field_eidos_arthrou: true
+  field_emfanisi_arthrografoy_stin: true
+  field_energos_ypertitlos: true
+  field_homepage_bullets: true
+  field_impression_image_url: true
+  field_introduction: true
+  field_kentriki_fotografia: true
+  field_kodikas_impression_image: true
+  field_lezanta_fotografias: true
+  field_liberal_category: true
+  field_liberal_tags: true
+  field_metatags: true
+  field_metohi: true
+  field_pigi_arthroy: true
+  field_pigi_fotografias: true
+  field_quote: true
+  field_show_summary: true
+  field_subtitle: true
+  field_teleytaia_enimerosi: true
+  field_title: true
+  field_weight: true
+  langcode: true

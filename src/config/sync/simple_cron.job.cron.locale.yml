@@ -1,0 +1,14 @@
+uuid: 86fe64d1-6f64-41b1-a807-2cf73e77d041
+langcode: el
+status: true
+dependencies:
+  module:
+    - locale
+id: cron.locale
+crontab: '*/15 * * * *'
+plugin: cron
+type: locale
+configuration: {  }
+provider: locale
+single: false
+weight: 0

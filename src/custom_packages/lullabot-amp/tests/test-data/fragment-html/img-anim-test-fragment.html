@@ -1,0 +1,14 @@
+<!-- should transform to amp-anim-->
+<img src="file:///tmp/cat_animation.gif" />
+
+<!-- should transform to amp-img because this gif is not animated -->
+<img src="file:///tmp/dog.gif" />
+
+<!-- should transform to amp-anim-->
+<img src="file:///tmp/ball_animation.png" />
+
+<!-- should transform to amp-img because this png is not animated -->
+<img src="file:///tmp/kitten.jpg" />
+
+<!-- nonexistent image, should refuse to convert to amp-img and delete it -->
+<img src="file:///tmp/nope.jpg" />

@@ -1,0 +1,12 @@
+--- 000-default.conf    2022-09-12 11:58:21.822302549 +0000
++++ 000-default.conf    2022-09-12 12:41:17.085829822 +0000
+@@ -26,6 +26,9 @@
+        # following line enables the CGI configuration for this host only
+        # after it has been globally disabled with "a2disconf".
+        #Include conf-available/serve-cgi-bin.conf
++       SSLProxyEngine on
++       ProxyPassMatch "/sitemap(.*).xml$" "${PROXYPASS}/public/sitemaps/sitemap$1.xml"
++       ProxyPassReverse "/sitemap(.*).xml$" "${PROXYPASS}/public/sitemaps/sitemap$1.xml"
+ </VirtualHost>
+
+ # vim: syntax=apache ts=4 sw=4 sts=4 sr noet

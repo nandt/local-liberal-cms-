@@ -1,0 +1,18 @@
+services:
+  liberal_sitemap_generator.news_sitemap_links:
+    class: Drupal\liberal_sitemap_generator\Services\NewsSitemapLinks
+    arguments: ['@database']
+  liberal_sitemap_generator.articles_sitemap_links:
+    class: Drupal\liberal_sitemap_generator\Services\ArticlesSitemapLinks
+  liberal_sitemap_generator.podcasts_sitemap_links:
+    class: Drupal\liberal_sitemap_generator\Services\PodcastsSitemapLinks
+  liberal_sitemap_generator.index_sitemap_links:
+    class: Drupal\liberal_sitemap_generator\Services\IndexSitemapLinks
+  liberal_sitemap_generator.stocks_sitemap_links:
+    class: Drupal\liberal_sitemap_generator\Services\StocksSitemapLinks
+    arguments: ['@database']
+  liberal_sitemap_generator.indices_sitemap_links:
+    class: Drupal\liberal_sitemap_generator\Services\IndicesSitemapLinks
+    arguments: ['@database']
+  liberal_sitemap_generator.index_xrimatistirio_sitemap_links:
+    class: Drupal\liberal_sitemap_generator\Services\IndexXrimatistirioSitemapLinks

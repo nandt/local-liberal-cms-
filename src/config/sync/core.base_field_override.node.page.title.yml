@@ -1,0 +1,18 @@
+uuid: c8fa1185-c155-4c39-b6ce-9142e9d485f6
+langcode: el
+status: true
+dependencies:
+  config:
+    - node.type.page
+id: node.page.title
+field_name: title
+entity_type: node
+bundle: page
+label: Τίτλος
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

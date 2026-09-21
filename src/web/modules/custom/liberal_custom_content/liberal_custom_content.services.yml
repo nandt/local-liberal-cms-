@@ -1,0 +1,5 @@
+services:
+  liberal_custom_content.twig.podcast_duration_formatter:
+    class: Drupal\liberal_custom_content\TwigExtension\PodcastDurationFormatterExtension
+    tags:
+      - { name: twig.extension }

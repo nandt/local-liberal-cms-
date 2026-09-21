@@ -1,0 +1,6 @@
+unicorn_ai.admin_settings:
+  title: 'Unicorn AI Settings'
+  route_name: unicorn_ai.admin_form
+  description: 'Unicorn AI'
+  parent: system.admin_config_system
+  weight: 100

@@ -1,0 +1,24 @@
+uuid: b549917a-57f6-4d6b-aeca-b849e092bebf
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.featured_region_c
+  module:
+    - views
+  theme:
+    - liberal_theme
+id: views_block__featured_region_c_block
+theme: liberal_theme
+region: featured3
+weight: 0
+provider: null
+plugin: 'views_block:featured_region_c-featured_c'
+settings:
+  id: 'views_block:featured_region_c-featured_c'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility: {  }

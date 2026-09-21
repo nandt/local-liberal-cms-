@@ -1,0 +1,8 @@
+uuid: f1c778c8-c2f4-486d-a865-7c24ca974386
+langcode: en
+status: true
+dependencies: {  }
+name: Regions
+vid: regions
+description: 'Describes regions into theme'
+weight: 0

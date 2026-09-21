@@ -1,0 +1,19 @@
+langcode: el
+status: true
+dependencies: {  }
+id: liberal_custom_content.liberal_markets
+label: /liberal-markets
+tags:
+  description: 'Χρηματιστήριο Αθηνών | Ξένες Αγοράς | Επιχειρήσεις | Εμπορεύματα | Forex | Κρυπτονομίσματα'
+  og_description: 'Χρηματιστήριο Αθηνών | Ξένες Αγοράς | Επιχειρήσεις | Εμπορεύματα | Forex | Κρυπτονομίσματα'
+  og_image: 'https://www.liberal.gr/liberalmarkets/assets/images/lmarkets_black.png'
+  og_site_name: liberal.gr
+  og_title: 'Liberal Markets - Ελεύθερη ενημέρωση'
+  og_type: website
+  og_url: 'https://liberal.gr/liberal-markets'
+  title: 'Liberal Markets | [site:name]'
+  twitter_cards_description: 'Χρηματιστήριο Αθηνών | Ξένες Αγοράς | Επιχειρήσεις | Εμπορεύματα | Forex | Κρυπτονομίσματα'
+  twitter_cards_image: 'https://www.liberal.gr/liberalmarkets/assets/images/lmarkets_black.png'
+  twitter_cards_site: '@LiberalGr'
+  twitter_cards_title: 'Liberal Markets - Ελεύθερη ενημέρωση'
+  twitter_cards_type: summary_large_image

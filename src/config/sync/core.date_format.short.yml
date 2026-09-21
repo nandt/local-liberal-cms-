@@ -1,0 +1,10 @@
+uuid: 29c16b09-5cec-4091-bda1-ce0edb26a89b
+langcode: el
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: AlzeyytA8InBgxIG9H2UDJYs3CG98Zj6yRsDKmlbZwA
+id: short
+label: 'Προεπιλoγή σύντομης ημερομηνίας'
+locked: false
+pattern: 'm/d/Y - H:i'

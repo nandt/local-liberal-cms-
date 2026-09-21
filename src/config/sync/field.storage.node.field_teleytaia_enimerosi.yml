@@ -1,0 +1,20 @@
+uuid: c692e281-4925-4caf-9c26-f4c472158eb2
+langcode: el
+status: true
+dependencies:
+  module:
+    - datetime
+    - node
+id: node.field_teleytaia_enimerosi
+field_name: field_teleytaia_enimerosi
+entity_type: node
+type: datetime
+settings:
+  datetime_type: datetime
+module: datetime
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

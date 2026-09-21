@@ -1,0 +1,574 @@
+<?php
+
+/**
+ * @file
+ * Install / setup hooks για unicorn_api_alterations.
+ *
+ * Όταν γίνεται `drush en unicorn_api_alterations -y` (ή `drush deploy`),
+ * αυτά τα hooks φτιάχνουν αυτόματα ό,τι χρειάζεται για να λειτουργήσει το BFF:
+ *   - OAuth consumer entity (authorization_code grant + redirect URI από env)
+ *   - OAuth RSA keys σε /var/www/html/oauth-keys (an δεν υπάρχουν)
+ *   - Editor role με όλα τα permissions
+ *
+ * Όλα idempotent — re-running είναι safe.
+ */
+
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+
+/**
+ * Implements hook_modules_installed().
+ *
+ * Τρέχει όταν εγκατασταθεί το unicorn_api_alterations ή τα dependencies του.
+ */
+function unicorn_api_alterations_modules_installed($modules): void {
+  // Αν τώρα μόλις εγκαταστάθηκε το simple_oauth ή consumers, στήσε το consumer.
+  if (in_array('simple_oauth', $modules, TRUE) || in_array('consumers', $modules, TRUE)) {
+    _unicorn_api_alterations_setup_oauth_consumer();
+  }
+}
+
+/**
+ * Implements hook_install().
+ */
+function unicorn_api_alterations_install(): void {
+  _unicorn_api_alterations_setup_oauth_consumer();
+  _unicorn_api_alterations_setup_oauth_scope();
+  _unicorn_api_alterations_ensure_feature_fields();
+  _unicorn_api_alterations_ensure_section_entity();
+}
+
+/**
+ * Installs the Section entity type and any base field it is missing.
+ *
+ * Ζούσε μόνο στα update_10002/10003, οπότε σε νέο περιβάλλον το Section δεν
+ * εγκαθίστατο ποτέ — τα update hooks δεν τρέχουν σε fresh install. Idempotent.
+ */
+function _unicorn_api_alterations_ensure_section_entity(): void {
+  $manager = \Drupal::entityDefinitionUpdateManager();
+
+  if ($manager->getEntityType('section') === NULL) {
+    $manager->installEntityType(\Drupal::entityTypeManager()->getDefinition('section'));
+  }
+
+  $base_fields = \Drupal::service('entity_field.manager')->getBaseFieldDefinitions('section');
+  foreach ($base_fields as $name => $definition) {
+    if ($manager->getFieldStorageDefinition($name, 'section') !== NULL) {
+      continue;
+    }
+    assert($definition instanceof \Drupal\Core\Field\FieldStorageDefinitionInterface);
+    $manager->installFieldStorageDefinition($name, 'section', 'unicorn_api_alterations', $definition);
+  }
+}
+
+/**
+ * Setup του "liberal" OAuth2 scope με role granularity.
+ *
+ * Χωρίς granularity, ο Oauth2ScopeProvider::getPermissions() crashes με
+ * "Call to a member function getPermissions() on null" στο /oauth/debug.
+ */
+function _unicorn_api_alterations_setup_oauth_scope(): void {
+  if (!\Drupal::moduleHandler()->moduleExists("simple_oauth")) {
+    return;
+  }
+  $storage = \Drupal::entityTypeManager()->getStorage("oauth2_scope");
+  $scope = $storage->load("liberal");
+  if (!$scope) {
+    $scope = $storage->create([
+      "id" => "liberal",
+      "name" => "liberal",
+      "description" => "Liberal3 default scope — grants authenticated user role",
+      "grant_types" => [
+        "authorization_code" => ["status" => 1],
+        "refresh_token" => ["status" => 1],
+      ],
+    ]);
+  }
+  $scope->set("umbrella", FALSE);
+  $scope->set("granularity_id", "role");
+  $scope->set("granularity_configuration", ["role" => "authenticated"]);
+  $scope->save();
+  \Drupal::logger("unicorn_api_alterations")->info("OAuth2 scope 'liberal' ready (role=authenticated)");
+}
+
+/**
+ * Setup OAuth consumer + RSA keys.
+ *
+ * Reads DRUPAL_CLIENT_ID + DRUPAL_CLIENT_SECRET από env vars που πρέπει να
+ * έχουν τεθεί από docker-compose ή k8s secret.
+ *
+ * Idempotent.
+ */
+function _unicorn_api_alterations_setup_oauth_consumer(): void {
+  if (!\Drupal::moduleHandler()->moduleExists('consumers') ||
+      !\Drupal::moduleHandler()->moduleExists('simple_oauth')) {
+    \Drupal::logger('unicorn_api_alterations')->info('Skipping OAuth setup: simple_oauth/consumers not enabled yet');
+    return;
+  }
+
+  $client_id = getenv('OAUTH_CLIENT_ID') ?: getenv('DRUPAL_CLIENT_ID');
+  $client_secret = getenv('OAUTH_CLIENT_SECRET') ?: getenv('DRUPAL_CLIENT_SECRET');
+
+  if (!$client_id || !$client_secret) {
+    \Drupal::logger('unicorn_api_alterations')
+      ->warning('DRUPAL_CLIENT_ID or DRUPAL_CLIENT_SECRET env vars not set — skipping OAuth consumer setup');
+    return;
+  }
+
+  // OAuth consumer entity
+  try {
+    $storage = \Drupal::entityTypeManager()->getStorage('consumer');
+    $existing = $storage->loadByProperties(['client_id' => $client_id]);
+    if ($existing) {
+      $consumer = reset($existing);
+    }
+    else {
+      $consumer = $storage->create([
+        'label' => 'Liberal3 BFF',
+        'client_id' => $client_id,
+        'is_default' => FALSE,
+        'third_party' => FALSE,
+        'user_id' => 1,
+      ]);
+    }
+    $consumer->set('secret', $client_secret);
+    $consumer->set('confidential', TRUE);
+    // grant_types: τι ροές OAuth μπορεί να κάνει το συγκεκριμένο consumer.
+    //   - authorization_code: browser flow μέσω /oauth/authorize (ACTIVE).
+    //   - refresh_token: ανανέωση tokens χωρίς ξανά login.
+    //   - password (legacy): direct credentials → token. Αν θέλεις rollback
+    //     σε αυτό, πρόσθεσε ['value' => 'password'] εδώ και δες σχετικά
+    //     comments στο liberal-app-web/src/lib/drupal-server.ts.
+    $consumer->set('grant_types', [
+      ['value' => 'authorization_code'],
+      ['value' => 'refresh_token'],
+    ]);
+    // Skip το simple_oauth consent screen — first-party client, redirect
+    // κατευθείαν στο BFF. Αφαίρεσέ το αν θες explicit user consent.
+    if ($consumer->hasField('automatic_authorization')) {
+      $consumer->set('automatic_authorization', TRUE);
+    }
+    $consumer->set('access_token_expiration', 3600);
+    $consumer->set('refresh_token_expiration', 1209600);
+    $redirect_uri = getenv('BFF_OAUTH_REDIRECT_URI')
+    ?: 'http://localhost:3102/api/auth/callback';
+      $consumer->set('redirect', $redirect_uri);
+    $consumer->save();
+    \Drupal::logger('unicorn_api_alterations')->info('OAuth consumer @id ready', ['@id' => $client_id]);
+  }
+  catch (\Exception $e) {
+    \Drupal::logger('unicorn_api_alterations')->error('OAuth consumer setup failed: @msg', ['@msg' => $e->getMessage()]);
+    return;
+  }
+
+  // OAuth RSA keys (filesystem). Path is volume-mounted στο docker-compose.
+  $key_dir = '/var/www/html/oauth-keys';
+  if (!is_dir($key_dir)) {
+    @mkdir($key_dir, 0700, TRUE);
+  }
+
+  if (!file_exists("$key_dir/private.key")) {
+    shell_exec("openssl genrsa -out $key_dir/private.key 4096 2>&1");
+    shell_exec("openssl rsa -in $key_dir/private.key -pubout -out $key_dir/public.key 2>&1");
+  }
+
+  // Σιγουρεύομαι ότι ο www-data μπορεί να τα διαβάσει.
+  shell_exec("chown -R www-data:www-data $key_dir 2>&1");
+  shell_exec("chmod 600 $key_dir/private.key $key_dir/public.key 2>&1");
+
+  // Update simple_oauth.settings paths.
+  $cfg = \Drupal::configFactory()->getEditable('simple_oauth.settings');
+  if (!$cfg->get('public_key')) {
+    $cfg->set('public_key', "$key_dir/public.key");
+  }
+  if (!$cfg->get('private_key')) {
+    $cfg->set('private_key', "$key_dir/private.key");
+  }
+  $cfg->set('access_token_expiration', 3600);
+  $cfg->set('refresh_token_expiration', 1209600);
+  $cfg->save();
+  \Drupal::logger('unicorn_api_alterations')->info('OAuth RSA keys ready στο @dir', ['@dir' => $key_dir]);
+}
+
+
+function unicorn_api_alterations_update_10001() {
+  $db = \Drupal::database();
+  $table = $db->prefixTables('{node_field_data}');
+  $defs = [
+    'uaa_article_recent_changed' => '(type, status, default_langcode, changed)',
+    'uaa_article_recent_created' => '(type, status, default_langcode, created)',
+  ];
+  $created = [];
+  foreach ($defs as $name => $cols) {
+    $exists = $db->query("SHOW INDEX FROM $table WHERE Key_name = :n", [':n' => $name])->fetchField();
+    if (!$exists) {
+      $db->query("CREATE INDEX $name ON $table $cols");
+      $created[] = $name;
+    }
+  }
+  return $created ? 'Created indexes: ' . implode(', ', $created) : 'Indexes already present.';
+}
+
+/**
+ * Install the Section content entity type.
+ */
+function unicorn_api_alterations_update_10002(): void {
+  \Drupal::entityDefinitionUpdateManager()
+    ->installEntityType(\Drupal::entityTypeManager()->getDefinition('section'));
+}
+
+/**
+ * Add image + image_snippet base fields to the Section entity.
+ */
+function unicorn_api_alterations_update_10003(): void {
+  $etm = \Drupal::entityDefinitionUpdateManager();
+  $base_fields = \Drupal::service('entity_field.manager')->getBaseFieldDefinitions('section');
+  foreach (['image', 'image_snippet'] as $name) {
+    if (isset($base_fields[$name]) && !$etm->getFieldStorageDefinition($name, 'section')) {
+      $etm->installFieldStorageDefinition($name, 'section', 'unicorn_api_alterations', $base_fields[$name]);
+    }
+  }
+}
+
+/**
+ * Add Feature fields (internal name, page layout) to the oblations vocabulary (LIBER-4124).
+ */
+function unicorn_api_alterations_update_10004(): string {
+  _unicorn_api_alterations_ensure_feature_fields();
+
+  return 'Added Feature fields (internal name, page layout) to the oblations vocabulary.';
+}
+
+/**
+ * Creates the Feature fields on the oblations term (idempotent).
+ *
+ * A Feature = an oblations term (US 12.2 Create a Feature): an internal
+ * dashboard name and the inner-page layout template.
+ */
+function _unicorn_api_alterations_ensure_feature_fields(): void {
+  if (!FieldStorageConfig::loadByName('taxonomy_term', 'field_ob_internal_name')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_ob_internal_name',
+      'entity_type' => 'taxonomy_term',
+      'type' => 'string',
+      'cardinality' => 1,
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('taxonomy_term', 'oblations', 'field_ob_internal_name')) {
+    FieldConfig::create([
+      'field_name' => 'field_ob_internal_name',
+      'entity_type' => 'taxonomy_term',
+      'bundle' => 'oblations',
+      'label' => 'Title',
+      'required' => FALSE,
+      'settings' => ['max_length' => 250],
+    ])->save();
+  }
+
+  if (!FieldStorageConfig::loadByName('taxonomy_term', 'field_ob_page_layout')) {
+    FieldStorageConfig::create([
+      'field_name' => 'field_ob_page_layout',
+      'entity_type' => 'taxonomy_term',
+      'type' => 'list_string',
+      'cardinality' => 1,
+      'settings' => [
+        'allowed_values' => [],
+        'allowed_values_function' => 'unicorn_api_alterations_feature_page_layouts',
+      ],
+    ])->save();
+  }
+  if (!FieldConfig::loadByName('taxonomy_term', 'oblations', 'field_ob_page_layout')) {
+    FieldConfig::create([
+      'field_name' => 'field_ob_page_layout',
+      'entity_type' => 'taxonomy_term',
+      'bundle' => 'oblations',
+      'label' => 'Feature page layout',
+      'required' => TRUE,
+    ])->save();
+  }
+}
+
+/**
+ * Retarget the Section.feature reference from node to the oblations term (LIBER-4124).
+ */
+function unicorn_api_alterations_update_10005(): void {
+  $etm = \Drupal::entityDefinitionUpdateManager();
+  $installed = $etm->getFieldStorageDefinition('feature', 'section');
+  if ($installed) {
+    $etm->uninstallFieldStorageDefinition($installed);
+  }
+  \Drupal::service('entity_field.manager')->clearCachedFieldDefinitions();
+  $new = \Drupal::service('entity_field.manager')->getBaseFieldDefinitions('section')['feature'];
+  assert($new instanceof \Drupal\Core\Field\FieldStorageDefinitionInterface);
+  $etm->installFieldStorageDefinition('feature', 'section', 'unicorn_api_alterations', $new);
+}
+
+/**
+ * Enables automatic_authorization on the first-party BFF consumer(s) so the
+ * dashboard login skips the OAuth consent screen (LIBER-4249).
+ */
+function unicorn_api_alterations_update_10006(): string {
+  $consumers = \Drupal::entityTypeManager()->getStorage('consumer')->loadByProperties(['third_party' => 0]);
+  $updated = [];
+  foreach ($consumers as $consumer) {
+    if (!$consumer instanceof \Drupal\Core\Entity\FieldableEntityInterface || !$consumer->hasField('automatic_authorization')) {
+      continue;
+    }
+    $consumer->set('automatic_authorization', TRUE);
+    $consumer->save();
+    $updated[] = (string) $consumer->get('client_id')->value;
+  }
+
+  return $updated === []
+    ? 'No first-party consumer found; set automatic_authorization manually.'
+    : sprintf('Enabled automatic_authorization on first-party consumer(s): %s.', implode(', ', $updated));
+}
+
+/**
+ * Installs the Section entity type on environments that never got update_10002.
+ */
+function unicorn_api_alterations_update_10007(): string {
+  _unicorn_api_alterations_ensure_section_entity();
+
+  return 'Ensured the Section entity type and its base fields.';
+}
+
+/**
+ * Moves Sections off the retired small_1 and middle_2 templates (LIBER-4332).
+ */
+function unicorn_api_alterations_update_10008(): string {
+  $map = [
+    'middle_2' => 'apopseis',
+    'small_1' => 'middle_3',
+  ];
+
+  $storage = \Drupal::entityTypeManager()->getStorage('section');
+  $moved = [];
+  foreach ($storage->loadMultiple() as $section) {
+    if (!$section instanceof \Drupal\Core\Entity\FieldableEntityInterface) {
+      continue;
+    }
+    $template = (string) $section->get('template')->value;
+    if (!isset($map[$template])) {
+      continue;
+    }
+    $section->set('template', $map[$template]);
+    $section->save();
+    $moved[] = sprintf('%s: %s → %s', $section->get('internal_name')->value, $template, $map[$template]);
+  }
+
+  return $moved === []
+    ? 'No Section used small_1 or middle_2.'
+    : sprintf('Moved %d Section(s): %s.', count($moved), implode(', ', $moved));
+}
+
+/**
+ * Backfills the mandatory Feature fields on existing oblations (LIBER-4335).
+ */
+function unicorn_api_alterations_update_10009(): string {
+  $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $terms = $storage->loadByProperties(['vid' => 'oblations']);
+  if (!$terms) {
+    return 'No oblations terms found.';
+  }
+
+  $layouts = array_keys(unicorn_api_alterations_feature_page_layouts());
+  $default_layout = $layouts[0] ?? 'big_2';
+
+  $taken = [];
+  foreach ($terms as $term) {
+    if (!$term instanceof \Drupal\Core\Entity\FieldableEntityInterface) {
+      continue;
+    }
+    $name = (string) ($term->get('field_ob_internal_name')->value ?? '');
+    if ($name !== '') {
+      $taken[$name] = TRUE;
+    }
+  }
+
+  $named = 0;
+  $layouted = 0;
+  foreach ($terms as $term) {
+    if (!$term instanceof \Drupal\Core\Entity\FieldableEntityInterface) {
+      continue;
+    }
+
+    $changed = FALSE;
+
+    if ($term->hasField('field_ob_internal_name') && (string) $term->get('field_ob_internal_name')->value === '') {
+      $slug = _unicorn_api_alterations_unique_slug((string) $term->label(), (int) $term->id(), $taken);
+      $taken[$slug] = TRUE;
+      $term->set('field_ob_internal_name', $slug);
+      $named++;
+      $changed = TRUE;
+    }
+
+    if ($term->hasField('field_ob_page_layout') && (string) $term->get('field_ob_page_layout')->value === '') {
+      $term->set('field_ob_page_layout', $default_layout);
+      $layouted++;
+      $changed = TRUE;
+    }
+
+    if ($changed) {
+      $term->save();
+    }
+  }
+
+  return sprintf('Backfilled %d internal names and %d page layouts on %d Features.', $named, $layouted, count($terms));
+}
+
+/**
+ * Flips which Feature field is the unique/mandatory one (US 12.2).
+ *
+ * The title (field_ob_internal_name) becomes optional and may be
+ * duplicated; the base 'name' field becomes the mandatory, unique
+ * identifier instead (enforced by the UniqueFeatureName constraint, see
+ * unicorn_api_alterations_entity_base_field_info_alter()).
+ */
+function unicorn_api_alterations_update_10010(): string {
+  $field = FieldConfig::loadByName('taxonomy_term', 'oblations', 'field_ob_internal_name');
+  if (!$field) {
+    return 'field_ob_internal_name not found; nothing to flip.';
+  }
+  assert($field instanceof FieldConfig);
+
+  $field->setRequired(FALSE);
+  $field->setLabel('Title');
+  $field->save();
+
+  return 'Feature title (field_ob_internal_name) is now optional; the name field is the unique identifier.';
+}
+
+/**
+ * Disambiguates existing Features that already share a name (US 12.2).
+ *
+ * UniqueFeatureName takes effect the moment this module's code deploys —
+ * there's no grace period, since it's a code-based constraint, not stored
+ * config. Any Feature left with a duplicate name would fail to save on its
+ * very next edit, so existing collisions are resolved here first: the
+ * oldest term (lowest tid) in each group keeps its name, the rest get a
+ * " (n)" suffix. Idempotent — re-running finds nothing left to rename.
+ */
+function unicorn_api_alterations_update_10011(): string {
+  $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $terms = $storage->loadByProperties(['vid' => 'oblations']);
+  if (!$terms) {
+    return 'No oblations terms found.';
+  }
+
+  $by_name = [];
+  foreach ($terms as $term) {
+    if (!$term instanceof \Drupal\Core\Entity\FieldableEntityInterface) {
+      continue;
+    }
+    $by_name[mb_strtolower(trim((string) $term->label()))][] = $term;
+  }
+  $taken = array_keys($by_name);
+
+  $renamed = [];
+  foreach ($by_name as $group) {
+    if (count($group) < 2) {
+      continue;
+    }
+    usort($group, fn ($a, $b): int => $a->id() <=> $b->id());
+    array_shift($group);
+
+    foreach ($group as $term) {
+      $base = trim((string) $term->label());
+      $suffix = 2;
+      do {
+        $candidate = sprintf('%s (%d)', $base, $suffix++);
+      } while (in_array(mb_strtolower($candidate), $taken, TRUE));
+      $taken[] = mb_strtolower($candidate);
+
+      $term->set('name', $candidate);
+      $term->save();
+      $renamed[] = sprintf('#%d: "%s" -> "%s"', $term->id(), $base, $candidate);
+    }
+  }
+
+  return $renamed === []
+    ? 'No duplicate Feature names found.'
+    : sprintf('Disambiguated %d duplicate Feature name(s): %s.', count($renamed), implode('; ', $renamed));
+}
+
+/**
+ * Builds a unique, URL-safe internal name for a Feature.
+ *
+ * @param array<string, true> $taken
+ *   Slugs already in use, so the unique constraint never fires.
+ */
+function _unicorn_api_alterations_unique_slug(string $label, int $tid, array $taken): string {
+  $slug = \Drupal::service('transliteration')->transliterate($label, 'el', '-');
+  $slug = strtolower((string) preg_replace('/[^a-zA-Z0-9]+/', '-', $slug));
+  $slug = trim($slug, '-');
+  $slug = substr($slug, 0, 40);
+
+  if ($slug === '') {
+    $slug = 'feature-' . $tid;
+  }
+
+  if (!isset($taken[$slug])) {
+    return $slug;
+  }
+
+  $candidate = $slug . '-' . $tid;
+
+  return isset($taken[$candidate]) ? $candidate . '-' . uniqid() : $candidate;
+}
+
+/**
+ * Re-syncs the stored article_slot of every Section with the template catalog.
+ *
+ * The value is written by hook_section_presave, so sections saved before a
+ * catalog change keep the old number until someone edits them. The home
+ * template went from 22 to 23 slots (LIBER-4545) and every section created for
+ * testing carries the stale figure. Only sections whose stored value actually
+ * differs are saved, so nothing else is touched.
+ */
+function unicorn_api_alterations_update_10012(): string {
+  $slots = array_column(
+    \Drupal\unicorn_api_alterations\Controller\SectionTemplatesController::TEMPLATES,
+    'articleSlots',
+    'id'
+  );
+
+  $storage = \Drupal::entityTypeManager()->getStorage('section');
+  $sections = $storage->loadMultiple();
+
+  if (!$sections) {
+    return 'No sections found.';
+  }
+
+  $fixed = 0;
+  $unknown = [];
+
+  foreach ($sections as $section) {
+    if (!$section instanceof \Drupal\Core\Entity\FieldableEntityInterface) {
+      continue;
+    }
+
+    $template = (string) ($section->get('template')->value ?? '');
+
+    if (!isset($slots[$template])) {
+      $unknown[$template] = TRUE;
+      continue;
+    }
+
+    if ((int) $section->get('article_slot')->value === $slots[$template]) {
+      continue;
+    }
+
+    $section->set('article_slot', $slots[$template]);
+    $section->save();
+    $fixed++;
+  }
+
+  $message = sprintf('Re-synced article_slot on %d of %d sections.', $fixed, count($sections));
+
+  if ($unknown) {
+    $message .= sprintf(' Skipped unknown templates: %s.', implode(', ', array_keys($unknown)));
+  }
+
+  return $message;
+}

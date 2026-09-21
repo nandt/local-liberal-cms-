@@ -1,0 +1,10 @@
+uuid: 56c28784-89cd-43b7-b21d-7c77044e53d7
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.repeated_politic_5
+label: 'Repeated Politic 5'
+targetEntityType: node
+cache: true

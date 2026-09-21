@@ -1,0 +1,13 @@
+uuid: ba4004c2-aca3-40f6-bf26-f923d50d6afd
+langcode: el
+status: true
+dependencies:
+  module:
+    - node
+_core:
+  default_config_hash: LhdsoZPL_pFas2fjaAWue4zvrQ_tEVofLYtcNec-JGM
+id: node_save_action
+label: 'Αποθήκευση περιεχομένου'
+type: node
+plugin: 'entity:save_action:node'
+configuration: {  }

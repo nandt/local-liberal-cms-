@@ -1,0 +1,22 @@
+uuid: 1dd12159-eb7c-46be-a7d6-3b4af542bc6f
+langcode: el
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: btW6TFHajhy7Eo6YUvdFiPh4TcPggo8GBXYctjV6zag
+id: authenticated
+label: 'Πιστοποιημένος χρήστης'
+weight: 1
+is_admin: false
+permissions:
+  - 'access comments'
+  - 'access content'
+  - 'access shortcuts'
+  - 'access site-wide contact form'
+  - 'post comments'
+  - 'search content'
+  - 'skip comment approval'
+  - 'use advanced search'
+  - 'use text format basic_html'
+  - 'view files'
+  - 'view media'

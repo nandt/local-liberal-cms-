@@ -1,0 +1,29 @@
+uuid: f91140a4-8ada-4ec4-9620-54c32658ec27
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.international_region_8
+  module:
+    - system
+    - views
+  theme:
+    - liberal_theme
+id: views_block__international_region_8_block
+theme: liberal_theme
+region: international_8
+weight: 0
+provider: null
+plugin: 'views_block:international_region_8-block'
+settings:
+  id: 'views_block:international_region_8-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

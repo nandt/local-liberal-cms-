@@ -1,0 +1,19 @@
+uuid: 93d05de2-e45d-4d2e-9839-ae001ad4cba6
+langcode: el
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: pq_mEIu_B4widZN7Ap81iCJSjShFFdcL0jEiCi8VrDk
+id: anonymous
+label: 'Ανώνυμος χρήστης'
+weight: 0
+is_admin: false
+permissions:
+  - 'access comments'
+  - 'access content'
+  - 'access site-wide contact form'
+  - 'search content'
+  - 'use advanced search'
+  - 'use text format restricted_html'
+  - 'view files'
+  - 'view media'

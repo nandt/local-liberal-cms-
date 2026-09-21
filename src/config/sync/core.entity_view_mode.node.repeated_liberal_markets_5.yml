@@ -1,0 +1,10 @@
+uuid: 24a601df-e925-4882-965f-1ae73720cdb5
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.repeated_liberal_markets_5
+label: 'Repeated liberal markets 5'
+targetEntityType: node
+cache: true

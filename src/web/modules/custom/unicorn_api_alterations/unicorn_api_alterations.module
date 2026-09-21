@@ -1,0 +1,355 @@
+<?php
+
+use Drupal\Core\Entity\EntityInterface;
+
+// Centralized env reading. Καμία hardcoded URL — όλες οι endpoints
+// orίζονται στο docker-compose.yml ή σε k8s ConfigMaps.
+function _unicorn_api_alterations_required_env(string $name): ?string {
+  $v = getenv($name);
+  if ($v === FALSE || trim($v) === '') {
+    \Drupal::logger('liberal_cache')->error(
+      'Missing required env var: @name. Check docker-compose.yml ή k8s ConfigMap.',
+      ['@name' => $name]
+    );
+    return NULL;
+  }
+  return trim($v);
+}
+
+/**
+ * Allowed values for the Feature page layout field (US 12.2).
+ *
+ * Single source of truth = SectionTemplatesController::TEMPLATES, filtered to
+ * the templates flagged as inner Feature-page layouts. Add a new inner template
+ * there with 'isFeaturePage' => TRUE and it appears here automatically.
+ *
+ * @return array<string, string>
+ */
+function unicorn_api_alterations_feature_page_layouts(): array {
+  $options = [];
+  foreach (\Drupal\unicorn_api_alterations\Controller\SectionTemplatesController::TEMPLATES as $template) {
+    if (!empty($template['isFeaturePage'])) {
+      $options[$template['id']] = $template['label'];
+    }
+  }
+
+  return $options;
+}
+
+function unicorn_api_alterations_entity_insert(EntityInterface $entity): void {
+  _unicorn_api_alterations_revalidate($entity, 'insert');
+}
+
+function unicorn_api_alterations_entity_update(EntityInterface $entity): void {
+  _unicorn_api_alterations_revalidate($entity, 'update');
+}
+
+function unicorn_api_alterations_entity_delete(EntityInterface $entity): void {
+  _unicorn_api_alterations_revalidate($entity, 'delete');
+}
+
+function _unicorn_api_alterations_revalidate(EntityInterface $entity, string $op): void {
+  $type = $entity->getEntityTypeId();
+  $bundle = method_exists($entity, 'bundle') ? $entity->bundle() : $type;
+
+  $watched = ['node', 'taxonomy_term'];
+  if (!in_array($type, $watched, TRUE)) return;
+
+  $next_url = _unicorn_api_alterations_required_env('NEXTJS_REVALIDATE_URL');
+  if (!$next_url) return;
+  $secret = getenv('REVALIDATE_SECRET');
+  if (!$secret) {
+    \Drupal::logger('liberal_cache')->warning('REVALIDATE_SECRET not set, skipping revalidation');
+    return;
+  }
+
+  $tags = _unicorn_api_alterations_compute_tags($entity, $type, $bundle);
+  if (empty($tags)) return;
+
+  $start = microtime(TRUE);
+  $ok_tags = [];
+  $failed_tags = [];
+  $client = \Drupal::httpClient();
+  foreach ($tags as $tag) {
+    try {
+      $res = $client->post($next_url, [
+        'json'    => ['tag' => $tag, 'secret' => $secret],
+        'timeout' => 5,
+      ]);
+      if ($res->getStatusCode() === 200) {
+        $ok_tags[] = $tag;
+      } else {
+        $failed_tags[] = $tag . '(' . $res->getStatusCode() . ')';
+      }
+    } catch (\Throwable $e) {
+      $failed_tags[] = $tag . '(' . substr($e->getMessage(), 0, 40) . ')';
+    }
+  }
+
+  // Enrich tags με ονόματα ώστε τα logs να διαβάζονται χωρίς να φορτώνει εντίτι ο reader.
+  $sections_named = _unicorn_api_alterations_label_section_tags($tags);
+  $term_refs_named = _unicorn_api_alterations_label_term_tags($tags);
+
+  // Triggering user — uid + name. uid=0 σημαίνει anonymous (drush CLI ή unauthenticated).
+  $current_user = \Drupal::currentUser();
+  $user_label = $current_user->getAccountName() ?: 'anonymous';
+  $alias = '';
+  $title = '';
+  if ($type === 'node' && method_exists($entity, 'getTitle')) {
+    $title = $entity->getTitle();
+    try { $alias = $entity->toUrl()->toString(); } catch (\Throwable) {}
+  } elseif ($type === 'taxonomy_term' && method_exists($entity, 'getName')) {
+    $title = $entity->getName();
+  }
+
+  \Drupal::logger('liberal_cache')->info(
+    'revalidate event=@op_event id=@id title="@title" bundle=@bundle ' .
+    'tags=@count ok=@ok fail=@fail ms=@ms ' .
+    'sections=@sections term_refs=@refs ' .
+    'failed_tags=@failed_tags ' .
+    'user=@uid/@uname alias=@alias uuid=@uuid',
+    [
+      '@op_event' => $type . '_' . $op,
+      '@id' => $entity->id(),
+      '@title' => $title,
+      '@uuid' => $entity->uuid(),
+      '@bundle' => $bundle,
+      '@count' => count($tags),
+      '@ok' => count($ok_tags),
+      '@fail' => count($failed_tags),
+      '@ms' => (int) round((microtime(TRUE) - $start) * 1000),
+      '@sections' => $sections_named ?: 'none',
+      '@refs' => $term_refs_named ?: 'none',
+      '@failed_tags' => $failed_tags ? '[' . implode(',', $failed_tags) . ']' : 'none',
+      '@uid' => $current_user->id(),
+      '@uname' => $user_label,
+      '@alias' => $alias ?: 'none',
+    ]
+  );
+}
+
+// Παίρνει tags array και επιστρέφει human-readable section list με term names.
+function _unicorn_api_alterations_label_section_tags(array $tags): string {
+  $section_uuids = [];
+  foreach ($tags as $t) {
+    if (str_starts_with((string) $t, 'home-section:')) {
+      $section_uuids[] = substr((string) $t, strlen('home-section:'));
+    }
+  }
+  if (empty($section_uuids)) return '';
+  $labels = [];
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  foreach ($section_uuids as $uuid) {
+    $matches = $term_storage->loadByProperties(['uuid' => $uuid]);
+    $name = $matches ? reset($matches)->getName() : 'unknown';
+    $labels[] = sprintf('%s(%s)', $name, substr($uuid, 0, 8));
+  }
+  return '[' . implode(',', $labels) . ']';
+}
+
+// Παίρνει tags array και επιστρέφει human-readable term-refs list (cat/author/tag names).
+function _unicorn_api_alterations_label_term_tags(array $tags): string {
+  $term_uuids = [];
+  foreach ($tags as $t) {
+    if (str_starts_with((string) $t, 'term-articles:')) {
+      $term_uuids[] = substr((string) $t, strlen('term-articles:'));
+    }
+  }
+  if (empty($term_uuids)) return '';
+  $labels = [];
+  $term_storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  foreach ($term_uuids as $uuid) {
+    $matches = $term_storage->loadByProperties(['uuid' => $uuid]);
+    if ($matches) {
+      $t = reset($matches);
+      $labels[] = sprintf('%s:%s(%s)', $t->bundle(), $t->getName(), substr($uuid, 0, 8));
+    } else {
+      $labels[] = sprintf('unknown(%s)', substr($uuid, 0, 8));
+    }
+  }
+  return '[' . implode(',', $labels) . ']';
+}
+
+// Surgical tag computation — δες ποιες sections περιέχουν το updated article,
+// invalidate μόνο αυτές + το συγκεκριμένο article. Όχι broad 'articles' tag.
+/**
+ * @return string[]
+ */
+function _unicorn_api_alterations_compute_tags(EntityInterface $entity, string $type, string $bundle): array {
+  $tags = [];
+  if ($type === 'node' && $bundle === 'article_liberal') {
+    $nid = $entity->id();
+    $uuid = $entity->uuid();
+    $tags[] = "article-$nid";
+    $tags[] = "article-uuid-$uuid";
+
+    // Find home sections που περιέχουν αυτό το article (μέσω uuid match)
+    $variants = ['liberal', 'markets'];
+    foreach ($variants as $variant) {
+      $layout = \Drupal::state()->get('liberal.home_page_editor.' . $variant, []);
+      foreach ($layout as $section) {
+        $ids = $section['article_ids'] ?? [];
+        if (in_array($uuid, $ids, TRUE) && !empty($section['uuid'])) {
+          $tags[] = 'home-section:' . $section['uuid'];
+        }
+      }
+    }
+
+    // Taxonomy refs: invalidate κάθε term-articles:{uuid} για category/author/tag refs.
+    // Αυτό εξυπηρετεί τις list pages (/katigories/*, /arthrografoi/*, /etiketes/*).
+    $ref_fields = ['field_liberal_category', 'field_arthrografos', 'field_liberal_tags'];
+    $is_markets = FALSE;
+    foreach ($ref_fields as $field_name) {
+      if (!$entity->hasField($field_name)) continue;
+      $refs = $entity->get($field_name)->referencedEntities();
+      foreach ($refs as $term) {
+        if ($term && $term->uuid()) {
+          $tags[] = 'term-articles:' . $term->uuid();
+          // ΑΓΟΡΕΣ category (tid=9) τροφοδοτεί το markets widget στο home — invalidate ξεχωριστά.
+          if ($field_name === 'field_liberal_category' && (int) $term->id() === 9) {
+            $is_markets = TRUE;
+          }
+        }
+      }
+    }
+    if ($is_markets) {
+      $tags[] = 'markets-feed';
+    }
+  } elseif ($type === 'taxonomy_term') {
+    $tid = $entity->id();
+    $uuid = $entity->uuid();
+    $tags[] = "taxonomy-$bundle";
+    $tags[] = "term-$tid";
+    $tags[] = "term-uuid-$uuid";
+  }
+  return $tags;
+}
+
+// Όταν αλλάζει το home layout state → invalidate home-section tags + home root
+function unicorn_api_alterations_home_layout_saved(string $variant, array $sections): void {
+  $next_url = _unicorn_api_alterations_required_env('NEXTJS_REVALIDATE_URL');
+  if (!$next_url) return;
+  $secret = getenv('REVALIDATE_SECRET');
+  if (!$secret) return;
+
+  $tags = ['home', 'home-layout-' . $variant];
+  $section_uuids = [];
+  foreach ($sections as $section) {
+    if (!empty($section['uuid'])) {
+      $tags[] = 'home-section:' . $section['uuid'];
+      $section_uuids[] = $section['uuid'];
+    }
+  }
+
+  $start = microtime(TRUE);
+  $ok_tags = [];
+  $failed_tags = [];
+  $client = \Drupal::httpClient();
+  foreach ($tags as $tag) {
+    try {
+      $res = $client->post($next_url, [
+        'json'    => ['tag' => $tag, 'secret' => $secret],
+        'timeout' => 5,
+      ]);
+      if ($res->getStatusCode() === 200) {
+        $ok_tags[] = $tag;
+      } else {
+        $failed_tags[] = $tag . '(' . $res->getStatusCode() . ')';
+      }
+    } catch (\Throwable $e) {
+      $failed_tags[] = $tag . '(' . substr($e->getMessage(), 0, 40) . ')';
+    }
+  }
+
+  $current_user = \Drupal::currentUser();
+  $user_label = $current_user->getAccountName() ?: 'anonymous';
+
+  $sections_named = _unicorn_api_alterations_label_section_tags($tags);
+
+  \Drupal::logger('liberal_cache')->info(
+    'home_layout event=layout_saved variant=@variant section_count=@count ' .
+    'tags=@tag_count ok=@ok fail=@fail ms=@ms ' .
+    'sections=@sections failed_tags=@failed_tags user=@uid/@uname',
+    [
+      '@variant' => $variant,
+      '@count' => count($sections),
+      '@tag_count' => count($tags),
+      '@ok' => count($ok_tags),
+      '@fail' => count($failed_tags),
+      '@ms' => (int) round((microtime(TRUE) - $start) * 1000),
+      '@sections' => $sections_named ?: 'none',
+      '@failed_tags' => $failed_tags ? '[' . implode(',', $failed_tags) . ']' : 'none',
+      '@uid' => $current_user->id(),
+      '@uname' => $user_label,
+    ]
+  );
+}
+
+/**
+ * Implements hook_entity_base_field_info_alter().
+ *
+ * The Feature title (US 12.2) must be unique across Features.
+ *
+ * @param \Drupal\Core\Field\FieldDefinitionInterface[] $fields
+ */
+function unicorn_api_alterations_entity_base_field_info_alter(array &$fields, \Drupal\Core\Entity\EntityTypeInterface $entity_type): void {
+  if ($entity_type->id() === 'taxonomy_term' && isset($fields['name'])) {
+    $fields['name']->addConstraint('UniqueFeatureName');
+  }
+}
+
+/**
+ * Implements hook_ENTITY_TYPE_presave() for section entities.
+ *
+ * Παράγει το article_slot από το templates catalog και, για Feature sections,
+ * αντιγράφει name/internal_name/image/link από το συνδεδεμένο Feature — US 3.2.
+ */
+function unicorn_api_alterations_section_presave(\Drupal\Core\Entity\EntityInterface $entity): void {
+  $templates = \Drupal\unicorn_api_alterations\Controller\SectionTemplatesController::TEMPLATES;
+  $slots = array_column($templates, 'articleSlots', 'id');
+  $template = (string) $entity->get('template')->value;
+  $entity->set('article_slot', $slots[$template] ?? 0);
+
+  if (!$entity instanceof \Drupal\Core\Entity\FieldableEntityInterface) {
+    return;
+  }
+
+  $feature_templates = array_column(array_filter($templates, fn(array $t): bool => !empty($t['isFeature'])), 'id');
+  $feature_id = $entity->get('feature')->target_id;
+  if ($feature_id && in_array($template, $feature_templates, TRUE)) {
+    $term = \Drupal::entityTypeManager()->getStorage('taxonomy_term')->load($feature_id);
+    if ($term instanceof \Drupal\taxonomy\TermInterface && $term->bundle() === 'oblations') {
+      $entity->set('display_name', $term->label());
+      $internal = $term->get('field_ob_internal_name')->value;
+      if ($internal) {
+        $entity->set('internal_name', $internal);
+      }
+      if (!$term->get('field_ob_banner')->isEmpty()) {
+        $entity->set('image', $term->get('field_ob_banner')->getValue());
+      }
+      $entity->set('link', _unicorn_api_alterations_feature_url($term));
+    }
+  }
+}
+
+/**
+ * Returns the preserved liberal.gr URL of a Feature.
+ *
+ * The alias sits under the legacy /oblation/{tid} system path, so Url::fromRoute
+ * on the canonical term route never resolves it and would emit /taxonomy/term/{tid}.
+ */
+function _unicorn_api_alterations_feature_url(\Drupal\taxonomy\TermInterface $term): string {
+  $legacy_path = '/oblation/' . $term->id();
+
+  $alias = \Drupal::database()->select('path_alias', 'a')
+    ->fields('a', ['alias'])
+    ->condition('a.path', $legacy_path)
+    ->condition('a.langcode', [$term->language()->getId(), 'und'], 'IN')
+    ->condition('a.status', 1)
+    ->orderBy('a.id', 'DESC')
+    ->range(0, 1)
+    ->execute()
+    ?->fetchField();
+
+  return $alias ?: $legacy_path;
+}

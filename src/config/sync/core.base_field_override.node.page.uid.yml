@@ -1,0 +1,20 @@
+uuid: e31e1bd2-9641-46b4-a934-a860cd5cc819
+langcode: el
+status: true
+dependencies:
+  config:
+    - node.type.page
+id: node.page.uid
+field_name: uid
+entity_type: node
+bundle: page
+label: 'Συντάχθηκε από'
+description: 'Το όνομα χρήστη του συντάκτη περιεχομένου.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: 'Drupal\node\Entity\Node::getDefaultEntityOwner'
+settings:
+  handler: default
+  handler_settings: {  }
+field_type: entity_reference

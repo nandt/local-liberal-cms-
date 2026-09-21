@@ -1,0 +1,13 @@
+--- a/src/Utility/KlaroHelper.php	2024-11-26 21:26:13.781969506 +0800
++++ b/src/Utility/KlaroHelper.php	2024-11-26 21:26:28.291249603 +0800
+@@ -287,6 +287,10 @@
+     $translations['consentNotice']['privacyPolicy']['name'] = $translations['consentModal']['privacyPolicy']['name'];
+     unset($translations['_core'], $translations['langcode']);
+ 
++    if($langcode == "el") {
++      $translations['purposeItem'] = ['service' => 'Κατηγορία', 'services' => 'Κατηγορίες'];
++    }
++
+     $settings['config']['translations'][$langcode] = $translations;
+     $settings['config']['translations'][$langcode]['privacyPolicy'] = $translations['consentModal']['privacyPolicy'];
+     $settings['config']['translations'][$langcode]['purposes'] = $this->optionPurposes();

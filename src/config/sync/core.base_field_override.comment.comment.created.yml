@@ -1,0 +1,18 @@
+uuid: 8752f623-3d52-47c3-a879-0c4b51026eb9
+langcode: el
+status: true
+dependencies:
+  config:
+    - comment.type.comment
+id: comment.comment.created
+field_name: created
+entity_type: comment
+bundle: comment
+label: Created
+description: 'Η ώρα που το σχόλιο δημιουργήθηκε.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

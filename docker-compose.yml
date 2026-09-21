@@ -1,0 +1,145 @@
+version: "3.4"
+services:
+  drupal:
+    container_name: liberal-cms-drupal
+    ports:
+       - "${DRUPAL_PORT:-8015}:8080"
+    environment:
+      DRUPAL_TRUSTED_HOST: ${DRUPAL_TRUSTED_HOST:-localhost}
+      DRUPAL_ENV: ${DRUPAL_ENV:-prod}
+      MARIADB_HOST: ${MARIADB_HOST:-mariadb}
+      MARIADB_PORT: ${MARIADB_PORT:-3306}
+      MARIADB_PREFIX: ${MARIADB_PREFIX:-lib_}
+      MARIADB_DATABASE: ${MARIADB_DATABASE:-liberal}
+      MARIADB_USER: ${MARIADB_USER:-liberal}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD:-liberal}
+      HASH_SALT: ${HASH_SALT:-drupal_hash}
+      CONFIG_SYNC_DIRECTORY: ${CONFIG_SYNC_DIRECTORY:-../config/sync}
+      AWS_ACCESS_KEY_ID: ${AWS_ACCESS_KEY_ID:-test}
+      AWS_SECRET_ACCESS_KEY: ${AWS_SECRET_ACCESS_KEY:-test}
+      BUCKET_NAME: ${BUCKET_NAME:-test}
+      S3_REGION: ${S3_REGION:-test}
+      S3_USE_FOR_PUBLIC_FOLDER: ${S3_USE_FOR_PUBLIC_FOLDER:-FALSE}
+      S3_USE_FOR_PRIVATE_FOLDER: ${S3_USE_FOR_PRIVATE_FOLDER:-FALSE}
+      ERROR_LEVEL: ${ERROR_LEVEL:-hidden}
+      INBROKER_POST_URL: ${INBROKER_POST_URL:-""}
+      INBROKER_USERNAME: ${INBROKER_USERNAME:-""}
+      INBROKER_SESSIONID: ${INBROKER_SESSIONID:-""}
+      INBROKER_COMPANY: ${INBROKER_COMPANY:-""}
+      INBROKER_LANG: ${INBROKER_LANG:-""}
+      INBROKER_MARKET: ${INBROKER_MARKET:-""}
+      INBROKER_TYPE: ${INBROKER_TYPE:-""}
+      BASE_URL: http://localhost
+      PROXYPASS: https://static-staging-liberal.unicorndomain.gr
+      INTERNAL_URL: http://localhost
+      LIBERAL_APP_HOST_URL: https://develop.unicorndomain.gr
+      STOCKS_APP_HOST_URL: https://develop.unicorndomain.gr
+      STOCKSDB_HOSTNAME: ${STOCKSDB_HOSTNAME}
+      STOCKSDB_USERNAME: ${STOCKSDB_USERNAME}
+      STOCKSDB_PWD: ${STOCKSDB_PWD}
+      STOCKSDB_DB: ${STOCKSDB_DB}
+      DRUSH_OPTIONS_URI: ${DRUSH_OPTIONS_URI:-https://develop.unicorndomain.gr}
+      ENABLE_CORS: ${ENABLE_CORS:-false}
+      SENTRY_DSN: ${SENTRY_DSN}
+      PROMOTED_BLOCK_CACHE_AGE: 300
+      REDIS_HOST: ${REDIS_HOST_INTERNAL:-redis}
+      REDIS_PORT_INTERNAL: ${REDIS_PORT_INTERNAL:-6379}
+      REDIS_QUEUE_PROCESS_LIMIT: 200
+      NO_INDEX: true
+    depends_on:
+      - mariadb
+      - apachesolr
+      - redis
+    networks:
+      - liberal-net
+      - liberal-stocks
+  mariadb:
+    image: mariadb:10.11
+    container_name: liberal-cms-mariadb
+    ports:
+      - "${MARIADB_BIND_PORT:-3308}:3306"
+    environment:
+      MARIADB_DATABASE: ${MARIADB_DATABASE:-liberal}
+      MARIADB_USER: ${MARIADB_USER:-liberal}
+      MARIADB_PASSWORD: ${MARIADB_PASSWORD:-liberal}
+      MARIADB_ROOT_PASSWORD: ${MARIADB_PASSWORD:-liberal}
+    volumes:
+      - type: volume
+        source: liberal
+        target: /var/lib/mysql
+      - type: bind
+        source: ${MARIADB_INIT_SOURCE:-./backup.liberal.gr/liberal_drupal_dev.sql}
+        target: /docker-entrypoint-initdb.d/liberal_drupal_dev.sql
+      - type: bind
+        source: ./ci/max_allowed_packet.cnf
+        target: /etc/mysql/conf.d/max_allowed_packet.cnf
+    networks:
+      - liberal-net
+  apachesolr:
+    image: solr:9.8
+    container_name: liberal-cms-solr
+    ports:
+      - "8983:8983"
+    environment:
+      SOLR_MODULES: "analysis-extras"
+    volumes:
+      - solr_data:/var/solr
+      - ./solr-config:/opt/solr/server/solr/configsets/liberalconfig/conf
+    command: >
+      bash -c "docker-entrypoint.sh solr start;
+      solr create -c liberal_1 -d liberalconfig;
+      solr restart -f"
+    networks:
+      - liberal-net
+  varnish:
+    image: varnish:6.0.13
+    container_name: liberal-cms-varnish
+    networks:
+      - liberal-net
+    ports:
+      - "8090:80"
+    tmpfs:
+      - /var/lib/varnish:exec
+    command: >
+      varnishd -F
+      -a :80
+      -f /etc/varnish/default.vcl
+      -s malloc,1g
+      -p http_resp_hdr_len=20480
+      -p http_resp_size=45056
+      -p default_ttl=31536000
+    volumes:
+      - ./varnish-config:/etc/varnish
+    depends_on:
+      - drupal
+  redis:
+    image: redis:7.4
+    container_name: liberal-cms-redis
+    expose:
+      - "6379"
+    command: redis-server --maxmemory 1024mb --maxmemory-policy allkeys-lru
+    volumes:
+      - liberal_redis:/data
+    networks:
+      - liberal-net
+  redisinsight:
+    image: redis/redisinsight:latest
+    container_name: liberal-cms-redisinsight
+    ports:
+      - "${REDISINSIGHT_PORT:-5540}:5540"
+    volumes:
+      - liberal_redisinsight:/data
+    depends_on:
+      - redis
+    networks:
+      - liberal-net
+networks:
+  liberal-net:
+  liberal-stocks:
+    name: docker_liberal-stocks-net
+    external: true
+volumes:
+  liberal:
+  solr_data:
+  liberal_redis:
+  liberal_redisinsight:

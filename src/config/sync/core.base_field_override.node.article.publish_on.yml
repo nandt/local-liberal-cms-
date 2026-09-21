@@ -1,0 +1,18 @@
+uuid: 7887b853-a517-44e9-9029-4168551ab7d5
+langcode: en
+status: true
+dependencies:
+  config:
+    - node.type.article
+id: node.article.publish_on
+field_name: publish_on
+entity_type: node
+bundle: article
+label: 'Publish on'
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: timestamp

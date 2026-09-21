@@ -1,0 +1,7 @@
+name: 'Unicorn Preview Nodes'
+type: module
+description: 'Scoped view access to a single unpublished node for the headless Next.js preview (per-request, no node-access grants, no rebuild).'
+package: Unicorn
+core_version_requirement: ^10 || ^11
+dependencies:
+  - drupal:basic_auth

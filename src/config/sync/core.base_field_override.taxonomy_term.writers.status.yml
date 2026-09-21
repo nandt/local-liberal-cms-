@@ -1,0 +1,22 @@
+uuid: 8d2687a6-f9ec-40b8-86d7-d7cec5e111f7
+langcode: el
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.writers
+id: taxonomy_term.writers.status
+field_name: status
+entity_type: taxonomy_term
+bundle: writers
+label: Δημοσιευμένο
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Ανοικτό
+  off_label: Κλειστό
+field_type: boolean

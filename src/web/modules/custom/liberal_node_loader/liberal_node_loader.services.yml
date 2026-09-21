@@ -1,0 +1,4 @@
+services:
+  liberal_node_loader.get_loading_nids:
+    class: Drupal\liberal_node_loader\Services\GetLoadingNids
+    arguments: ['@database']

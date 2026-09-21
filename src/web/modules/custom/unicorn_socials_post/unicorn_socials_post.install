@@ -1,0 +1,10 @@
+<?php
+
+use Drupal\unicorn_socials_post\Schema\Schema;
+
+/**
+ * @return array<string, mixed>
+ */
+function unicorn_socials_post_schema(): array {
+    return Schema::make()->getSchema();
+}

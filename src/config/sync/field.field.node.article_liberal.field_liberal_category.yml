@@ -1,0 +1,29 @@
+uuid: 650181f8-98bb-4ccc-9bf8-e714985112ce
+langcode: el
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_liberal_category
+    - node.type.article_liberal
+    - taxonomy.vocabulary.category
+id: node.article_liberal.field_liberal_category
+field_name: field_liberal_category
+entity_type: node
+bundle: article_liberal
+label: 'Liberal Category'
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:taxonomy_term'
+  handler_settings:
+    target_bundles:
+      category: category
+    sort:
+      field: name
+      direction: asc
+    auto_create: false
+    auto_create_bundle: ''
+field_type: entity_reference

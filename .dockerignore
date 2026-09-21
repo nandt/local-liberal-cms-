@@ -1,0 +1,7 @@
+migration
+backup.liberal.gr
+src/vendor
+src/web/modules/custom/liberal_dashboard_app/dist
+src/web/modules/custom/liberal_dashboard_app/react_app/node_modules
+src/web/themes/custom/liberal_theme/node_modules
+src/web/themes/custom/liberal_theme/xaa_react_app/node_modules

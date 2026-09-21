@@ -1,0 +1,163 @@
+name: Liberal Theme AMP
+type: theme
+base theme: false
+# This is a subtheme of the AMP theme, so most of the work is already done.
+description: Liberal Theme for AMP
+package: Custom
+core_version_requirement: ^10 || ^11
+
+# Every AMP theme should include the amp/runtime library.
+libraries:
+  - amp/runtime
+  - liberal_theme_amp/base
+  - amp/amp.social-share
+  - amp/amp.ad
+  - amp/amp.next-page
+  - amp/amp.analytics
+  - amp/amp.iframe
+
+# Remove all the core libraries that add javascript.
+# Subthemes also need to remove js libraries from applicable contrib modules
+# and override css not needed by the AMP pages to reduce css size.
+libraries-override:
+  core/backbone: false
+  core/classList: false
+  core/ckeditor: false
+  core/domready: false
+  core/drupal: false
+  core/drupalSettings: false
+  core/drupal.active-link: false
+  core/drupal.ajax: false
+  core/drupal.announce: false
+  core/drupal.autocomplete: false
+  core/drupal.batch: false
+  core/drupal.collapse: false
+  core/drupal.date: false
+  core/drupal.debounce: false
+  core/drupal.dialog: false
+  core/drupal.dialog.ajax: false
+  core/drupal.dialog.off_canvas: false
+  core/drupal.displace: false
+  core/drupal.dropbutton: false
+  core/drupal.entity-form: false
+  core/drupal.form: false
+  core/drupal.machine-name: false
+  core/drupal.progress: false
+  core/drupal.states: false
+  core/drupal.tabbingmanager: false
+  core/drupal.tabledrag: false
+  core/drupal.tableheader: false
+  core/drupal.tableresponsive: false
+  core/drupal.tableselect: false
+  core/drupal.timezone: false
+  core/drupal.vertical-tabs: false
+  core/html5shiv: false
+  core/jquery: false
+  core/jquery.cookie: false
+  core/jquery.farbtastic: false
+  core/jquery.form: false
+  core/jquery.joyride: false
+  core/jquery.once: false
+  core/jquery.ui: false
+  core/jquery.ui.autocomplete: false
+  core/jquery.ui.datepicker: false
+  core/jquery.ui.dialog: false
+  core/jquery.ui.draggable: false
+  core/jquery.ui.mouse: false
+  core/jquery.ui.position: false
+  core/jquery.ui.resizable: false
+  core/jquery.ui.sortable: false
+  core/jquery.ui.touch-punch: false
+  core/jquery.ui.widget: false
+  core/matchmedia: false
+  core/matchmedia.addListener: false
+  core/modernizr: false
+  core/picturefill: false
+  core/underscore: false
+  big_pipe/big_pipe: false
+  block/drupal.block: false
+  block/drupal.block.admin: false
+  book/drupal.book: false
+  ckeditor/drupal.ckeditor: false
+  ckeditor/drupal.ckeditor.plugins.drupalimagecaption: false
+  ckeditor/drupal.ckeditor.plugins.language: false
+  ckeditor/drupal.ckeditor.admin: false
+  ckeditor/drupal.ckeditor.drupalimage.admin: false
+  ckeditor/drupal.ckeditor.stylescombo.admin: false
+  ckeditor/drupal.ckeditor.language.admin: false
+  color/drupal.color: false
+  color/drupal.color.preview: false
+  comment/drupal.comment: false
+  comment/drupal.comment-by-viewer: false
+  comment/drupal.comment-new-indicator: false
+  comment/drupal.node-new-comments-link: false
+  content_translation/drupal.content_translation.admin: false
+  contextual/drupal.contextual-links: false
+  contextual/drupal.contextual-toolbar: false
+  editor/drupal.editor.admin: false
+  editor/drupal.editor: false
+  editor/drupal.editor.dialog: false
+  editor/quickedit.inPlaceEditor.formattedText: false
+  field_ui/drupal.field_ui: false
+  file/drupal.file: false
+  filter/drupal.filter.admin: false
+  filter/drupal.filter.filter_html.admin: false
+  filter/drupal.filter: false
+  history/api: false
+  history/mark-as-read: false
+  image/quickedit.inPlaceEditor.image: false
+  language/drupal.language.admin: false
+  layout/drupal.layout_builder: false
+  locale/drupal.locale.admin: false
+  locale/drupal.locale.datepicker: false
+  locale/translations: false
+  media/form: false
+  media/type_form: false
+  menu_ui/drupal.menu_ui: false
+  menu_ui/drupal.menu_ui.admin: false
+  node/drupal.node: false
+  node/drupal.node.preview: false
+  node/drupal.content_types: false
+  path/drupal.path: false
+  quickedit/quickedit: false
+  quickedit/quickedit.inPlaceEditor.form: false
+  quickedit/quickedit.inPlaceEditor.plainText: false
+  responsive_image/ajax: false
+  settings_tray/drupal.settings_tray: false
+  shortcut/drupal.shortcut: false
+  simpletest/drupal.simpletest: false
+  statistics/drupal.statistics: false
+  system/drupal.system: false
+  system/drupal.system.modules: false
+  system/drupal.system.date: false
+  taxonomy/drupal.taxonomy: false
+  text/drupal.text: false
+  toolbar/toolbar: false
+  toolbar/toolbar.menu: false
+  toolbar/toolbar.escapeAdmin: false
+  tour/tour: false
+  tour/tour-styling: false
+  tracker/history: false
+  user/drupal.user: false
+  user/drupal.user.permissions: false
+  views/views.ajax: false
+  views_ui/views_ui.admin: false
+  views_ui/views_ui.listing: false
+  core/js-cookie: false
+  core/once: false
+  toolbar/toolbar.anti-flicker: false
+  system/base: false
+  google_tag/gtm: false
+  google_tag/gtag: false
+  google_tag/gtag.ajax: false
+  raven/raven: false
+  klaro/library: false
+  klaro/klaro: false
+  klaro/klaro-override: false
+
+regions:
+  header: Header
+  navigation: Κεντρικό μενού
+  content: Content
+  read_more_articles: Read More Articles
+  footer: Footer

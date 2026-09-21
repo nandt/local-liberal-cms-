@@ -1,0 +1,22 @@
+uuid: 9997fd6a-971b-4947-a447-118ae7b1de9b
+langcode: el
+status: false
+dependencies:
+  module:
+    - system
+  theme:
+    - liberal_theme
+_core:
+  default_config_hash: KHQIJ7Vfl25lTjzIc7qIvnuistt-Mw2O0kG4jCofmkI
+id: liberal_theme_messages
+theme: liberal_theme
+region: navigation
+weight: 0
+provider: null
+plugin: system_messages_block
+settings:
+  id: system_messages_block
+  label: 'Μηνύματα κατάστασης'
+  label_display: '0'
+  provider: system
+visibility: {  }

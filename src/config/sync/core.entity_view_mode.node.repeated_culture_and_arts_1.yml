@@ -1,0 +1,10 @@
+uuid: 3ac9b9ab-70b1-40f6-88c8-60ca17847243
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.repeated_culture_and_arts_1
+label: 'Repeated Culture and arts 1'
+targetEntityType: node
+cache: true

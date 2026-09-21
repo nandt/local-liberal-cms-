@@ -1,0 +1,8 @@
+name: Unicorn AI
+description: AI Functionality
+package: Unicorn Domain
+type: module
+version: 1.0.0
+dependencies:
+  - unicorn_core:unicorn_core
+core_version_requirement: ^11

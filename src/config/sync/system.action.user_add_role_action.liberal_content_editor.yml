@@ -1,0 +1,14 @@
+uuid: 31aad269-8d91-4a85-b24c-56791d19fb0a
+langcode: el
+status: true
+dependencies:
+  config:
+    - user.role.liberal_content_editor
+  module:
+    - user
+id: user_add_role_action.liberal_content_editor
+label: 'Add the Content Editor role to the selected user(s)'
+type: user
+plugin: user_add_role_action
+configuration:
+  rid: liberal_content_editor

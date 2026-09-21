@@ -1,0 +1,11 @@
+name: Unicorn Advertising Tools
+description: Unicorn Advertising Tools Plugin
+package: Unicorn Domain
+dependencies:
+  - unicorn_core:unicorn_core
+  - drupal:jsonapi
+  - drupal:node
+  - jsonapi_resources:jsonapi_resources
+type: module
+version: 1.0.0
+core_version_requirement: '^10 || ^11'

@@ -1,0 +1,33 @@
+uuid: 97dde540-d1b8-48df-ad30-b0d94076c1d2
+langcode: el
+status: true
+dependencies:
+  config:
+    - field.field.taxonomy_term.arthrografos.field_author_profile
+    - taxonomy.vocabulary.arthrografos
+  module:
+    - image
+    - text
+id: taxonomy_term.arthrografos.default
+targetEntityType: taxonomy_term
+bundle: arthrografos
+mode: default
+content:
+  description:
+    type: text_default
+    label: hidden
+    settings: {  }
+    third_party_settings: {  }
+    weight: 0
+    region: content
+  field_author_profile:
+    type: image
+    label: above
+    settings:
+      image_link: ''
+      image_style: ''
+    third_party_settings: {  }
+    weight: 1
+    region: content
+hidden:
+  langcode: true

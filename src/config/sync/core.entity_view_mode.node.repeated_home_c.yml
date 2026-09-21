@@ -1,0 +1,10 @@
+uuid: abc04a08-a50f-4108-b0ef-3c9e7a6dce41
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.repeated_home_c
+label: 'Repeated Home C'
+targetEntityType: node
+cache: true

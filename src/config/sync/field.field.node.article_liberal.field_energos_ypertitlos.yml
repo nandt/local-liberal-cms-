@@ -1,0 +1,23 @@
+uuid: 06724924-2fd9-4a48-adc0-e404ed45f198
+langcode: el
+status: true
+dependencies:
+  config:
+    - field.storage.node.field_energos_ypertitlos
+    - node.type.article_liberal
+id: node.article_liberal.field_energos_ypertitlos
+field_name: field_energos_ypertitlos
+entity_type: node
+bundle: article_liberal
+label: 'Ενεργός Υπέρτιτλος'
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: '1'
+  off_label: '0'
+field_type: boolean

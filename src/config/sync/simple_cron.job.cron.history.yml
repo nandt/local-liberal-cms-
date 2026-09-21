@@ -1,0 +1,14 @@
+uuid: df43a35e-1c7a-4957-a628-95060b4d11a9
+langcode: el
+status: true
+dependencies:
+  module:
+    - history
+id: cron.history
+crontab: '*/15 * * * *'
+plugin: cron
+type: history
+configuration: {  }
+provider: history
+single: false
+weight: 0

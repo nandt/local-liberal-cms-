@@ -1,0 +1,20 @@
+uuid: c0ec9bcd-8da9-4b78-a40e-348aff0fd09e
+langcode: el
+status: true
+dependencies:
+  module:
+    - file
+    - hal
+    - serialization
+    - user
+id: file.upload
+plugin_id: 'file:upload'
+granularity: resource
+configuration:
+  methods:
+    - POST
+  formats:
+    - hal_json
+    - json
+  authentication:
+    - cookie

@@ -1,0 +1,14 @@
+uuid: 71a4c0ed-e093-4fcb-a843-e359a163e3a2
+langcode: en
+status: true
+dependencies:
+  module:
+    - message
+id: cron.message
+crontab: '*/15 * * * *'
+plugin: cron
+type: message
+configuration: {  }
+provider: message
+single: false
+weight: 0

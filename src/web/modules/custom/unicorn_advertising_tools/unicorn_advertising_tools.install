@@ -1,0 +1,10 @@
+<?php
+
+use Drupal\unicorn_advertising_tools\Schema\Schema;
+
+/**
+ * @return array<string, mixed>
+ */
+function unicorn_advertising_tools_schema(): array {
+    return Schema::make()->getSchema();
+}

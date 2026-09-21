@@ -1,0 +1,24 @@
+uuid: adab21d2-4181-4407-960c-8dc5fdce881c
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.popular_region
+  module:
+    - views
+  theme:
+    - liberal_theme
+id: views_block__popular_region_block
+theme: liberal_theme
+region: popular
+weight: 0
+provider: null
+plugin: 'views_block:popular_region-block'
+settings:
+  id: 'views_block:popular_region-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility: {  }

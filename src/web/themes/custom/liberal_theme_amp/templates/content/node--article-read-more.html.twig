@@ -1,0 +1,53 @@
+{%
+    set classes = [
+    'node',
+    'node--type-' ~ node.bundle|clean_class,
+    node.isPromoted() ? 'node--promoted',
+    node.isSticky() ? 'node--sticky',
+    not node.isPublished() ? 'node--unpublished',
+    view_mode ? 'node--view-mode-' ~ view_mode|clean_class,
+    'article__container'
+]
+%}
+<!-- article read more -->
+<div {{ attributes.addClass(classes) }}>
+    <div class="container article_read_more__item">
+        <div class="row">
+            <div class="col inner-container">
+                {% if node.field_subtitle.value %}
+                    <h3 class="article__hypertitle">{{ content.field_subtitle }}</h3>
+                {% endif %}
+                {% if node.field_title.value %}
+                {% if is_promoted_article %}
+                    <a href={{ url }} data-vars-nid="{{ node.id }}" class="prm-article">
+                {% else %}
+                    <a href={{ url }}>
+                {% endif %}
+                    <h2 class="article__title">{{ content.field_title }}</h2>
+                </a>
+                {% endif %}
+                <div class="article__info--article-read-more">
+					{% if liberal_created is not null %}
+						{{ liberal_created }}
+					{% endif %}
+					{% if field_teleytaia_enimerosi is not null %}
+					/ {{ liberal_updated_label }}: {{ field_teleytaia_enimerosi }}
+					{% endif %}
+                    {% if node.field_liberal_category.target_id %}
+                        • <a href="{{ content.field_liberal_category.url }}">{{ content.field_liberal_category }}</a>
+                    {% endif %}
+                    {% if node.field_emfanisi_arthrografoy_stin.value == '1' and node.field_arthrografos.target_id is not null %}
+                        • <a href="{{ content.field_arthrografos.url }}">{{ content.field_arthrografos }}</a>
+                    {% endif %}
+                </div>
+                {{ content.liberal_impression_image }}
+            </div>
+        {% if node.field_kentriki_fotografia.target_id %}
+        <div class="img-container">
+            {{ content.field_kentriki_fotografia }}
+        </div>
+        {% endif %}
+        </div>
+    </div>
+</div>
+<!-- end of article read more -->

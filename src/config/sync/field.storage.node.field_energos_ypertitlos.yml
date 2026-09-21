@@ -1,0 +1,18 @@
+uuid: 279d8444-2a1b-4163-87f3-1671c6ec81c3
+langcode: el
+status: true
+dependencies:
+  module:
+    - node
+id: node.field_energos_ypertitlos
+field_name: field_energos_ypertitlos
+entity_type: node
+type: boolean
+settings: {  }
+module: core
+locked: false
+cardinality: 1
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

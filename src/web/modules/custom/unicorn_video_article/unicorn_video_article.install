@@ -1,0 +1,81 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Install and update hooks for unicorn_video_article.
+ */
+
+use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\TermInterface;
+
+const UNICORN_VIDEO_ARTICLE_VOCABULARY = 'eidi_arthron';
+const UNICORN_VIDEO_ARTICLE_TERM_NAME = 'Βίντεο';
+
+/**
+ * Implements hook_install().
+ */
+function unicorn_video_article_install(): void {
+  \Drupal::logger('unicorn_video_article')->notice(_unicorn_video_article_ensure_article_type_term());
+}
+
+/**
+ * Creates the Article Type term that marks an Article as a Video Article.
+ *
+ * Καλείται και από το hook_install() και από το update hook: σε fresh install το
+ * Drupal προσπερνά τα update hooks, οπότε ό,τι ζει μόνο εκεί δεν φτάνει ποτέ σε
+ * νέο περιβάλλον. Idempotent — ψάχνει με το όνομα πριν δημιουργήσει.
+ */
+function _unicorn_video_article_ensure_article_type_term(): string {
+  $before = _unicorn_video_article_article_type_term_exists();
+  $tid = _unicorn_video_article_article_type_term_id();
+
+  return $before
+    ? sprintf('Article Type term "%s" already exists (tid %s).', UNICORN_VIDEO_ARTICLE_TERM_NAME, $tid)
+    : sprintf('Created the "%s" Article Type term (tid %s).', UNICORN_VIDEO_ARTICLE_TERM_NAME, $tid);
+}
+
+function _unicorn_video_article_article_type_term_exists(): bool {
+  return \Drupal::entityTypeManager()->getStorage('taxonomy_term')
+    ->loadByProperties(['vid' => UNICORN_VIDEO_ARTICLE_VOCABULARY, 'name' => UNICORN_VIDEO_ARTICLE_TERM_NAME]) !== [];
+}
+
+/**
+ * Επιστρέφει το tid του Article Type όρου, δημιουργώντας τον αν λείπει.
+ *
+ * Μοναδική πηγή για το όνομα: το liberal_podcasts είχε δικό του hardcoded
+ * 'Video Article' και δημιουργούσε δεύτερο όρο, οπότε τα migrated podcasts
+ * κατέληγαν σε άλλη κατηγορία από όσα φτιάχνει ο συντάκτης. Το όνομα «Βίντεο»
+ * προκύπτει από την ανάλυση: «Τι πεδία έχει το κάθε είδος άρθρου (Απλό,
+ * Διαφημιστικό, Βίντεο)».
+ */
+function _unicorn_video_article_article_type_term_id(): int {
+  $storage = \Drupal::entityTypeManager()->getStorage('taxonomy_term');
+  $existing = $storage->loadByProperties([
+    'vid' => UNICORN_VIDEO_ARTICLE_VOCABULARY,
+    'name' => UNICORN_VIDEO_ARTICLE_TERM_NAME,
+  ]);
+
+  if ($existing !== []) {
+    $term = reset($existing);
+    assert($term instanceof TermInterface);
+
+    return (int) $term->id();
+  }
+
+  $term = Term::create([
+    'vid' => UNICORN_VIDEO_ARTICLE_VOCABULARY,
+    'name' => UNICORN_VIDEO_ARTICLE_TERM_NAME,
+  ]);
+  $term->save();
+
+  return (int) $term->id();
+}
+
+/**
+ * Creates the Video Article Type term on environments that predate it (LIBER-4323).
+ */
+function unicorn_video_article_update_10001(): string {
+  return _unicorn_video_article_ensure_article_type_term();
+}

@@ -1,0 +1,11 @@
+unicorn_opinions.settings:
+  type: config_object
+  label: 'Unicorn opinions settings'
+  mapping:
+    opinions:
+      type: sequence
+      label: 'Taxonomy term IDs for opinions'
+      sequence:
+        type: integer
+        label: 'Taxonomy term ID'
+        nullable: true

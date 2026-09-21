@@ -1,0 +1,7 @@
+liberal_node_loader_js:
+  js:
+    js/liberal_node_loader.js: {}
+  dependencies:
+    - core/jquery
+    - core/drupal
+    - core/drupalSettings

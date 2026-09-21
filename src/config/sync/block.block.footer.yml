@@ -1,0 +1,30 @@
+uuid: 2d06ccae-55c3-4283-aef3-8200e7d473b8
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:e9d05cac-f9c5-4994-a330-33d364974716'
+  module:
+    - block_content
+    - system
+  theme:
+    - liberal_theme
+id: footer
+theme: liberal_theme
+region: footer
+weight: 0
+provider: null
+plugin: 'block_content:e9d05cac-f9c5-4994-a330-33d364974716'
+settings:
+  id: 'block_content:e9d05cac-f9c5-4994-a330-33d364974716'
+  label: Footer
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: "<front>\r\n/node/*"

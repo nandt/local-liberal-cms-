@@ -1,0 +1,11 @@
+uuid: 89b23e3a-45ca-48de-885d-0bbf5bd357b8
+langcode: el
+status: true
+dependencies: {  }
+_core:
+  default_config_hash: Om6FEO7vZZMkPIbVvfxtdkWerQ2PvQM4sWUd6Q3ZnfI
+id: administrator
+label: Διαχειριστής
+weight: 2
+is_admin: true
+permissions: {  }

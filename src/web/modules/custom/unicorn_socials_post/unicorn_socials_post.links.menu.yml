@@ -1,0 +1,6 @@
+unicorn_socials_post.admin_settings:
+  title: 'Socials Post Configuration Form'
+  route_name: unicorn_socials_post.admin_settings
+  description: 'Configuration settings for the Socials Post Module'
+  parent: system.admin_config_system
+  weight: 99

@@ -1,0 +1,797 @@
+<?php
+
+declare(strict_types=1);
+
+/**
+ * @file
+ * Install and update hooks for targeted configuration changes.
+ */
+
+use Drupal\Core\Entity\Display\EntityFormDisplayInterface;
+use Drupal\Core\Utility\UpdateException;
+use Drupal\field\Entity\FieldConfig;
+use Drupal\field\Entity\FieldStorageConfig;
+use Drupal\jsonapi_extras\Entity\JsonapiResourceConfig;
+use Drupal\search_api\IndexInterface;
+use Drupal\views\ViewEntityInterface;
+
+/**
+ * Implements hook_install().
+ *
+ * Χωρίς αυτό, σε νέο περιβάλλον δεν εφαρμόζεται τίποτα από το module: το Drupal
+ * γράφει το τελευταίο schema number κατευθείαν και προσπερνά τα update hooks.
+ * Είναι όλα idempotent (ελέγχουν loadByName πριν δημιουργήσουν), οπότε τρέχουν
+ * με ασφάλεια στη σειρά.
+ */
+function unicorn_config_updates_install(): void {
+  _unicorn_config_updates_apply_all();
+}
+
+/**
+ * Εφαρμόζει όλες τις config αλλαγές του module. Idempotent.
+ *
+ * Κάθε update ελέγχει loadByName πριν δημιουργήσει, οπότε ξανατρέχει με ασφάλεια.
+ */
+function _unicorn_config_updates_apply_all(): string {
+  $logger = \Drupal::logger('unicorn_config_updates');
+  $applied = [];
+  foreach (['11001', '11002', '11003', '11004', '11006', '11008', '11009', '11010', '11011', '11012'] as $number) {
+    $function = 'unicorn_config_updates_update_' . $number;
+    try {
+      $function();
+      $applied[] = $number;
+    }
+    catch (\Throwable $e) {
+      $logger->error('@update failed: @message', ['@update' => $number, '@message' => $e->getMessage()]);
+    }
+  }
+
+  return 'Applied config updates: ' . (implode(', ', $applied) ?: 'none');
+}
+
+/**
+ * Restrict Liberal Articles to one Category.
+ */
+function unicorn_config_updates_update_11001(): string {
+  $field_storage = FieldStorageConfig::loadByName('node', 'field_liberal_category');
+
+  if (!$field_storage) {
+    throw new UpdateException('The node.field_liberal_category field storage does not exist.');
+  }
+
+  if ($field_storage->getCardinality() === 1) {
+    return 'Liberal Category cardinality is already 1.';
+  }
+
+  $query = \Drupal::database()
+    ->select('node__field_liberal_category', 'category')
+    ->condition('deleted', 0)
+    ->condition('delta', 0, '>');
+  $query->addExpression('COUNT(DISTINCT category.entity_id)', 'article_count');
+  $result = $query->execute();
+  if (!$result) {
+    throw new UpdateException('Unable to check Articles with more than one Category.');
+  }
+  $multi_category_articles = (int) $result->fetchField();
+
+  if ($multi_category_articles > 0) {
+    throw new UpdateException("$multi_category_articles Articles have more than one Category. Clean up the data before changing the cardinality.");
+  }
+
+  $field_storage
+    ->setCardinality(1)
+    ->save();
+
+  return 'Liberal Category cardinality changed from unlimited to 1.';
+}
+
+/**
+ * Update Hero Image requirements and add the Full-width Image field.
+ */
+function unicorn_config_updates_update_11002(): string {
+  $hero_image = FieldConfig::loadByName('node', 'article_liberal', 'field_kentriki_fotografia');
+
+  if (!$hero_image instanceof FieldConfig) {
+    throw new UpdateException('The node.article_liberal.field_kentriki_fotografia field does not exist.');
+  }
+
+  $hero_settings = $hero_image->getSettings();
+  $hero_settings['file_extensions'] = 'webp png jpg jpeg';
+  $hero_settings['max_filesize'] = '4 MB';
+  $hero_image->setSettings($hero_settings);
+  $hero_image->save();
+
+  $field_storage = FieldStorageConfig::loadByName('node', 'field_full_width_image');
+  if (!$field_storage) {
+    $field_storage = FieldStorageConfig::create([
+      'field_name' => 'field_full_width_image',
+      'entity_type' => 'node',
+      'type' => 'boolean',
+      'cardinality' => 1,
+      'translatable' => TRUE,
+    ]);
+    $field_storage->save();
+  }
+  elseif ($field_storage->getType() !== 'boolean' || $field_storage->getCardinality() !== 1) {
+    throw new UpdateException('The node.field_full_width_image field storage has an unexpected definition.');
+  }
+
+  $field = FieldConfig::loadByName('node', 'article_liberal', 'field_full_width_image');
+  if (!$field) {
+    $field = FieldConfig::create([
+      'field_name' => 'field_full_width_image',
+      'entity_type' => 'node',
+      'bundle' => 'article_liberal',
+      'label' => 'Full-width Image',
+      'description' => 'Display the Hero Image at the full width of the Article page.',
+      'required' => FALSE,
+      'translatable' => TRUE,
+      'default_value' => [
+        ['value' => 0],
+      ],
+      'settings' => [
+        'on_label' => '1',
+        'off_label' => '0',
+      ],
+    ]);
+    $field->save();
+  }
+
+  $resource_config = \Drupal::entityTypeManager()
+    ->getStorage('jsonapi_resource_config')
+    ->load('node--article_liberal');
+  if (!$resource_config instanceof JsonapiResourceConfig) {
+    throw new UpdateException('The node--article_liberal JSON:API resource configuration does not exist.');
+  }
+
+  $resource_fields = (array) $resource_config->get('resourceFields');
+  $resource_fields['field_full_width_image'] = [
+    'disabled' => FALSE,
+    'fieldName' => 'field_full_width_image',
+    'publicName' => 'field_full_width_image',
+    'enhancer' => ['id' => ''],
+  ];
+  $resource_config
+    ->set('resourceFields', $resource_fields)
+    ->save();
+
+  return 'Hero Image requirements and Full-width Image field updated.';
+}
+
+/**
+ * Add the Video Article fields and expose them on the Article form display.
+ */
+function unicorn_config_updates_update_11003(): string {
+  $storages = [
+    'field_vid_article_duration' => [
+      'type' => 'decimal',
+      'settings' => ['precision' => 10, 'scale' => 2],
+    ],
+    'field_vid_article_episode' => [
+      'type' => 'integer',
+      'settings' => ['unsigned' => FALSE, 'size' => 'normal'],
+    ],
+    'field_vid_article_height' => [
+      'type' => 'decimal',
+      'settings' => ['precision' => 10, 'scale' => 2],
+    ],
+    'field_vid_article_series' => [
+      'type' => 'entity_reference',
+      'settings' => ['target_type' => 'taxonomy_term'],
+    ],
+    'field_vid_article_source_code' => [
+      'type' => 'text_long',
+      'settings' => [],
+    ],
+    'field_vid_article_width' => [
+      'type' => 'decimal',
+      'settings' => ['precision' => 10, 'scale' => 2],
+    ],
+  ];
+
+  foreach ($storages as $field_name => $definition) {
+    $field_storage = FieldStorageConfig::loadByName('node', $field_name);
+    if (!$field_storage) {
+      $field_storage = FieldStorageConfig::create([
+        'field_name' => $field_name,
+        'entity_type' => 'node',
+        'type' => $definition['type'],
+        'settings' => $definition['settings'],
+        'cardinality' => 1,
+        'translatable' => TRUE,
+      ]);
+      $field_storage->save();
+    }
+    elseif ($field_storage->getType() !== $definition['type'] || $field_storage->getCardinality() !== 1) {
+      throw new UpdateException("The node.$field_name field storage has an unexpected definition.");
+    }
+  }
+
+  $vocabulary = \Drupal::entityTypeManager()
+    ->getStorage('taxonomy_vocabulary')
+    ->load('series');
+  if (!$vocabulary) {
+    throw new UpdateException('The taxonomy.vocabulary.series vocabulary does not exist.');
+  }
+
+  $fields = [
+    'field_vid_article_duration' => [
+      'label' => 'Video Article Duration',
+      'settings' => ['min' => NULL, 'max' => NULL, 'prefix' => '', 'suffix' => ''],
+    ],
+    'field_vid_article_episode' => [
+      'label' => 'Video Article Episode',
+      'settings' => ['min' => NULL, 'max' => NULL, 'prefix' => '', 'suffix' => ''],
+    ],
+    'field_vid_article_height' => [
+      'label' => 'Video Article Height',
+      'settings' => ['min' => NULL, 'max' => NULL, 'prefix' => '', 'suffix' => ''],
+    ],
+    'field_vid_article_series' => [
+      'label' => 'Video Article Series',
+      'settings' => [
+        'handler' => 'default:taxonomy_term',
+        'handler_settings' => [
+          'target_bundles' => ['series' => 'series'],
+          'sort' => ['field' => 'name', 'direction' => 'asc'],
+          'auto_create' => FALSE,
+          'auto_create_bundle' => '',
+        ],
+      ],
+    ],
+    'field_vid_article_source_code' => [
+      'label' => 'Video Article Source Code',
+      'settings' => ['allowed_formats' => ['full_html']],
+    ],
+    'field_vid_article_width' => [
+      'label' => 'Video Article Width',
+      'settings' => ['min' => NULL, 'max' => NULL, 'prefix' => '', 'suffix' => ''],
+    ],
+  ];
+
+  foreach ($fields as $field_name => $definition) {
+    $field = FieldConfig::loadByName('node', 'article_liberal', $field_name);
+    if (!$field) {
+      $field = FieldConfig::create([
+        'field_name' => $field_name,
+        'entity_type' => 'node',
+        'bundle' => 'article_liberal',
+        'label' => $definition['label'],
+        'required' => FALSE,
+        'translatable' => FALSE,
+        'settings' => $definition['settings'],
+      ]);
+      $field->save();
+    }
+  }
+
+  $form_display = \Drupal::entityTypeManager()
+    ->getStorage('entity_form_display')
+    ->load('node.article_liberal.default');
+  if (!$form_display instanceof EntityFormDisplayInterface) {
+    throw new UpdateException('The node.article_liberal.default form display does not exist.');
+  }
+
+  $widgets = [
+    'field_vid_article_source_code' => [
+      'type' => 'text_textarea',
+      'weight' => 200,
+      'region' => 'content',
+      'settings' => ['rows' => 5, 'placeholder' => ''],
+    ],
+    'field_vid_article_series' => [
+      'type' => 'entity_reference_autocomplete',
+      'weight' => 201,
+      'region' => 'content',
+      'settings' => [
+        'match_operator' => 'CONTAINS',
+        'match_limit' => 10,
+        'size' => 60,
+        'placeholder' => '',
+      ],
+    ],
+    'field_vid_article_episode' => [
+      'type' => 'number',
+      'weight' => 202,
+      'region' => 'content',
+      'settings' => ['placeholder' => ''],
+    ],
+    'field_vid_article_duration' => [
+      'type' => 'number',
+      'weight' => 203,
+      'region' => 'content',
+      'settings' => ['placeholder' => ''],
+    ],
+    'field_vid_article_width' => [
+      'type' => 'number',
+      'weight' => 204,
+      'region' => 'content',
+      'settings' => ['placeholder' => ''],
+    ],
+    'field_vid_article_height' => [
+      'type' => 'number',
+      'weight' => 205,
+      'region' => 'content',
+      'settings' => ['placeholder' => ''],
+    ],
+  ];
+
+  foreach ($widgets as $field_name => $component) {
+    $form_display->setComponent($field_name, $component);
+  }
+  $form_display->save();
+
+  return 'Video Article fields added and exposed on the Article form display.';
+}
+
+/**
+ * Add the attached Video fields to Basic Articles.
+ */
+function unicorn_config_updates_update_11004(): string {
+  $definitions = [
+    'field_attached_video_code' => [
+      'type' => 'text_long',
+      'storage_settings' => [],
+      'field_settings' => ['allowed_formats' => ['full_html']],
+      'label' => 'Attached Video Code',
+      'widget' => [
+        'type' => 'text_textarea',
+        'weight' => 206,
+        'region' => 'content',
+        'settings' => ['rows' => 5, 'placeholder' => ''],
+      ],
+    ],
+    'field_attached_video_title' => [
+      'type' => 'string',
+      'storage_settings' => [
+        'max_length' => 255,
+        'case_sensitive' => FALSE,
+        'is_ascii' => FALSE,
+      ],
+      'field_settings' => [],
+      'label' => 'Attached Video Title',
+      'widget' => [
+        'type' => 'string_textfield',
+        'weight' => 207,
+        'region' => 'content',
+        'settings' => ['size' => 60, 'placeholder' => ''],
+      ],
+    ],
+    'field_attached_video_source' => [
+      'type' => 'string',
+      'storage_settings' => [
+        'max_length' => 255,
+        'case_sensitive' => FALSE,
+        'is_ascii' => FALSE,
+      ],
+      'field_settings' => [],
+      'label' => 'Attached Video Source',
+      'widget' => [
+        'type' => 'string_textfield',
+        'weight' => 208,
+        'region' => 'content',
+        'settings' => ['size' => 60, 'placeholder' => ''],
+      ],
+    ],
+  ];
+
+  foreach ($definitions as $field_name => $definition) {
+    $field_storage = FieldStorageConfig::loadByName('node', $field_name);
+    if (!$field_storage) {
+      $field_storage = FieldStorageConfig::create([
+        'field_name' => $field_name,
+        'entity_type' => 'node',
+        'type' => $definition['type'],
+        'settings' => $definition['storage_settings'],
+        'cardinality' => 1,
+        'translatable' => TRUE,
+      ]);
+      $field_storage->save();
+    }
+    elseif ($field_storage->getType() !== $definition['type'] || $field_storage->getCardinality() !== 1) {
+      throw new UpdateException("The node.$field_name field storage has an unexpected definition.");
+    }
+
+    $field = FieldConfig::loadByName('node', 'article_liberal', $field_name);
+    if (!$field) {
+      $field = FieldConfig::create([
+        'field_name' => $field_name,
+        'entity_type' => 'node',
+        'bundle' => 'article_liberal',
+        'label' => $definition['label'],
+        'required' => FALSE,
+        'translatable' => TRUE,
+        'settings' => $definition['field_settings'],
+      ]);
+      $field->save();
+    }
+  }
+
+  $form_display = \Drupal::entityTypeManager()
+    ->getStorage('entity_form_display')
+    ->load('node.article_liberal.default');
+  if (!$form_display instanceof EntityFormDisplayInterface) {
+    throw new UpdateException('The node.article_liberal.default form display does not exist.');
+  }
+
+  foreach ($definitions as $field_name => $definition) {
+    $form_display->setComponent($field_name, $definition['widget']);
+  }
+  $form_display->save();
+
+  $resource_config = \Drupal::entityTypeManager()
+    ->getStorage('jsonapi_resource_config')
+    ->load('node--article_liberal');
+  if (!$resource_config instanceof JsonapiResourceConfig) {
+    throw new UpdateException('The node--article_liberal JSON:API resource configuration does not exist.');
+  }
+
+  $resource_fields = (array) $resource_config->get('resourceFields');
+  foreach (array_keys($definitions) as $field_name) {
+    $resource_fields[$field_name] = [
+      'disabled' => FALSE,
+      'fieldName' => $field_name,
+      'publicName' => $field_name,
+      'enhancer' => ['id' => ''],
+    ];
+  }
+  $resource_config
+    ->set('resourceFields', $resource_fields)
+    ->save();
+
+  return 'Attached Video fields added to Basic Articles and exposed through JSON:API.';
+}
+
+/**
+ * Applies the config updates on environments installed before they existed.
+ *
+ * Σε περιβάλλον όπου το module ενεργοποιήθηκε από το μηδέν, το Drupal έγραψε το
+ * τελευταίο schema number και προσπέρασε τα 11001–11004 — τα πεδία δεν μπήκαν ποτέ.
+ */
+function unicorn_config_updates_update_11005(): string {
+  return _unicorn_config_updates_apply_all();
+}
+
+/**
+ * Exposes the Video Article fields through JSON:API (LIBER-4323).
+ *
+ * Το update_11003 δημιούργησε τα πεδία και το form display αλλά δεν τα πρόσθεσε
+ * ποτέ στο jsonapi resource config, σε αντίθεση με τα 11002/11004. Χωρίς αυτό ο
+ * FE δεν μπορεί ούτε να διαβάσει ούτε να γράψει Video Article.
+ */
+function unicorn_config_updates_update_11006(): string {
+  $resource_config = \Drupal::entityTypeManager()
+    ->getStorage('jsonapi_resource_config')
+    ->load('node--article_liberal');
+  if (!$resource_config instanceof JsonapiResourceConfig) {
+    throw new UpdateException('The node--article_liberal JSON:API resource configuration does not exist.');
+  }
+
+  $fields = [
+    'field_vid_article_source_code',
+    'field_vid_article_series',
+    'field_vid_article_episode',
+    'field_vid_article_duration',
+    'field_vid_article_width',
+    'field_vid_article_height',
+  ];
+
+  $resource_fields = (array) $resource_config->get('resourceFields');
+  $added = [];
+  foreach ($fields as $field_name) {
+    if (isset($resource_fields[$field_name]) && $resource_fields[$field_name]['disabled'] === FALSE) {
+      continue;
+    }
+    $resource_fields[$field_name] = [
+      'disabled' => FALSE,
+      'fieldName' => $field_name,
+      'publicName' => $field_name,
+      'enhancer' => ['id' => ''],
+    ];
+    $added[] = $field_name;
+  }
+
+  if ($added === []) {
+    return 'Video Article fields are already exposed through JSON:API.';
+  }
+
+  $resource_config->set('resourceFields', $resource_fields)->save();
+
+  return 'Exposed the Video Article fields through JSON:API: ' . implode(', ', $added) . '.';
+}
+
+/**
+ * Raises the author profile picture size limit to 4 MB (LIBER-4337).
+ *
+ * Η ρύθμιση ζει στη βάση κάθε περιβάλλοντος, οπότε αλλαγή μόνο στο yml του
+ * config/sync δεν φτάνει πουθενά: το deploy εισάγει metatag defaults, jsonapi
+ * resource configs και πέντε ονομαστικά configs — τα field.field.* δεν τα
+ * κοιτάζει, και drush cim δεν τρέχουμε ποτέ. Ίδιο μοτίβο με το update_11002,
+ * που ανέβασε το όριο της κεντρικής φωτογραφίας του άρθρου.
+ */
+function unicorn_config_updates_update_11008(): string {
+  $field = FieldConfig::loadByName('taxonomy_term', 'arthrografos', 'field_author_profile');
+
+  if (!$field instanceof FieldConfig) {
+    throw new UpdateException('The taxonomy_term.arthrografos.field_author_profile field does not exist.');
+  }
+
+  $settings = $field->getSettings();
+
+  if (($settings['max_filesize'] ?? '') === '4 MB') {
+    return 'The author profile picture limit is already 4 MB.';
+  }
+
+  $settings['max_filesize'] = '4 MB';
+  $field->setSettings($settings);
+  $field->save();
+
+  return 'Author profile picture limit raised to 4 MB.';
+}
+
+/**
+ * Adds the Category photo and exposes it through JSON:API (LIBER-4402).
+ */
+function unicorn_config_updates_update_11009(): string {
+  $field_name = 'field_category_photo';
+
+  $field_storage = FieldStorageConfig::loadByName('taxonomy_term', $field_name);
+  if (!$field_storage) {
+    $field_storage = FieldStorageConfig::create([
+      'field_name' => $field_name,
+      'entity_type' => 'taxonomy_term',
+      'type' => 'image',
+      'settings' => [
+        'target_type' => 'file',
+        'display_field' => FALSE,
+        'display_default' => FALSE,
+        'uri_scheme' => 's3',
+        'default_image' => [
+          'uuid' => '',
+          'alt' => '',
+          'title' => '',
+          'width' => NULL,
+          'height' => NULL,
+        ],
+      ],
+      'cardinality' => 1,
+      'translatable' => TRUE,
+    ]);
+    $field_storage->save();
+  }
+  elseif ($field_storage->getType() !== 'image' || $field_storage->getCardinality() !== 1) {
+    throw new UpdateException("The taxonomy_term.$field_name field storage has an unexpected definition.");
+  }
+
+  $field = FieldConfig::loadByName('taxonomy_term', 'category', $field_name);
+  if (!$field) {
+    $field = FieldConfig::create([
+      'field_name' => $field_name,
+      'entity_type' => 'taxonomy_term',
+      'bundle' => 'category',
+      'label' => 'Photo',
+      'required' => FALSE,
+      'translatable' => FALSE,
+      'settings' => [
+        'handler' => 'default:file',
+        'handler_settings' => [],
+        'file_directory' => '[date:custom:Y]-[date:custom:m]',
+        'file_extensions' => 'png gif jpg jpeg',
+        'max_filesize' => '',
+        'max_resolution' => '',
+        'min_resolution' => '',
+        'alt_field' => TRUE,
+        'alt_field_required' => FALSE,
+        'title_field' => TRUE,
+        'title_field_required' => FALSE,
+        'default_image' => [
+          'uuid' => '',
+          'alt' => '',
+          'title' => '',
+          'width' => NULL,
+          'height' => NULL,
+        ],
+      ],
+    ]);
+    $field->save();
+  }
+
+  $resource_config = \Drupal::entityTypeManager()
+    ->getStorage('jsonapi_resource_config')
+    ->load('taxonomy_term--category');
+  if (!$resource_config instanceof JsonapiResourceConfig) {
+    throw new UpdateException('The taxonomy_term--category JSON:API resource configuration does not exist.');
+  }
+
+  $resource_fields = (array) $resource_config->get('resourceFields');
+  $resource_fields[$field_name] = [
+    'disabled' => FALSE,
+    'fieldName' => $field_name,
+    'publicName' => $field_name,
+    'enhancer' => ['id' => ''],
+  ];
+  $resource_config
+    ->set('resourceFields', $resource_fields)
+    ->save();
+
+  return 'Category photo added and exposed through JSON:API.';
+}
+
+/**
+ * Seeds the OpenAI key from OPENAI_API_KEY on first deploy.
+ */
+function unicorn_config_updates_update_11010(): string {
+  $env_key = getenv('OPENAI_API_KEY');
+
+  if (!$env_key) {
+    return 'OPENAI_API_KEY is not set in the environment - nothing to seed.';
+  }
+
+  $config = \Drupal::configFactory()->getEditable('unicorn_ai.admin_settings');
+
+  if (!empty($config->get('openai_key'))) {
+    return 'unicorn_ai.admin_settings.openai_key is already set - leaving it alone.';
+  }
+
+  $config->set('openai_key', $env_key)->save();
+
+  return 'Seeded unicorn_ai.admin_settings.openai_key from OPENAI_API_KEY.';
+}
+
+/**
+ * Raises the JSON:API page limit to 100 for select node/taxonomy resources.
+ *
+ * Ίδιο μοτίβο με το update_11008: η ρύθμιση ζει στη βάση κάθε περιβάλλοντος
+ * και το deploy δεν τρέχει drush cim, οπότε αλλαγή μόνο στο yml του
+ * config/sync δεν φτάνει πουθενά χωρίς αυτό το update hook.
+ *
+ * Per-resource try/catch, ίδιο μοτίβο με το jsonapi_extras import στο
+ * migrate.sh: το jsonapi_extras ConfigSubscriber κάνει in-process router
+ * rebuild σε κάθε save, και σε batch με πολλά άλλα pending updates στο ίδιο
+ * request αυτό μπορεί να πετάξει (dev assertions) ΑΦΟΥ το πρώτο save έχει
+ * ήδη γραφτεί. Χωρίς το catch, το exception σκάει ολόκληρο το hook και το
+ * schema δεν προχωράει καν, οπότε δεν ξαναπροσπαθεί στο επόμενο updb.
+ */
+function unicorn_config_updates_update_11011(): string {
+  $resource_ids = [
+    'node--article_liberal',
+    'taxonomy_term--oblations',
+    'taxonomy_term--piges_arthron',
+    'taxonomy_term--series',
+    'taxonomy_term--tags',
+    'taxonomy_term--arthrografos',
+    'taxonomy_term--category',
+    'taxonomy_term--eidi_arthron',
+    'taxonomy_term--metohes',
+  ];
+
+  $storage = \Drupal::entityTypeManager()->getStorage('jsonapi_resource_config');
+  $updated = [];
+  $failed = [];
+  foreach ($resource_ids as $id) {
+    $resource_config = $storage->load($id);
+    if (!$resource_config instanceof JsonapiResourceConfig) {
+      throw new UpdateException("The $id JSON:API resource configuration does not exist.");
+    }
+
+    if ((int) $resource_config->getThirdPartySetting('jsonapi_defaults', 'page_limit') === 100) {
+      continue;
+    }
+
+    try {
+      $resource_config->setThirdPartySetting('jsonapi_defaults', 'page_limit', 100);
+      $resource_config->save();
+      $updated[] = $id;
+    }
+    catch (\Throwable $e) {
+      $failed[] = "$id ({$e->getMessage()})";
+    }
+  }
+
+  if ($failed !== []) {
+    throw new UpdateException('Failed to raise the JSON:API page limit for: ' . implode(', ', $failed) . '. Re-run update.php to retry (already-updated resources will be skipped).');
+  }
+
+  if ($updated === []) {
+    return 'JSON:API page limit is already 100 for all targeted resources.';
+  }
+
+  return 'JSON:API page limit raised to 100 for: ' . implode(', ', $updated) . '.';
+}
+
+/**
+ * Wires the search index fields added for unicorn_search (LIBER-4436).
+ *
+ * Το search_api_index είναι config entity σαν το jsonapi_resource_config,
+ * οπότε ισχύει το ίδιο μοτίβο: η ρύθμιση ζει στη βάση κάθε περιβάλλοντος και
+ * το deploy δεν τρέχει drush cim. Σε staging δεν υπήρχε τίποτα από αυτά -
+ * ούτε το add_url/url, ούτε το field_eidos_arthrou, ούτε το
+ * unicorn_search_image_style_url processor με το image_url field, ούτε το
+ * field_vid_article_duration. Το endpoint γύριζε πάντα null για url,
+ * eidos_arthrou, image_url και video_duration.
+ *
+ * Αφαιρεί επίσης το rendered_item_view field και το view.search_solr
+ * (legacy server-rendered σελίδα αναζήτησης, path /search/node) - το React
+ * frontend καταναλώνει πλέον το /customapi/search, δεν χρειάζεται πια να
+ * σερβίρουμε rendered HTML από τον index.
+ */
+function unicorn_config_updates_update_11012(): string {
+  $index = \Drupal::entityTypeManager()->getStorage('search_api_index')->load('liberal_index');
+
+  if (!$index instanceof IndexInterface) {
+    throw new UpdateException('The liberal_index search index does not exist.');
+  }
+
+  $fieldsHelper = \Drupal::service('search_api.fields_helper');
+  $pluginHelper = \Drupal::service('search_api.plugin_helper');
+  $added = [];
+
+  if (!$index->getProcessorIfAvailable('add_url')) {
+    $index->addProcessor($pluginHelper->createProcessorPlugin($index, 'add_url'));
+    $added[] = 'add_url processor';
+  }
+
+  if (!$index->getField('url')) {
+    $index->addField($fieldsHelper->createField($index, 'url', [
+      'label' => 'URL',
+      'property_path' => 'search_api_url',
+      'type' => 'solr_string_storage',
+    ]));
+    $added[] = 'url field';
+  }
+
+  if (!$index->getField('field_eidos_arthrou')) {
+    $index->addField($fieldsHelper->createField($index, 'field_eidos_arthrou', [
+      'label' => 'Είδος Άρθρου',
+      'datasource_id' => 'entity:node',
+      'property_path' => 'field_eidos_arthrou:entity:name',
+      'type' => 'text',
+    ]));
+    $added[] = 'field_eidos_arthrou field';
+  }
+
+  if (!$index->getProcessorIfAvailable('unicorn_search_image_style_url')) {
+    $index->addProcessor($pluginHelper->createProcessorPlugin($index, 'unicorn_search_image_style_url'));
+    $added[] = 'unicorn_search_image_style_url processor';
+  }
+
+  if (!$index->getField('image_url')) {
+    $index->addField($fieldsHelper->createField($index, 'image_url', [
+      'label' => 'Image style URL',
+      'property_path' => 'image_style_url',
+      'type' => 'solr_string_storage',
+    ]));
+    $added[] = 'image_url field';
+  }
+
+  if (!$index->getField('field_vid_article_duration')) {
+    $index->addField($fieldsHelper->createField($index, 'field_vid_article_duration', [
+      'label' => 'Video Article Duration',
+      'datasource_id' => 'entity:node',
+      'property_path' => 'field_vid_article_duration',
+      'type' => 'decimal',
+    ]));
+    $added[] = 'field_vid_article_duration field';
+  }
+
+  if ($index->getField('rendered_item_view')) {
+    $index->removeField('rendered_item_view');
+    $added[] = 'removed rendered_item_view field';
+  }
+
+  if ($added !== []) {
+    $index->save();
+  }
+
+  $searchSolrView = \Drupal::entityTypeManager()->getStorage('view')->load('search_solr');
+  if ($searchSolrView instanceof ViewEntityInterface) {
+    $searchSolrView->delete();
+    $added[] = 'deleted view.search_solr';
+  }
+
+  if ($added === []) {
+    return 'The url, field_eidos_arthrou, image_url and field_vid_article_duration search index fields, their processors, and the removal of rendered_item_view/search_solr are already applied.';
+  }
+
+  return 'Applied to the liberal_index search index and site: ' . implode(', ', $added) . '. Reindex to backfill existing documents.';
+}

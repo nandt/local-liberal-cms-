@@ -1,0 +1,9 @@
+name: Liberal Stocks App
+description: Liberal Stocks App
+package: Custom
+type: module
+version: 1.0.0
+dependencies:
+  - unicorn_core:unicorn_core
+  - unicorn_socials_post:unicorn_socials_post
+core_version_requirement: '^10 || ^11'

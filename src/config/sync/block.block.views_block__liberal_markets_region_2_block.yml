@@ -1,0 +1,29 @@
+uuid: 6b3b9e97-0083-41bb-9f5a-0f761b4c4552
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.liberal_markets_region_2
+  module:
+    - system
+    - views
+  theme:
+    - liberal_theme
+id: views_block__liberal_markets_region_2_block
+theme: liberal_theme
+region: liberal_markets_2
+weight: 0
+provider: null
+plugin: 'views_block:liberal_markets_region_2-block'
+settings:
+  id: 'views_block:liberal_markets_region_2-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

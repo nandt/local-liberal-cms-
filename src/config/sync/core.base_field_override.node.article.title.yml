@@ -1,0 +1,18 @@
+uuid: 00ece928-a9a0-4edf-8955-293185c90b9d
+langcode: el
+status: true
+dependencies:
+  config:
+    - node.type.article
+id: node.article.title
+field_name: title
+entity_type: node
+bundle: article
+label: Τίτλος
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

@@ -1,0 +1,33 @@
+{% if content %}
+  <!-- header -->
+  <div class="container">
+
+      <div class="header-container" next-page-hide>
+
+        <div class="header-container--bottom">
+
+          <div class="header__markets">
+              <a href="{{ base_path }}liberal-markets">
+                <amp-img src="{{ base_path ~ directory }}/img/liberal markets button.svg" width="135" height="95" layout="responsive"></amp-img>
+              </a>
+          </div>
+
+          <div class="header__logo">
+              <a href="{{ base_path }}">
+                <amp-img src="{{ base_path ~ directory }}/img/liberal_logo.svg" width="165" height="100" layout="responsive"></amp-img>
+              </a>
+          </div>
+
+          <div class="header__xrimatistirio">
+              <a href="{{ base_path }}live-ase-market">
+                <amp-img src="{{ base_path ~ directory }}/img/live_xrimatistirio_button.svg" width="135" height="95" layout="responsive"></amp-img>
+              </a>
+          </div>
+
+        </div>
+
+      </div>
+      <!-- end of header -->
+
+  </div>
+{% endif %}

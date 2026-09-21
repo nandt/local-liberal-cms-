@@ -1,0 +1,49 @@
+<?php
+
+declare(strict_types=1);
+
+use Drupal\block\Entity\Block;
+use Drupal\unicorn_core\Support\Collection;
+use Drupal\unicorn_login_page\Configuration\LoginPageConfig;
+
+function unicorn_login_page_install(): void {
+  $loginPageConfig = \Drupal::service(LoginPageConfig::class);
+  $theme = $loginPageConfig->getTheme();
+
+  \Drupal::service('theme_installer')->install([$theme]);
+
+  $autoClonedBlocks = $loginPageConfig->getAutoClonedBlocks();
+  $storage = \Drupal::entityTypeManager()->getStorage('block');
+
+  Collection::wrap($storage->loadByProperties(['theme' => $theme]))
+    ->filter(fn (Block $block): bool => $autoClonedBlocks->contains((string) $block->id()))
+    ->each(fn (Block $block) => $block->delete());
+
+  _unicorn_login_page_configure_email_only_login();
+}
+
+/**
+ * Enables and configures email-only authentication (LIBER-4353).
+ */
+function unicorn_login_page_update_10001(): string {
+  if (!\Drupal::moduleHandler()->moduleExists('mail_login')) {
+    \Drupal::service('module_installer')->install(['mail_login']);
+  }
+
+  _unicorn_login_page_configure_email_only_login();
+
+  return 'Enabled email-only login authentication.';
+}
+
+/**
+ * Configures Mail Login while preserving the branded login form labels.
+ */
+function _unicorn_login_page_configure_email_only_login(): void {
+  \Drupal::configFactory()
+    ->getEditable('mail_login.settings')
+    ->set('mail_login_enabled', TRUE)
+    ->set('mail_login_case_sensitive', FALSE)
+    ->set('mail_login_email_only', TRUE)
+    ->set('mail_login_override_login_labels', FALSE)
+    ->save();
+}

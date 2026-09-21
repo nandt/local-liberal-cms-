@@ -1,0 +1,18 @@
+uuid: 635fefd3-9d31-4557-8dbd-8b3ebf63094e
+langcode: el
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.writers
+id: taxonomy_term.writers.name
+field_name: name
+entity_type: taxonomy_term
+bundle: writers
+label: Όνομα
+description: ''
+required: true
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string

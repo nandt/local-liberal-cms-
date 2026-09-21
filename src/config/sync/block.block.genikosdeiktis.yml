@@ -1,0 +1,30 @@
+uuid: 39988254-d5c3-4928-a7fe-f3598d66d665
+langcode: en
+status: true
+dependencies:
+  content:
+    - 'block_content:basic:8dd8a9c5-c996-4ce3-a6a6-edeb4b393b86'
+  module:
+    - block_content
+    - system
+  theme:
+    - liberal_theme
+id: genikosdeiktis
+theme: liberal_theme
+region: genikos_deiktis
+weight: 0
+provider: null
+plugin: 'block_content:8dd8a9c5-c996-4ce3-a6a6-edeb4b393b86'
+settings:
+  id: 'block_content:8dd8a9c5-c996-4ce3-a6a6-edeb4b393b86'
+  label: 'Γενικός δείκτης'
+  label_display: '0'
+  provider: block_content
+  status: true
+  info: ''
+  view_mode: full
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

@@ -1,0 +1,18 @@
+uuid: ef65b94a-9af7-4712-b14f-875f4bc9b283
+langcode: el
+status: true
+dependencies:
+  config:
+    - node.type.article_liberal
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: node.article_liberal
+target_entity_type_id: node
+target_bundle: article_liberal
+default_langcode: site_default
+language_alterable: true

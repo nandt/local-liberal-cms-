@@ -1,0 +1,25 @@
+uuid: d46be47a-95bd-46a3-8a60-178c60d0f895
+langcode: el
+status: false
+dependencies:
+  module:
+    - system
+  theme:
+    - liberal_theme
+_core:
+  default_config_hash: NDwadleLD3YVSbDUaakxyYZyINYtkFtOVGShfq4kWy8
+id: liberal_theme_branding
+theme: liberal_theme
+region: navigation
+weight: 0
+provider: null
+plugin: system_branding_block
+settings:
+  id: system_branding_block
+  label: 'Site branding'
+  label_display: '0'
+  provider: system
+  use_site_logo: true
+  use_site_name: true
+  use_site_slogan: true
+visibility: {  }

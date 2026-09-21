@@ -1,0 +1,23 @@
+uuid: 1098556b-ecf3-42be-9c3a-d4000481200f
+langcode: el
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_main_menu
+    - taxonomy.vocabulary.category
+id: taxonomy_term.category.field_main_menu
+field_name: field_main_menu
+entity_type: taxonomy_term
+bundle: category
+label: main_menu
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: '1'
+  off_label: '0'
+field_type: boolean

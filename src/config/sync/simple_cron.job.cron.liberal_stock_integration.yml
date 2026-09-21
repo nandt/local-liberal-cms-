@@ -1,0 +1,14 @@
+uuid: 563b873a-c612-4005-b095-f272b2284bc7
+langcode: el
+status: true
+dependencies:
+  module:
+    - liberal_stock_integration
+id: cron.liberal_stock_integration
+crontab: '*/15 * * * *'
+plugin: cron
+type: liberal_stock_integration
+configuration: {  }
+provider: liberal_stock_integration
+single: false
+weight: 0

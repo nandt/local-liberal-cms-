@@ -1,0 +1,9 @@
+name: Unicorn Socials Post
+description: Autopost on Social Media
+package: Unicorn Domain
+dependencies:
+  - unicorn_field_mapper:unicorn_field_mapper
+  - unicorn_core:unicorn_core
+type: module
+version: 1.0.0
+core_version_requirement: ^11

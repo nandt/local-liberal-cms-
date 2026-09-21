@@ -1,0 +1,9 @@
+uuid: 49a47322-6c48-48c3-b41c-a4fce57042b9
+langcode: en
+status: true
+dependencies: {  }
+id: potranslations
+label: Potranslations
+description: ''
+mimetypes:
+  - 'text/*'

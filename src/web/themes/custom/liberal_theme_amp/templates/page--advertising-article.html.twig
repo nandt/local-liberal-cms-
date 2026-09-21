@@ -1,0 +1,31 @@
+{% if page.header %}
+	{{ page.header }}
+{% endif %}
+
+<div class="advertising_article-navigation-wrapper">
+	{% if page.navigation %}
+		{{ page.navigation }}
+	{% endif %}
+</div
+
+<div data-current-node="{{ node_id }}" class="app-wrapper" {{ attributes }}>
+	<main role="main" class="advertising_article">
+		<a id="main-content" tabindex="-1"></a>
+		<div class="layout-content">
+			<div class="container my-4">
+				<div class="row">
+					<div class="col-12">
+						<!-- Article content -->
+						{% if page.content %}
+							{{ page.content }}
+						{% endif %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</main>
+</div>
+
+{% if page.footer %}
+	{{ page.footer }}
+{% endif %}

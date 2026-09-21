@@ -1,0 +1,3256 @@
+parameters:
+	ignoreErrors:
+		-
+			message: '#^Function liberal_amp_loader_library_info_alter\(\) has parameter \$extension with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/liberal_amp_loader.module
+
+		-
+			message: '#^Function liberal_amp_loader_library_info_alter\(\) has parameter \$libraries with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/liberal_amp_loader.module
+
+		-
+			message: '#^Function liberal_amp_loader_preprocess_html\(\) has parameter \$variables with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/liberal_amp_loader.module
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Controller\\LiberalAmpLoaderGetJson\:\:getAmpNextPageList\(\) has parameter \$nid with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Controller/LiberalAmpLoaderGetJson.php
+
+		-
+			message: '#^Parameter \#4 \$json of class Symfony\\Component\\HttpFoundation\\JsonResponse constructor expects bool, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Controller/LiberalAmpLoaderGetJson.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Controller/LiberalAmpLoaderGetJson.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Form\\AmpLoaderSettingsForm\:\:buildForm\(\) has parameter \$form with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Form/AmpLoaderSettingsForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Form\\AmpLoaderSettingsForm\:\:buildForm\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Form/AmpLoaderSettingsForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Form\\AmpLoaderSettingsForm\:\:getEditableConfigNames\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Form/AmpLoaderSettingsForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Form\\AmpLoaderSettingsForm\:\:submitForm\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Form/AmpLoaderSettingsForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Form\\AmpLoaderSettingsForm\:\:submitForm\(\) has parameter \$form with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Form/AmpLoaderSettingsForm.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$nid\.$#'
+			identifier: property.notFound
+			count: 2
+			path: web/modules/custom/liberal_amp_loader/src/Services/GetAmpJson.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$title\.$#'
+			identifier: property.notFound
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Services/GetAmpJson.php
+
+		-
+			message: '#^Cannot call method fetchAllAssoc\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: web/modules/custom/liberal_amp_loader/src/Services/GetAmpJson.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Services\\GetAmpJson\:\:createAmpJson\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Services/GetAmpJson.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Services\\GetAmpJson\:\:createAmpJson\(\) has parameter \$current_nid with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Services/GetAmpJson.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Services\\GetAmpJson\:\:createAmpJson\(\) has parameter \$nids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Services/GetAmpJson.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Services\\GetAmpJson\:\:encodeAmpJson\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Services/GetAmpJson.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Services\\GetAmpJson\:\:encodeAmpJson\(\) has parameter \$items with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Services/GetAmpJson.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Services\\GetAmpJson\:\:getAmpJsonData\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Services/GetAmpJson.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Services\\GetAmpJson\:\:getAmpJsonData\(\) has parameter \$nids with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Services/GetAmpJson.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Services\\GetAmpJson\:\:getRenderedAmpJson\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Services/GetAmpJson.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Services\\GetAmpJson\:\:getRenderedAmpJson\(\) has parameter \$current_nid with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Services/GetAmpJson.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Services\\GetAmpJson\:\:renderAmpArrayJsonLd\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Services/GetAmpJson.php
+
+		-
+			message: '#^Method Drupal\\liberal_amp_loader\\Services\\GetAmpJson\:\:renderAmpArrayJsonLd\(\) has parameter \$jsonld with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Services/GetAmpJson.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 1
+			path: web/modules/custom/liberal_amp_loader/src/Services/GetAmpJson.php
+
+		-
+			message: '#^Access to an undefined property Drupal\\node\\NodeInterface\:\:\$field_arthrografos\.$#'
+			identifier: property.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Access to an undefined property Drupal\\node\\NodeInterface\:\:\$field_liberal_category\.$#'
+			identifier: property.notFound
+			count: 2
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Access to an undefined property Drupal\\node\\NodeInterface\:\:\$field_liberal_tags\.$#'
+			identifier: property.notFound
+			count: 2
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Access to an undefined property Drupal\\node\\NodeInterface\:\:\$field_podcast_duration\.$#'
+			identifier: property.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Access to an undefined property Drupal\\node\\NodeInterface\:\:\$field_podcast_source_code\.$#'
+			identifier: property.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Access to an undefined property Drupal\\node\\NodeInterface\:\:\$field_subtitle\.$#'
+			identifier: property.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Call to an undefined method Drupal\\Core\\Form\\FormInterface\:\:getEntity\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Cannot call method fetchAllAssoc\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Cannot call method get\(\) on Drupal\\node\\NodeInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Cannot call method getFileUri\(\) on Drupal\\file\\Entity\\File\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Cannot call method getTitle\(\) on Drupal\\node\\NodeInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Cannot call method id\(\) on Drupal\\taxonomy\\Entity\\Term\|false\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Cannot call method isPublished\(\) on Drupal\\node\\NodeInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Cannot call method label\(\) on Drupal\\taxonomy\\Entity\\Term\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_block_access\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_block_access\(\) has parameter \$operation with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_critical_css_file_paths_suggestion_alter\(\) has parameter \$entity with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_critical_css_file_paths_suggestion_alter\(\) has parameter \$file_paths with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_entity_view_mode_alter\(\) has parameter \$context with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_entity_view_mode_alter\(\) has parameter \$view_mode with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_form_alter\(\) has parameter \$form with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_form_alter\(\) has parameter \$form_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_metatag_route_entity\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_module_implements_alter\(\) has parameter \$hook with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_module_implements_alter\(\) has parameter \$implementations with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_preprocess_html\(\) has parameter \$variables with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_theme_suggestions_field_alter\(\) has parameter \$suggestions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_theme_suggestions_node_alter\(\) has parameter \$suggestions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_theme_suggestions_page_alter\(\) has parameter \$suggestions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_theme_suggestions_page_alter\(\) has parameter \$variables with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_theme_suggestions_region_alter\(\) has parameter \$suggestions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_views_pre_view\(\) has parameter \$display_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Left side of && is always true\.$#'
+			identifier: booleanAnd.leftAlwaysTrue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Offset ''3'' does not exist on non\-empty\-list\<string\>\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Parameter \#1 \$path of method Drupal\\image\\Entity\\ImageStyle\:\:buildUrl\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 2
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Parameter \#1 \$string of method Drupal\\pathauto\\AliasCleaner\:\:cleanString\(\) expects string, Drupal\\Core\\StringTranslation\\TranslatableMarkup\|string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Parameter \#1 \$string1 of function strcasecmp expects string, string\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Variable \$ap_style_url on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Variable \$base_oblation_url in empty\(\) always exists and is not falsy\.$#'
+			identifier: empty.variable
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Variable \$company_name might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Variable \$embed_url might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Variable \$iframe_url might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Variable \$name might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Variable \$query_field might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Variable \$tax_field might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Variable \$text might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Variable \$text_title might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Variable \$twitter_site might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Variable \$view_id might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.module
+
+		-
+			message: '#^Function liberal_custom_content_token_info\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.tokens.inc
+
+		-
+			message: '#^Function liberal_custom_content_tokens\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.tokens.inc
+
+		-
+			message: '#^Function liberal_custom_content_tokens\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.tokens.inc
+
+		-
+			message: '#^Function liberal_custom_content_tokens\(\) has parameter \$options with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.tokens.inc
+
+		-
+			message: '#^Function liberal_custom_content_tokens\(\) has parameter \$tokens with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.tokens.inc
+
+		-
+			message: '#^Function liberal_custom_content_tokens\(\) has parameter \$type with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.tokens.inc
+
+		-
+			message: '#^Function liberal_custom_content_views_data_alter\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.views.inc
+
+		-
+			message: '#^Function liberal_custom_content_views_data_alter\(\) has parameter \$data with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/liberal_custom_content.views.inc
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Controller\\LiberalCustomContentController\:\:frontPage\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/LiberalCustomContentController.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Controller\\LiberalCustomContentController\:\:liberalMarkets\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/LiberalCustomContentController.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Controller\\LiberalCustomContentController\:\:liveAseMarket\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/LiberalCustomContentController.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Controller\\LiberalCustomContentController\:\:renderBettingSlip\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/LiberalCustomContentController.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Controller\\LiberalRegionsMapping\:\:getRegionsMapping\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/LiberalRegionsMapping.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/LiberalRegionsMapping.php
+
+		-
+			message: '#^Call to static method createFromFormat\(\) on an unknown class Drupal\\liberal_custom_content\\Controller\\DateTime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Cannot call method buildRenderable\(\) on Drupal\\views\\ViewExecutable\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Cannot call method execute\(\) on Drupal\\views\\ViewExecutable\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Cannot call method preExecute\(\) on Drupal\\views\\ViewExecutable\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Cannot call method setArguments\(\) on Drupal\\views\\ViewExecutable\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Cannot call method setDisplay\(\) on Drupal\\views\\ViewExecutable\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Instantiated class Drupal\\liberal_custom_content\\Controller\\DateTime not found\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Controller\\NewsFeedController\:\:getTodayDate\(\) has invalid return type Drupal\\liberal_custom_content\\Controller\\Datetime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Controller\\NewsFeedController\:\:getTodayDate\(\) should return Drupal\\liberal_custom_content\\Controller\\Datetime but returns Drupal\\liberal_custom_content\\Controller\\DateTime\.$#'
+			identifier: return.type
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Controller\\NewsFeedController\:\:renderMarketsFeed\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Controller\\NewsFeedController\:\:renderMarketsFeed\(\) has parameter \$date with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Controller\\NewsFeedController\:\:renderNewsFeed\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Controller\\NewsFeedController\:\:renderNewsFeed\(\) has parameter \$date with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Controller\\NewsFeedController\:\:renderView\(\) has parameter \$args with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Controller\\NewsFeedController\:\:renderView\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Controller\\NewsFeedController\:\:renderView\(\) should return array but returns array\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Controller/NewsFeedController.php
+
+		-
+			message: '#^Cannot call method fetchAllAssoc\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/AuditLogsDeleteBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\AuditLogsDeleteBatchCommands\:\:cleanupLogs\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/AuditLogsDeleteBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\AuditLogsDeleteBatchCommands\:\:cleanupLogs\(\) has parameter \$options with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/AuditLogsDeleteBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\AuditLogsDeleteBatchCommands\:\:getOutdatedLogs\(\) has parameter \$cleanupDate with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/AuditLogsDeleteBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\AuditLogsDeleteBatchCommands\:\:getOutdatedLogs\(\) has parameter \$option with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/AuditLogsDeleteBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\AuditLogsDeleteBatchCommands\:\:getOutdatedLogs\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/AuditLogsDeleteBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\AuditLogsDeleteBatchCommands\:\:processLogs\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/AuditLogsDeleteBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\AuditLogsDeleteBatchCommands\:\:processLogs\(\) has parameter \$chunk with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/AuditLogsDeleteBatchCommands.php
+
+		-
+			message: '#^Parameter \#1 \.\.\.\$arg1 of function max expects non\-empty\-array, list given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/AuditLogsDeleteBatchCommands.php
+
+		-
+			message: '#^Parameter \#1 \.\.\.\$arg1 of function min expects non\-empty\-array, list given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/AuditLogsDeleteBatchCommands.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 2
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/AuditLogsDeleteBatchCommands.php
+
+		-
+			message: '#^Cannot access offset ''results'' on object\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/FixDatesBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\FixDatesBatchCommands\:\:fixDatesFinished\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/FixDatesBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\FixDatesBatchCommands\:\:fixDatesFinished\(\) has parameter \$operations with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/FixDatesBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\FixDatesBatchCommands\:\:fixDbDates\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/FixDatesBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\FixDatesBatchCommands\:\:getFixDateNodes\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/FixDatesBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\FixDatesBatchCommands\:\:processDates\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/FixDatesBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\FixDatesBatchCommands\:\:processDates\(\) has parameter \$chunk with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/FixDatesBatchCommands.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/FixDatesBatchCommands.php
+
+		-
+			message: '#^Cannot access offset ''results'' on object\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/MergeAuthorsCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\MergeAuthorsCommands\:\:MergeAuthorNodes\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/MergeAuthorsCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\MergeAuthorsCommands\:\:MergeAuthorsFinished\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/MergeAuthorsCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\MergeAuthorsCommands\:\:MergeAuthorsFinished\(\) has parameter \$operations with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/MergeAuthorsCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\MergeAuthorsCommands\:\:getAuthorIDs\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/MergeAuthorsCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\MergeAuthorsCommands\:\:getToMergeNodes\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/MergeAuthorsCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\MergeAuthorsCommands\:\:getToMergeNodes\(\) has parameter \$authors with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/MergeAuthorsCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\MergeAuthorsCommands\:\:processNodes\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/MergeAuthorsCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\MergeAuthorsCommands\:\:processNodes\(\) has parameter \$authors with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/MergeAuthorsCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\MergeAuthorsCommands\:\:processNodes\(\) has parameter \$chunk with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/MergeAuthorsCommands.php
+
+		-
+			message: '#^Parameter \#1 \$array of function array_shift is passed by reference, so it expects variables only\.$#'
+			identifier: argument.byRef
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/MergeAuthorsCommands.php
+
+		-
+			message: '#^Parameter \#1 \.\.\.\$arg1 of function max expects non\-empty\-array, array\<string, int\<0, max\>\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/MergeAuthorsCommands.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/MergeAuthorsCommands.php
+
+		-
+			message: '#^Cannot call method getValue\(\) on Drupal\\Core\\Field\\FieldItemInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/NewsBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\NewsBatchCommands\:\:cleanupNews\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/NewsBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\NewsBatchCommands\:\:getCurrentNewsCleanup\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/NewsBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\NewsBatchCommands\:\:processNews\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/NewsBatchCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Drush\\Commands\\NewsBatchCommands\:\:processNews\(\) has parameter \$chunk with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/NewsBatchCommands.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Drush/Commands/NewsBatchCommands.php
+
+		-
+			message: '#^Access to an undefined property object\:\:\$field_show_to_category_list\.$#'
+			identifier: property.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Call to an undefined method object\:\:getName\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Call to an undefined method object\:\:id\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Form\\LiberalApopseisAdminForm\:\:buildForm\(\) has parameter \$form with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Form\\LiberalApopseisAdminForm\:\:buildForm\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Form\\LiberalApopseisAdminForm\:\:changeApopseisViews\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Form\\LiberalApopseisAdminForm\:\:changeApopseisViews\(\) has parameter \$apopseis with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Form\\LiberalApopseisAdminForm\:\:create\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Form\\LiberalApopseisAdminForm\:\:disableBlocks\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Form\\LiberalApopseisAdminForm\:\:disableBlocks\(\) has parameter \$block_statuses with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Form\\LiberalApopseisAdminForm\:\:fileDataSave\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Form\\LiberalApopseisAdminForm\:\:fileDataSave\(\) has parameter \$old_files with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Form\\LiberalApopseisAdminForm\:\:fileDataSave\(\) has parameter \$values with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Form\\LiberalApopseisAdminForm\:\:getAuthorList\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Form\\LiberalApopseisAdminForm\:\:getEditableConfigNames\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Form\\LiberalApopseisAdminForm\:\:submitForm\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Form\\LiberalApopseisAdminForm\:\:submitForm\(\) has parameter \$form with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 5
+			path: web/modules/custom/liberal_custom_content/src/Form/LiberalApopseisAdminForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\Action\\AddToListAction\:\:execute\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/Action/AddToListAction.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\Action\\AddToListAction\:\:execute\(\) has parameter \$entity with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/Action/AddToListAction.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\Action\\RemoveFromListAction\:\:execute\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/Action/RemoveFromListAction.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\Action\\RemoveFromListAction\:\:execute\(\) has parameter \$entity with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/Action/RemoveFromListAction.php
+
+		-
+			message: '#^Access to an undefined property Drupal\\Core\\Field\\FieldItemInterface\:\:\$date\.$#'
+			identifier: property.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/Field/FieldFormatter/LiberalLastUpdatedFormatter.php
+
+		-
+			message: '#^Call to an undefined method Drupal\\Core\\Entity\\FieldableEntityInterface\:\:getCreatedTime\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/Field/FieldFormatter/LiberalLastUpdatedFormatter.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\Field\\FieldFormatter\\LiberalLastUpdatedFormatter\:\:buildDate\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/Field/FieldFormatter/LiberalLastUpdatedFormatter.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\Field\\FieldFormatter\\LiberalLastUpdatedFormatter\:\:defaultSettings\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/Field/FieldFormatter/LiberalLastUpdatedFormatter.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\Field\\FieldFormatter\\LiberalLastUpdatedFormatter\:\:formatDate\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/Field/FieldFormatter/LiberalLastUpdatedFormatter.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\Field\\FieldFormatter\\LiberalLastUpdatedFormatter\:\:formatDate\(\) should return array but returns string\.$#'
+			identifier: return.type
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/Field/FieldFormatter/LiberalLastUpdatedFormatter.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\Field\\FieldFormatter\\LiberalLastUpdatedFormatter\:\:settingsForm\(\) has parameter \$form with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/Field/FieldFormatter/LiberalLastUpdatedFormatter.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\Field\\FieldFormatter\\LiberalLastUpdatedFormatter\:\:settingsForm\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/Field/FieldFormatter/LiberalLastUpdatedFormatter.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\Field\\FieldFormatter\\LiberalLastUpdatedFormatter\:\:viewElements\(\) has parameter \$items with generic interface Drupal\\Core\\Field\\FieldItemListInterface but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/Field/FieldFormatter/LiberalLastUpdatedFormatter.php
+
+		-
+			message: '#^Return type \(array\) of method Drupal\\liberal_custom_content\\Plugin\\Field\\FieldFormatter\\LiberalLastUpdatedFormatter\:\:formatDate\(\) should be compatible with return type \(string\) of method Drupal\\datetime\\Plugin\\Field\\FieldFormatter\\DateTimeFormatterBase\:\:formatDate\(\)$#'
+			identifier: method.childReturnType
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/Field/FieldFormatter/LiberalLastUpdatedFormatter.php
+
+		-
+			message: '#^Cannot call method fetchAllAssoc\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/rest/resource/LoggedActionsGetResource.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\rest\\resource\\LoggedActionsGetResource\:\:__construct\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/rest/resource/LoggedActionsGetResource.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\rest\\resource\\LoggedActionsGetResource\:\:__construct\(\) has parameter \$serializer_formats with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/rest/resource/LoggedActionsGetResource.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\rest\\resource\\LoggedActionsGetResource\:\:create\(\) has parameter \$config with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/rest/resource/LoggedActionsGetResource.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\rest\\resource\\LoggedActionsGetResource\:\:get\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/rest/resource/LoggedActionsGetResource.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\rest\\resource\\LoggedActionsGetResource\:\:get\(\) has parameter \$nid with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/rest/resource/LoggedActionsGetResource.php
+
+		-
+			message: '#^Negated boolean expression is always false\.$#'
+			identifier: booleanNot.alwaysFalse
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/rest/resource/LoggedActionsGetResource.php
+
+		-
+			message: '#^Property Drupal\\liberal_custom_content\\Plugin\\rest\\resource\\LoggedActionsGetResource\:\:\$allowedUserRole \(int\) does not accept default value of type string\.$#'
+			identifier: property.defaultValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/rest/resource/LoggedActionsGetResource.php
+
+		-
+			message: '#^Result of && is always false\.$#'
+			identifier: booleanAnd.alwaysFalse
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/rest/resource/LoggedActionsGetResource.php
+
+		-
+			message: '#^Unsafe usage of new static\(\)\.$#'
+			identifier: new.static
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/rest/resource/LoggedActionsGetResource.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 2
+			path: web/modules/custom/liberal_custom_content/src/Plugin/rest/resource/LoggedActionsGetResource.php
+
+		-
+			message: '#^Access to an undefined property Drupal\\views\\ResultRow\:\:\$tid\.$#'
+			identifier: property.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/views/field/LiberalOblationUrl.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Plugin\\views\\field\\LiberalOblationUrl\:\:query\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Plugin/views/field/LiberalOblationUrl.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\TwigExtension\\PodcastDurationFormatterExtension\:\:formatDuration\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/TwigExtension/PodcastDurationFormatterExtension.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\TwigExtension\\PodcastDurationFormatterExtension\:\:formatDuration\(\) has parameter \$seconds with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/TwigExtension/PodcastDurationFormatterExtension.php
+
+		-
+			message: '#^Cannot call method fetchAllAssoc\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Cannot call method fetchAllKeyed\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 2
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:addLiberalCssAssets\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:addLiberalCssAssets\(\) has parameter \$page with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:addLiberalCssAssets\(\) has parameter \$path_info with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:addLiberalCssAssets\(\) has parameter \$theme with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:clearTaxonomies\(\) has parameter \$categories with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:createTaxonomiesCacheTags\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:getArticleTypeAdvertisingTid\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:getEoDayDatetime\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:getFieldWeightName\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:getFieldWeightName\(\) has parameter \$fields with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:getFieldWeightName\(\) has parameter \$name with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:getOblationTypesMappingName\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:invalidateRegionsCache\(\) has parameter \$regions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:mapRegionArray\(\) has parameter \$regions with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:mapRegionArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^PHPDoc tag @param for parameter \$date with type Drupal\\liberal_custom_content\\Utils\\Datetime is not subtype of native type DateTime\.$#'
+			identifier: parameter.phpDocType
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Parameter \#1 \$string of function strtolower expects string, array\<string\>\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Parameter \#2 \$haystack of function in_array expects array, float\|int\|list\|string\|false\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Parameter \$date of method Drupal\\liberal_custom_content\\Utils\\liberalCustomContentUtils\:\:getEoDayDatetime\(\) has invalid type Drupal\\liberal_custom_content\\Utils\\Datetime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Variable \$tags might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Variable \$tid_results might not be defined\.$#'
+			identifier: variable.undefined
+			count: 2
+			path: web/modules/custom/liberal_custom_content/src/Utils/liberalCustomContentUtils.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\liberalImpressionsRender\:\:addImpressionsImage\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/liberalImpressionsRender.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\liberalImpressionsRender\:\:addImpressionsImage\(\) has parameter \$element with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/liberalImpressionsRender.php
+
+		-
+			message: '#^Method Drupal\\liberal_custom_content\\liberalImpressionsRender\:\:addImpressionsImage\(\) has parameter \$field with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_custom_content/src/liberalImpressionsRender.php
+
+		-
+			message: '#^Access to an undefined property Drupal\\node\\NodeInterface\:\:\$liberal_scheduler_processed\.$#'
+			identifier: property.notFound
+			count: 1
+			path: web/modules/custom/liberal_date_fields/liberal_date_fields.module
+
+		-
+			message: '#^Function liberal_date_fields_scheduler_node_publish_process\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_date_fields/liberal_date_fields.module
+
+		-
+			message: '#^Cannot access offset ''results'' on object\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 2
+			path: web/modules/custom/liberal_date_fields/src/Drush/Commands/MigrateTeleytaiaEnimerosiCommands.php
+
+		-
+			message: '#^Cannot call method fetchCol\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_date_fields/src/Drush/Commands/MigrateTeleytaiaEnimerosiCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_date_fields\\Drush\\Commands\\MigrateTeleytaiaEnimerosiCommands\:\:getNodeIds\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_date_fields/src/Drush/Commands/MigrateTeleytaiaEnimerosiCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_date_fields\\Drush\\Commands\\MigrateTeleytaiaEnimerosiCommands\:\:migrateTeleytaiaEnimerosiFinished\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_date_fields/src/Drush/Commands/MigrateTeleytaiaEnimerosiCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_date_fields\\Drush\\Commands\\MigrateTeleytaiaEnimerosiCommands\:\:migrateTeleytaiaEnimerosiFinished\(\) has parameter \$operations with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_date_fields/src/Drush/Commands/MigrateTeleytaiaEnimerosiCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_date_fields\\Drush\\Commands\\MigrateTeleytaiaEnimerosiCommands\:\:migrateTeleytaiaEnimerosiNodes\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_date_fields/src/Drush/Commands/MigrateTeleytaiaEnimerosiCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_date_fields\\Drush\\Commands\\MigrateTeleytaiaEnimerosiCommands\:\:processNodes\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_date_fields/src/Drush/Commands/MigrateTeleytaiaEnimerosiCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_date_fields\\Drush\\Commands\\MigrateTeleytaiaEnimerosiCommands\:\:processNodes\(\) has parameter \$chunk with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_date_fields/src/Drush/Commands/MigrateTeleytaiaEnimerosiCommands.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 1
+			path: web/modules/custom/liberal_date_fields/src/Drush/Commands/MigrateTeleytaiaEnimerosiCommands.php
+
+		-
+			message: '#^Function liberal_node_loader_preprocess_page\(\) has parameter \$variables with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_node_loader/liberal_node_loader.module
+
+		-
+			message: '#^Access to constant CACHE_TAG_PROMOTED_LIST on an unknown class Drupal\\liberal_advertising_tools\\Utils\\LiberalAdvertisingToolsUtils\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Controller/LiberalNodeLoaderController.php
+
+		-
+			message: '#^Call to an undefined method object\:\:getArticlesHTML\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: web/modules/custom/liberal_node_loader/src/Controller/LiberalNodeLoaderController.php
+
+		-
+			message: '#^Call to an undefined method object\:\:getLiberalAdTargeting\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Controller/LiberalNodeLoaderController.php
+
+		-
+			message: '#^Call to an undefined method object\:\:getPromotedArticleHTML\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: web/modules/custom/liberal_node_loader/src/Controller/LiberalNodeLoaderController.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Controller/LiberalNodeLoaderController.php
+
+		-
+			message: '#^Method Drupal\\liberal_node_loader\\Controller\\LiberalNodeLoaderController\:\:getFields\(\) has parameter \$scroll_node with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Controller/LiberalNodeLoaderController.php
+
+		-
+			message: '#^Method Drupal\\liberal_node_loader\\Controller\\LiberalNodeLoaderController\:\:jsLiberalNodeLoad\(\) has parameter \$nid with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Controller/LiberalNodeLoaderController.php
+
+		-
+			message: '#^Method Drupal\\liberal_node_loader\\Controller\\LiberalNodeLoaderController\:\:jsRenderAjaxPage\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Controller/LiberalNodeLoaderController.php
+
+		-
+			message: '#^Method Drupal\\liberal_node_loader\\Controller\\LiberalNodeLoaderController\:\:jsRenderAjaxPage\(\) has parameter \$active_theme with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Controller/LiberalNodeLoaderController.php
+
+		-
+			message: '#^Method Drupal\\liberal_node_loader\\Controller\\LiberalNodeLoaderController\:\:jsRenderAjaxPage\(\) has parameter \$cacheId with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Controller/LiberalNodeLoaderController.php
+
+		-
+			message: '#^Method Drupal\\liberal_node_loader\\Controller\\LiberalNodeLoaderController\:\:jsRenderAjaxPage\(\) has parameter \$page_data with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Controller/LiberalNodeLoaderController.php
+
+		-
+			message: '#^Method Drupal\\liberal_node_loader\\Controller\\LiberalNodeLoaderController\:\:jsRenderAjaxPage\(\) has parameter \$scroll_node with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Controller/LiberalNodeLoaderController.php
+
+		-
+			message: '#^Variable \$promoted_article_nids on left side of \?\? always exists and is not nullable\.$#'
+			identifier: nullCoalesce.variable
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Controller/LiberalNodeLoaderController.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 16
+			path: web/modules/custom/liberal_node_loader/src/Controller/LiberalNodeLoaderController.php
+
+		-
+			message: '#^Expression on left side of \?\? is not nullable\.$#'
+			identifier: nullCoalesce.expr
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Controller/PreloadNidsController.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 2
+			path: web/modules/custom/liberal_node_loader/src/Controller/PreloadNidsController.php
+
+		-
+			message: '#^Cannot call method fetchAllAssoc\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Services/GetLoadingNids.php
+
+		-
+			message: '#^Method Drupal\\liberal_node_loader\\Services\\GetLoadingNids\:\:getApopsis\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Services/GetLoadingNids.php
+
+		-
+			message: '#^Method Drupal\\liberal_node_loader\\Services\\GetLoadingNids\:\:getLoadingNids\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Services/GetLoadingNids.php
+
+		-
+			message: '#^Method Drupal\\liberal_node_loader\\Services\\GetLoadingNids\:\:getLoadingNids\(\) has parameter \$current_nid with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Services/GetLoadingNids.php
+
+		-
+			message: '#^Method Drupal\\liberal_node_loader\\Services\\GetLoadingNids\:\:removeCurrentNode\(\) has parameter \$region_nids with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Services/GetLoadingNids.php
+
+		-
+			message: '#^Method Drupal\\liberal_node_loader\\Services\\GetLoadingNids\:\:removeCurrentNode\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Services/GetLoadingNids.php
+
+		-
+			message: '#^Offset 3\|159\|160\|162\|163 might not exist on array\{159\: ''field_home_weight'', 163\: ''field_blackbox…'', 160\: ''field_featured…'', 162\: ''field_top_stories…''\}\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Services/GetLoadingNids.php
+
+		-
+			message: '#^PHPDoc tag @return has invalid value \(array;\)\: Unexpected token ";", expected TOKEN_HORIZONTAL_WS at offset 22 on line 2$#'
+			identifier: phpDoc.parseError
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Services/GetLoadingNids.php
+
+		-
+			message: '#^Variable \$loading_nids might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: web/modules/custom/liberal_node_loader/src/Services/GetLoadingNids.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 3
+			path: web/modules/custom/liberal_node_loader/src/Services/GetLoadingNids.php
+
+		-
+			message: '#^Access to an undefined property Drupal\\node\\NodeInterface\:\:\$field_podcast_duration\.$#'
+			identifier: property.notFound
+			count: 1
+			path: web/modules/custom/liberal_podcasts/liberal_podcasts.module
+
+		-
+			message: '#^Access to an undefined property Drupal\\node\\NodeInterface\:\:\$field_podcast_height\.$#'
+			identifier: property.notFound
+			count: 2
+			path: web/modules/custom/liberal_podcasts/liberal_podcasts.module
+
+		-
+			message: '#^Access to an undefined property Drupal\\node\\NodeInterface\:\:\$field_podcast_source_code\.$#'
+			identifier: property.notFound
+			count: 3
+			path: web/modules/custom/liberal_podcasts/liberal_podcasts.module
+
+		-
+			message: '#^Access to an undefined property Drupal\\node\\NodeInterface\:\:\$field_podcast_width\.$#'
+			identifier: property.notFound
+			count: 2
+			path: web/modules/custom/liberal_podcasts/liberal_podcasts.module
+
+		-
+			message: '#^Function liberal_podcasts_views_pre_view\(\) has parameter \$display_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_podcasts/liberal_podcasts.module
+
+		-
+			message: '#^Offset ''duration'' might not exist on array\|null\.$#'
+			identifier: offsetAccess.notFound
+			count: 1
+			path: web/modules/custom/liberal_podcasts/liberal_podcasts.module
+
+		-
+			message: '#^Variable \$video_id might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: web/modules/custom/liberal_podcasts/liberal_podcasts.module
+
+		-
+			message: '#^Method Drupal\\liberal_podcasts\\Form\\LiberalPodcastsSettingsForm\:\:buildForm\(\) has parameter \$form with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_podcasts/src/Form/LiberalPodcastsSettingsForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_podcasts\\Form\\LiberalPodcastsSettingsForm\:\:buildForm\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_podcasts/src/Form/LiberalPodcastsSettingsForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_podcasts\\Form\\LiberalPodcastsSettingsForm\:\:getEditableConfigNames\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_podcasts/src/Form/LiberalPodcastsSettingsForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_podcasts\\Form\\LiberalPodcastsSettingsForm\:\:submitForm\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_podcasts/src/Form/LiberalPodcastsSettingsForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_podcasts\\Form\\LiberalPodcastsSettingsForm\:\:submitForm\(\) has parameter \$form with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_podcasts/src/Form/LiberalPodcastsSettingsForm.php
+
+		-
+			message: '#^Class Drupal\\liberal_podcasts\\Plugin\\Field\\FieldFormatter\\PodcastDurationMmSsFormatter extends generic class Drupal\\Core\\Field\\FormatterBase but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: web/modules/custom/liberal_podcasts/src/Plugin/Field/FieldFormatter/PodcastDurationMmSsFormatter.php
+
+		-
+			message: '#^Method Drupal\\liberal_podcasts\\Plugin\\Field\\FieldFormatter\\PodcastDurationMmSsFormatter\:\:viewElements\(\) has parameter \$items with generic interface Drupal\\Core\\Field\\FieldItemListInterface but does not specify its types\: T$#'
+			identifier: missingType.generics
+			count: 1
+			path: web/modules/custom/liberal_podcasts/src/Plugin/Field/FieldFormatter/PodcastDurationMmSsFormatter.php
+
+		-
+			message: '#^Method Drupal\\liberal_podcasts\\Service\\LiberalPodcastsGetData\:\:getData\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_podcasts/src/Service/LiberalPodcastsGetData.php
+
+		-
+			message: '#^Method Drupal\\liberal_podcasts\\Service\\LiberalPodcastsGetData\:\:makeGuzzleRequest\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_podcasts/src/Service/LiberalPodcastsGetData.php
+
+		-
+			message: '#^Method Drupal\\liberal_podcasts\\Service\\LiberalPodcastsGetData\:\:makeGuzzleRequest\(\) has parameter \$video_id with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_podcasts/src/Service/LiberalPodcastsGetData.php
+
+		-
+			message: '#^Method Drupal\\liberal_podcasts\\Utils\\LiberalPodcastDurationUtility\:\:getDuration\(\) has parameter \$duration with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_podcasts/src/Utils/LiberalPodcastDurationUtility.php
+
+		-
+			message: '#^Parameter \#1 \$num of function round expects float\|int, float\|int\<1, max\>\|string given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/liberal_podcasts/src/Utils/LiberalPodcastDurationUtility.php
+
+		-
+			message: '#^Cannot access offset ''path'' on array\{scheme\?\: string, host\?\: string, port\?\: int\<0, 65535\>, user\?\: string, pass\?\: string, path\?\: string, query\?\: string, fragment\?\: string\}\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: web/modules/custom/liberal_podcasts/src/Utils/LiberalPodcastUtility.php
+
+		-
+			message: '#^Method Drupal\\liberal_podcasts\\Utils\\LiberalPodcastUtility\:\:fix_facebook_iframe_dimensions\(\) should return string but returns string\|null\.$#'
+			identifier: return.type
+			count: 1
+			path: web/modules/custom/liberal_podcasts/src/Utils/LiberalPodcastUtility.php
+
+		-
+			message: '#^Default value of the parameter \#2 \$file_counter \(string\) of method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:getFilename\(\) is incompatible with type int\.$#'
+			identifier: parameter.defaultValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Default value of the parameter \#3 \$file_counter \(string\) of method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:saveFile\(\) is incompatible with type int\.$#'
+			identifier: parameter.defaultValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '''
+				#^Fetching deprecated class constant EXISTS_REPLACE of interface Drupal\\Core\\File\\FileSystemInterface\:
+				in drupal\:10\.3\.0 and is removed from drupal\:12\.0\.0\. Use
+				\\Drupal\\Core\\File\\FileExists\:\:Replace instead\.$#
+			'''
+			identifier: classConstant.deprecated
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:addItem\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:addItem\(\) has parameter \$link with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:addItem\(\) has parameter \$variant with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:addItemArticles\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:addItemArticles\(\) has parameter \$item with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:addItemIndex\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:addItemIndex\(\) has parameter \$item with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:addItemNews\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:addItemNews\(\) has parameter \$item with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationClearBuffer\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationClearBuffer\(\) has parameter \$buffer with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationClearBuffer\(\) has parameter \$variant with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationGetArticleTags\(\) has parameter \$node with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationGetEntities\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationGetEntities\(\) has parameter \$links with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationGetEntities\(\) has parameter \$variant with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationNextRun\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationNextRun\(\) has parameter \$context with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationNextRun\(\) has parameter \$variant with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationNextRunNewFile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationNextRunNewFile\(\) has parameter \$context with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationNextRunNewFile\(\) has parameter \$variant with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationPrepareLink\(\) has parameter \$entity with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationPrepareLink\(\) has parameter \$variant with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationProgress\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationProgress\(\) has parameter \$context with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationProgress\(\) has parameter \$link with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationProgress\(\) has parameter \$variant with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationProgressCounter\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationProgressCounter\(\) has parameter \$context with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationProgressCounter\(\) has parameter \$source with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationResetIndex\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationResetIndex\(\) has parameter \$context with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationRetainDrushVars\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationRetainDrushVars\(\) has parameter \$context with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationRetainDrushVars\(\) has parameter \$source with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationStart\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationStart\(\) has parameter \$context with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationStart\(\) has parameter \$options with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:batchOperationStart\(\) has parameter \$variant with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:endSitemap\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:flattenLinksArray\(\) has parameter \$links with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:flattenLinksArray\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:getFilename\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:getIndexBreak\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:getLastModeDate\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:getLastModeDate\(\) has parameter \$entity with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:getLastModeDate\(\) has parameter \$variant with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:getSchema\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:getSchemaImage\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:getSchemaNews\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:getWriter\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:lastmodDate\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:lastmodDate\(\) has parameter \$date with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:lastmodDate\(\) has parameter \$is_timestamp with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:returnVariantLinks\(\) has parameter \$chunk with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:returnVariantLinks\(\) has parameter \$count with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:returnVariantLinks\(\) has parameter \$dates_sitemap with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:returnVariantLinks\(\) has parameter \$limit with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:returnVariantLinks\(\) has parameter \$options with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:returnVariantLinks\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:saveFile\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:setExecuteBatch\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:setIndexBreak\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:setIndexBreak\(\) has parameter \$break with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:setIndexBreak\(\) has parameter \$variant with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:setWriter\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:sitemapBatchFinished\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:sitemapBatchFinished\(\) has parameter \$operations with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:sitemapBatchFinished\(\) has parameter \$results with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:sitemapBatchFinished\(\) has parameter \$success with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:sitemapBatchProcess\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:sitemapBatchProcess\(\) has parameter \$context with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:sitemapBatchProcess\(\) has parameter \$options with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:sitemapBatchProcess\(\) has parameter \$source with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:sitemapBatchProcess\(\) has parameter \$variant with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:startSitemap\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:startSitemap\(\) has parameter \$fill with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:startSitemapIndex\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:startSitemapIndex\(\) has parameter \$fill with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:startSitemapNews\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:startSitemapNews\(\) has parameter \$fill with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Parameter \#1 \$uri of method Drupal\\Core\\File\\FileUrlGenerator\:\:generateAbsoluteString\(\) expects string, string\|null given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Property Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:\$indexbreak has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Property Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:\$schema has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Property Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:\$schema_image has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Property Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:\$schema_news has no type specified\.$#'
+			identifier: missingType.property
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Property Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:\$writer \(Drupal\\liberal_sitemap_generator\\Controller\\XMLWriter\) does not accept XMLWriter\.$#'
+			identifier: assign.propertyType
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Property Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:\$writer has unknown class Drupal\\liberal_sitemap_generator\\Controller\\XMLWriter as its type\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Strict comparison using \=\=\= between true and true will always evaluate to true\.$#'
+			identifier: identical.alwaysTrue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Unreachable statement \- code above always terminates\.$#'
+			identifier: deadCode.unreachable
+			count: 2
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Variable \$filename might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 16
+			path: web/modules/custom/liberal_sitemap_generator/src/Controller/LiberalSitemapGeneratorController.php
+
+		-
+			message: '#^Cannot call method notice\(\) on Drush\\Log\\DrushLoggerManager\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Drush/Commands/SitemapGeneratorCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Drush\\Commands\\SitemapGeneratorCommands\:\:generate\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Drush/Commands/SitemapGeneratorCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Drush\\Commands\\SitemapGeneratorCommands\:\:generate\(\) has parameter \$options with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Drush/Commands/SitemapGeneratorCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Drush\\Commands\\SitemapGeneratorCommands\:\:generate\(\) has parameter \$variant with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Drush/Commands/SitemapGeneratorCommands.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Form\\LiberalSitemapGeneratorForm\:\:buildForm\(\) has parameter \$form with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Form/LiberalSitemapGeneratorForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Form\\LiberalSitemapGeneratorForm\:\:buildForm\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Form/LiberalSitemapGeneratorForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Form\\LiberalSitemapGeneratorForm\:\:submitForm\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Form/LiberalSitemapGeneratorForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Form\\LiberalSitemapGeneratorForm\:\:submitForm\(\) has parameter \$form with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Form/LiberalSitemapGeneratorForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Form\\LiberalSitemapGeneratorForm\:\:validateForm\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Form/LiberalSitemapGeneratorForm.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Form\\LiberalSitemapGeneratorForm\:\:validateForm\(\) has parameter \$form with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Form/LiberalSitemapGeneratorForm.php
+
+		-
+			message: '#^Parameter \#2 \$options of method Drupal\\liberal_sitemap_generator\\Controller\\LiberalSitemapGeneratorController\:\:setExecuteBatch\(\) expects bool, array\<string, mixed\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Form/LiberalSitemapGeneratorForm.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 2
+			path: web/modules/custom/liberal_sitemap_generator/src/Form/LiberalSitemapGeneratorForm.php
+
+		-
+			message: '#^Call to method diff\(\) on an unknown class Drupal\\liberal_sitemap_generator\\Services\\Datetime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Call to method format\(\) on an unknown class Drupal\\liberal_sitemap_generator\\Services\\DateTime\.$#'
+			identifier: class.notFound
+			count: 4
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Call to method format\(\) on an unknown class Drupal\\liberal_sitemap_generator\\Services\\Datetime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Call to method getTimestamp\(\) on an unknown class Drupal\\liberal_sitemap_generator\\Services\\DateTime\.$#'
+			identifier: class.notFound
+			count: 3
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Call to method getTimestamp\(\) on an unknown class Drupal\\liberal_sitemap_generator\\Services\\Datetime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Call to method modify\(\) on an unknown class Drupal\\liberal_sitemap_generator\\Services\\DateTime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Cannot access offset ''created'' on array\|false\.$#'
+			identifier: offsetAccess.nonOffsetAccessible
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Cannot call method fetchAllAssoc\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Cannot call method fetchAssoc\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Cannot call method fetchField\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:FixInputDate\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:FixInputDate\(\) has parameter \$time with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:fillSitemapDay\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:fillSitemapMonths\(\) has parameter \$exclude_date with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:fillSitemapMonths\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getArticlesSitemapLinks\(\) has parameter \$count with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getArticlesSitemapLinks\(\) has parameter \$dates_sitemap with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getArticlesSitemapLinks\(\) has parameter \$limit with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getArticlesSitemapLinks\(\) has parameter \$options with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getArticlesSitemapLinks\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getBoDay\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getBoDay\(\) has parameter \$timestamp with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getBoMonth\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getBoMonth\(\) has parameter \$timestamp with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getEoDay\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getEoDay\(\) has parameter \$timestamp with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getEoMonth\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getEoMonth\(\) has parameter \$timestamp with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getMonthsDifference\(\) should return int but returns float\|int\.$#'
+			identifier: return.type
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$original_date$#'
+			identifier: parameter.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Parameter \$d1 of method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getMonthsDifference\(\) has invalid type Drupal\\liberal_sitemap_generator\\Services\\Datetime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Parameter \$d2 of method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getMonthsDifference\(\) has invalid type Drupal\\liberal_sitemap_generator\\Services\\DateTime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Parameter \$max_date of method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:fillSitemapDay\(\) has invalid type Drupal\\liberal_sitemap_generator\\Services\\Datetime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Parameter \$min_date of method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:fillSitemapDay\(\) has invalid type Drupal\\liberal_sitemap_generator\\Services\\DateTime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Parameter \$min_date of method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:fillSitemapMonths\(\) has invalid type Drupal\\liberal_sitemap_generator\\Services\\DateTime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Variable \$current_month_key might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Variable \$min_date might not be defined\.$#'
+			identifier: variable.undefined
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Variable \$timestamp might not be defined\.$#'
+			identifier: variable.undefined
+			count: 4
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 6
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/ArticlesSitemapLinks.php
+
+		-
+			message: '#^Cannot call method fetchAllAssoc\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/IndexSitemapLinks.php
+
+		-
+			message: '#^Cannot call method setTimezone\(\) on DateTime\|false\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/IndexSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\IndexSitemapLinks\:\:MaintainDailySitemapFiles\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/IndexSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\IndexSitemapLinks\:\:MaintainDailySitemapFiles\(\) has parameter \$day_sitemaps with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/IndexSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\IndexSitemapLinks\:\:getIndexSitemapLinks\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/IndexSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\IndexSitemapLinks\:\:getIndexSitemapLinks\(\) has parameter \$chunk with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/IndexSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\IndexSitemapLinks\:\:getIndexSitemapLinks\(\) has parameter \$limit with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/IndexSitemapLinks.php
+
+		-
+			message: '#^Parameter \#1 \$d1 of method Drupal\\liberal_sitemap_generator\\Services\\ArticlesSitemapLinks\:\:getMonthsDifference\(\) expects Drupal\\liberal_sitemap_generator\\Services\\Datetime, DateTime\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/IndexSitemapLinks.php
+
+		-
+			message: '#^Parameter \#2 \$datetime of static method DateTime\:\:createFromFormat\(\) expects string, int given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/IndexSitemapLinks.php
+
+		-
+			message: '#^Parameter \#2 \$timestamp of function date expects int\|null, int\|false given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/IndexSitemapLinks.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 7
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/IndexSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\IndexXrimatistirioSitemapLinks\:\:getIndexXrimatistirioSitemapLinks\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/IndexXrimatistirioSitemapLinks.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/IndexXrimatistirioSitemapLinks.php
+
+		-
+			message: '#^Cannot call method fetchCol\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/IndicesSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\IndicesSitemapLinks\:\:getIndicesSitemapLinks\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/IndicesSitemapLinks.php
+
+		-
+			message: '#^Cannot call method fetchCol\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/NewsSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\NewsSitemapLinks\:\:getNewsQueryRange\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/NewsSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\NewsSitemapLinks\:\:getNewsSitemapLinksQuery\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/NewsSitemapLinks.php
+
+		-
+			message: '#^Call to method format\(\) on an unknown class Drupal\\liberal_sitemap_generator\\Services\\DateTime\.$#'
+			identifier: class.notFound
+			count: 2
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Call to method format\(\) on an unknown class Drupal\\liberal_sitemap_generator\\Services\\Datetime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Call to method getTimestamp\(\) on an unknown class Drupal\\liberal_sitemap_generator\\Services\\DateTime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Call to method getTimestamp\(\) on an unknown class Drupal\\liberal_sitemap_generator\\Services\\Datetime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Cannot call method fetchAllAssoc\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Cannot call method fetchField\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\PodcastsSitemapLinks\:\:fillSitemapPodcast\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\PodcastsSitemapLinks\:\:getBoDay\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\PodcastsSitemapLinks\:\:getBoDay\(\) has parameter \$timestamp with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\PodcastsSitemapLinks\:\:getBoYear\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\PodcastsSitemapLinks\:\:getBoYear\(\) has parameter \$timestamp with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\PodcastsSitemapLinks\:\:getEoDay\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\PodcastsSitemapLinks\:\:getEoDay\(\) has parameter \$timestamp with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\PodcastsSitemapLinks\:\:getEoYear\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\PodcastsSitemapLinks\:\:getEoYear\(\) has parameter \$timestamp with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\PodcastsSitemapLinks\:\:getPodcastsSitemapLinks\(\) has parameter \$count with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\PodcastsSitemapLinks\:\:getPodcastsSitemapLinks\(\) has parameter \$date_sitemap with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\PodcastsSitemapLinks\:\:getPodcastsSitemapLinks\(\) has parameter \$options with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\PodcastsSitemapLinks\:\:getPodcastsSitemapLinks\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^PHPDoc tag @param references unknown parameter\: \$original_date$#'
+			identifier: parameter.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Parameter \$max_date of method Drupal\\liberal_sitemap_generator\\Services\\PodcastsSitemapLinks\:\:fillSitemapPodcast\(\) has invalid type Drupal\\liberal_sitemap_generator\\Services\\Datetime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Parameter \$min_date of method Drupal\\liberal_sitemap_generator\\Services\\PodcastsSitemapLinks\:\:fillSitemapPodcast\(\) has invalid type Drupal\\liberal_sitemap_generator\\Services\\DateTime\.$#'
+			identifier: class.notFound
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 3
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/PodcastsSitemapLinks.php
+
+		-
+			message: '#^Cannot call method fetchCol\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/StocksSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\liberal_sitemap_generator\\Services\\StocksSitemapLinks\:\:getStocksSitemapLinks\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/liberal_sitemap_generator/src/Services/StocksSitemapLinks.php
+
+		-
+			message: '#^Method Drupal\\unicorn_core\\Permissions\\PermissionsInterface\:\:getAll\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_core/src/Permissions/PermissionsInterface.php
+
+		-
+			message: '#^Trait Drupal\\unicorn_core\\Permissions\\PermissionsTrait is used zero times and is not analysed\.$#'
+			identifier: trait.unused
+			count: 1
+			path: web/modules/custom/unicorn_core/src/Permissions/PermissionsTrait.php
+
+		-
+			message: '#^Method Drupal\\unicorn_core\\RequestArgumentResolver\:\:resolve\(\) return type has no value type specified in iterable type iterable\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_core/src/RequestArgumentResolver.php
+
+		-
+			message: '#^Method Drupal\\unicorn_core\\Response\\ResponseBuilder\:\:getResponseData\(\) should return array\{data\: mixed, status\: int, headers\: array\<string, string\>, json\: bool\} but returns array\{data\: mixed, status\: int, headers\: array\<string, string\>\}\.$#'
+			identifier: return.type
+			count: 1
+			path: web/modules/custom/unicorn_core/src/Response/ResponseBuilder.php
+
+		-
+			message: '#^Method Drupal\\unicorn_core\\Schema\\BaseSchema\:\:getSchema\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_core/src/Schema/BaseSchema.php
+
+		-
+			message: '#^Method Drupal\\unicorn_core\\Schema\\BaseSchema\:\:schema\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_core/src/Schema/BaseSchema.php
+
+		-
+			message: '#^Parameter \#1 \$p of method Drupal\\unicorn_core\\Support\\Collection\<TKey of \(int\|string\),T\>\:\:findFirst\(\) expects Closure\(T, TKey\)\: bool, \(Closure\(T\)\: bool\)\|\(Closure&T\) given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/unicorn_core/src/Support/Collection.php
+
+		-
+			message: '#^Parameter \#2 \$callback of function array_find_key expects callable\(T, TKey\)\: bool, \(callable\(T, TKey\)\: bool&Closure\)\|\(Closure&T\) given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/unicorn_core/src/Support/Collection.php
+
+		-
+			message: '#^Constant JSON_ERROR_NONE is not allowed for parameter \#4 \$flags of function json_decode\.$#'
+			identifier: argument.invalidConstant
+			count: 1
+			path: web/modules/custom/unicorn_core/src/Support/Http/Request.php
+
+		-
+			message: '#^Access to an undefined property Drupal\\node\\NodeInterface\:\:\$field_eidos_arthrou\.$#'
+			identifier: property.notFound
+			count: 1
+			path: web/themes/custom/liberal_theme_amp/liberal_theme_amp.theme
+
+		-
+			message: '#^Function liberal_theme_amp_library_info_alter\(\) has parameter \$extension with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/themes/custom/liberal_theme_amp/liberal_theme_amp.theme
+
+		-
+			message: '#^Function liberal_theme_amp_library_info_alter\(\) has parameter \$libraries with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/themes/custom/liberal_theme_amp/liberal_theme_amp.theme
+
+		-
+			message: '#^Function liberal_theme_amp_preprocess_block\(\) has parameter \$variables with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/themes/custom/liberal_theme_amp/liberal_theme_amp.theme
+
+		-
+			message: '#^Function liberal_theme_amp_preprocess_html\(\) has parameter \$variables with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/themes/custom/liberal_theme_amp/liberal_theme_amp.theme
+
+		-
+			message: '#^Function liberal_theme_amp_preprocess_image\(\) has parameter \$vars with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/themes/custom/liberal_theme_amp/liberal_theme_amp.theme
+
+		-
+			message: '#^Function liberal_theme_amp_preprocess_node\(\) has parameter \$variables with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/themes/custom/liberal_theme_amp/liberal_theme_amp.theme
+
+		-
+			message: '#^Function liberal_theme_amp_preprocess_page\(\) has parameter \$variables with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/themes/custom/liberal_theme_amp/liberal_theme_amp.theme
+
+		-
+			message: '#^Function liberal_theme_amp_preprocess_region\(\) has parameter \$variables with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/themes/custom/liberal_theme_amp/liberal_theme_amp.theme
+
+		-
+			message: '#^Function liberal_theme_amp_theme\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/themes/custom/liberal_theme_amp/liberal_theme_amp.theme
+
+		-
+			message: '#^Function liberal_theme_amp_theme\(\) has parameter \$existing with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/themes/custom/liberal_theme_amp/liberal_theme_amp.theme
+
+		-
+			message: '#^Function liberal_theme_amp_theme\(\) has parameter \$path with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/themes/custom/liberal_theme_amp/liberal_theme_amp.theme
+
+		-
+			message: '#^Function liberal_theme_amp_theme\(\) has parameter \$theme with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/themes/custom/liberal_theme_amp/liberal_theme_amp.theme
+
+		-
+			message: '#^Function liberal_theme_amp_theme\(\) has parameter \$type with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/themes/custom/liberal_theme_amp/liberal_theme_amp.theme
+		-
+			message: '#^Call to an undefined method Drupal\\Core\\Entity\\EntityInterface\:\:isPublished\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/modules/custom/unicorn_preview_nodes/src/Hook/NodeAccessHooks.php
+
+		-
+			message: '#^Method Drupal\\unicorn_preview_nodes\\Hook\\NodeAccessHooks\:\:nodeAccess\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/unicorn_preview_nodes/src/Hook/NodeAccessHooks.php
+
+		-
+			message: '#^Method Drupal\\unicorn_preview_nodes\\Hook\\NodeAccessHooks\:\:nodeAccess\(\) has parameter \$op with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/unicorn_preview_nodes/src/Hook/NodeAccessHooks.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Controller\\ApiIndexController\:\:create\(\) should return static\(Drupal\\unicorn_api_alterations\\Controller\\ApiIndexController\) but returns Drupal\\unicorn_api_alterations\\Controller\\ApiIndexController\.$#'
+			identifier: return.type
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Controller/ApiIndexController.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 3
+			path: web/modules/custom/unicorn_api_alterations/src/Controller/ApiIndexController.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Controller/DebugController.php
+
+		-
+			message: '#^Call to an undefined method Drupal\\Core\\Entity\\EntityInterface\:\:get\(\)\.$#'
+			identifier: method.notFound
+			count: 4
+			path: web/modules/custom/unicorn_api_alterations/src/Controller/HomePageLayoutController.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 4
+			path: web/modules/custom/unicorn_api_alterations/src/Controller/HomePageLayoutController.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 2
+			path: web/modules/custom/unicorn_api_alterations/src/Controller/SectionsUsageController.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Controller\\SessionController\:\:create\(\) should return static\(Drupal\\unicorn_api_alterations\\Controller\\SessionController\) but returns Drupal\\unicorn_api_alterations\\Controller\\SessionController\.$#'
+			identifier: return.type
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Controller/SessionController.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 2
+			path: web/modules/custom/unicorn_api_alterations/src/Controller/SummaryController.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Form\\DebugSettingsForm\:\:buildForm\(\) has parameter \$form with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Form/DebugSettingsForm.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Form\\DebugSettingsForm\:\:buildForm\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Form/DebugSettingsForm.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Form\\DebugSettingsForm\:\:submitForm\(\) has parameter \$form with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Form/DebugSettingsForm.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 2
+			path: web/modules/custom/unicorn_api_alterations/src/Form/DebugSettingsForm.php
+
+		-
+			message: '#^Call to an undefined method Drupal\\Core\\Entity\\EntityInterface\:\:get\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Plugin/openapi/OpenApiGenerator/CustomApiGenerator.php
+
+		-
+			message: '#^Call to an undefined method Drupal\\Core\\Entity\\EntityInterface\:\:hasField\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Plugin/openapi/OpenApiGenerator/CustomApiGenerator.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Plugin\\openapi\\OpenApiGenerator\\CustomApiGenerator\:\:categoryMap\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Plugin/openapi/OpenApiGenerator/CustomApiGenerator.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Plugin\\openapi\\OpenApiGenerator\\CustomApiGenerator\:\:dbEnum\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Plugin/openapi/OpenApiGenerator/CustomApiGenerator.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Plugin\\openapi\\OpenApiGenerator\\CustomApiGenerator\:\:dbEnum\(\) has parameter \$entity_type with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Plugin/openapi/OpenApiGenerator/CustomApiGenerator.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Plugin\\openapi\\OpenApiGenerator\\CustomApiGenerator\:\:dbEnum\(\) has parameter \$field with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Plugin/openapi/OpenApiGenerator/CustomApiGenerator.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Plugin\\openapi\\OpenApiGenerator\\CustomApiGenerator\:\:getDefinitions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Plugin/openapi/OpenApiGenerator/CustomApiGenerator.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Plugin\\openapi\\OpenApiGenerator\\CustomApiGenerator\:\:getJsonSchema\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Plugin/openapi/OpenApiGenerator/CustomApiGenerator.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Plugin\\openapi\\OpenApiGenerator\\CustomApiGenerator\:\:getPaths\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Plugin/openapi/OpenApiGenerator/CustomApiGenerator.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Plugin\\openapi\\OpenApiGenerator\\CustomApiGenerator\:\:getSecurity\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Plugin/openapi/OpenApiGenerator/CustomApiGenerator.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Plugin\\openapi\\OpenApiGenerator\\CustomApiGenerator\:\:getSecurityDefinitions\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Plugin/openapi/OpenApiGenerator/CustomApiGenerator.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Plugin\\openapi\\OpenApiGenerator\\CustomApiGenerator\:\:getTags\(\) return type has no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Plugin/openapi/OpenApiGenerator/CustomApiGenerator.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 3
+			path: web/modules/custom/unicorn_api_alterations/src/Plugin/openapi/OpenApiGenerator/CustomApiGenerator.php
+
+		-
+			message: '#^Call to an undefined method Drupal\\jsonapi\\JsonApiResource\\ResourceIdentifierInterface\:\:getField\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Resource/ArticleFeed.php
+
+		-
+			message: '#^Call to an undefined method Drupal\\jsonapi\\ResourceResponse\:\:addCacheableDependency\(\)\.$#'
+			identifier: method.notFound
+			count: 3
+			path: web/modules/custom/unicorn_api_alterations/src/Resource/ArticleFeed.php
+
+		-
+			message: '#^Cannot call method fetchCol\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Resource/ArticleFeed.php
+
+		-
+			message: '#^Cannot call method fetchField\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Resource/ArticleFeed.php
+
+		-
+			message: '#^Instanceof between Drupal\\jsonapi\\JsonApiResource\\ResourceObjectData and Drupal\\jsonapi\\JsonApiResource\\ResourceObjectData will always evaluate to true\.$#'
+			identifier: instanceof.alwaysTrue
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Resource/ArticleFeed.php
+
+		-
+			message: '#^Parameter \#1 \$data of class Drupal\\jsonapi\\JsonApiResource\\ResourceObjectData constructor expects array\<Drupal\\jsonapi\\Exception\\EntityAccessDeniedHttpException\|Drupal\\jsonapi\\JsonApiResource\\ResourceObject\>, list\<Drupal\\jsonapi\\JsonApiResource\\ResourceIdentifierInterface\> given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Resource/ArticleFeed.php
+
+		-
+			message: '#^\\Drupal calls should be avoided in classes, use dependency injection instead$#'
+			identifier: globalDrupalDependencyInjection.useDependencyInjection
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Resource/ArticleFeed.php
+
+		-
+			message: '#^Call to an undefined method Drupal\\jsonapi\\ResourceResponse\:\:addCacheableDependency\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Resource/LatestArticles.php
+
+		-
+			message: '#^Call to an undefined method Drupal\\jsonapi\\ResourceResponse\:\:addCacheableDependency\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Resource/NewsFeed.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Resource\\NewsFeed\:\:create\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Resource/NewsFeed.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Resource\\NewsFeed\:\:getBlockQuery\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Resource/NewsFeed.php
+
+		-
+			message: '#^Method Drupal\\unicorn_api_alterations\\Resource\\NewsFeed\:\:getPageQuery\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/src/Resource/NewsFeed.php
+
+		-
+			message: '#^Call to an undefined method Drupal\\Core\\Entity\\EntityInterface\:\:hasField\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/unicorn_api_alterations.install
+
+		-
+			message: '#^Call to an undefined method Drupal\\Core\\Entity\\EntityInterface\:\:set\(\)\.$#'
+			identifier: method.notFound
+			count: 10
+			path: web/modules/custom/unicorn_api_alterations/unicorn_api_alterations.install
+
+		-
+			message: '#^Cannot call method fetchField\(\) on Drupal\\Core\\Database\\StatementInterface\|null\.$#'
+			identifier: method.nonObject
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/unicorn_api_alterations.install
+
+		-
+			message: '#^Function unicorn_api_alterations_modules_installed\(\) has parameter \$modules with no type specified\.$#'
+			identifier: missingType.parameter
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/unicorn_api_alterations.install
+
+		-
+			message: '#^Function unicorn_api_alterations_update_10001\(\) has no return type specified\.$#'
+			identifier: missingType.return
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/unicorn_api_alterations.install
+
+		-
+			message: '#^Parameter \#4 \$storage_definition of method Drupal\\Core\\Entity\\EntityDefinitionUpdateManagerInterface\:\:installFieldStorageDefinition\(\) expects Drupal\\Core\\Field\\FieldStorageDefinitionInterface, Drupal\\Core\\Field\\FieldDefinitionInterface given\.$#'
+			identifier: argument.type
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/unicorn_api_alterations.install
+
+		-
+			message: '#^Call to an undefined method Drupal\\Core\\Entity\\EntityInterface\:\:get\(\)\.$#'
+			identifier: method.notFound
+			count: 2
+			path: web/modules/custom/unicorn_api_alterations/unicorn_api_alterations.module
+
+		-
+			message: '#^Call to an undefined method Drupal\\Core\\Entity\\EntityInterface\:\:hasField\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/unicorn_api_alterations.module
+
+		-
+			message: '#^Call to an undefined method Drupal\\Core\\Entity\\EntityInterface\:\:set\(\)\.$#'
+			identifier: method.notFound
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/unicorn_api_alterations.module
+
+		-
+			message: '#^Call to function method_exists\(\) with Drupal\\Core\\Entity\\EntityInterface and ''bundle'' will always evaluate to true\.$#'
+			identifier: function.alreadyNarrowedType
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/unicorn_api_alterations.module
+
+		-
+			message: '#^Function _unicorn_api_alterations_label_section_tags\(\) has parameter \$tags with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/unicorn_api_alterations.module
+
+		-
+			message: '#^Function _unicorn_api_alterations_label_term_tags\(\) has parameter \$tags with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/unicorn_api_alterations.module
+
+		-
+			message: '#^Function unicorn_api_alterations_home_layout_saved\(\) has parameter \$sections with no value type specified in iterable type array\.$#'
+			identifier: missingType.iterableValue
+			count: 1
+			path: web/modules/custom/unicorn_api_alterations/unicorn_api_alterations.module

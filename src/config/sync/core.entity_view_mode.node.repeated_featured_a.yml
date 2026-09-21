@@ -1,0 +1,10 @@
+uuid: 23fec3df-f6af-416a-8acc-23e6004dda09
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.repeated_featured_a
+label: 'Repeated Featured A'
+targetEntityType: node
+cache: true

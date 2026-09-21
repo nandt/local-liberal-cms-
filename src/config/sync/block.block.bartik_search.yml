@@ -1,0 +1,23 @@
+uuid: 871fe31b-7d1c-4d6b-a646-ecacd2952692
+langcode: el
+status: true
+dependencies:
+  module:
+    - search
+  theme:
+    - bartik
+_core:
+  default_config_hash: Q-4EcGAsu26ICu4ejEz0uE1zv4akpiaOsizxgZfAmEw
+id: bartik_search
+theme: bartik
+region: sidebar_first
+weight: -1
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: Αναζήτηση
+  label_display: visible
+  provider: search
+  page_id: node_search
+visibility: {  }

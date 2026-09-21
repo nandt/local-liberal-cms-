@@ -1,0 +1,24 @@
+uuid: 94fa56ef-7384-45db-8960-213c2d0935db
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.politic_region_6
+  module:
+    - views
+  theme:
+    - liberal_theme
+id: views_block__politic_region_6_block
+theme: liberal_theme
+region: politic_6
+weight: 0
+provider: null
+plugin: 'views_block:politic_region_6-block'
+settings:
+  id: 'views_block:politic_region_6-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility: {  }

@@ -1,0 +1,24 @@
+uuid: 8d1cf539-4e46-41b5-97f3-c33e5beb5ff5
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.additional_articles_region
+  module:
+    - views
+  theme:
+    - liberal_theme
+id: views_block__additional_articles_region-block
+theme: liberal_theme
+region: additional_articles
+weight: 0
+provider: null
+plugin: 'views_block:additional_articles_region-block'
+settings:
+  id: 'views_block:additional_articles_region-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility: {  }

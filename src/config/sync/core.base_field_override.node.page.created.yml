@@ -1,0 +1,18 @@
+uuid: b8c04fbd-6b3c-4a66-8e7f-188c360cf818
+langcode: el
+status: true
+dependencies:
+  config:
+    - node.type.page
+id: node.page.created
+field_name: created
+entity_type: node
+bundle: page
+label: 'Συντάχθηκε στις'
+description: 'The time that the node was created.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: created

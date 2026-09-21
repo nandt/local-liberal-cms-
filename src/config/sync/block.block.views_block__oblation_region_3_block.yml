@@ -1,0 +1,29 @@
+uuid: e73c52e6-1814-49eb-875e-9489ab10932b
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.oblation_region_3
+  module:
+    - system
+    - views
+  theme:
+    - liberal_theme
+id: views_block__oblation_region_3_block
+theme: liberal_theme
+region: oblation_3
+weight: 0
+provider: null
+plugin: 'views_block:oblation_region_3-block'
+settings:
+  id: 'views_block:oblation_region_3-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    negate: false
+    pages: '<front>'

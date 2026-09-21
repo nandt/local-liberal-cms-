@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * @file
+ * Update hooks for liberal_amp_loader.
+ */
+
+declare(strict_types=1);
+
+/**
+ * Uninstalls liberal_node_loader.
+ *
+ * Its only functional consumer, GetLoadingNids (amp-next-page's nid pool),
+ * has been ported into this module as AmpNextPageNids; its other two
+ * consumers (an ajax "infinite scroll" controller and its preload endpoint)
+ * were already dead code, since liberal_theme -- the theme that would have
+ * rendered the trigger markup -- no longer exists.
+ *
+ * Do not delete liberal_node_loader's files until this has run on every
+ * environment: Drupal cannot boot if a module is still marked installed
+ * (core.extension) while its files are missing. A follow-up change removes
+ * the module once this is confirmed deployed everywhere.
+ */
+function liberal_amp_loader_update_10001(): void {
+  \Drupal::service('module_installer')->uninstall(['liberal_node_loader']);
+}

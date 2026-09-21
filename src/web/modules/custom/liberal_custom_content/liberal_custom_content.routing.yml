@@ -1,0 +1,58 @@
+liberal_custom_content.bettingslip:
+  path: 'betting-slip'
+  defaults:
+    _title: 'Κουπόνι Πάμε Στοίχημα'
+    _controller: '\Drupal\liberal_custom_content\Controller\LiberalCustomContentController::renderBettingSlip'
+  requirements:
+    _permission: 'access content'
+liberal_custom_content.frontpage:
+  path: '/node'
+  defaults:
+    _title: 'Liberal.gr | Ελεύθερη Ενημέρωση'
+    _controller: '\Drupal\liberal_custom_content\Controller\LiberalCustomContentController::frontPage'
+  requirements:
+    _permission: 'access content'
+liberal_custom_content.live_ase_market:
+  path: '/live-ase-market'
+  defaults:
+    _title: 'Χρηματιστήριο Live'
+    _controller: '\Drupal\liberal_custom_content\Controller\LiberalCustomContentController::liveAseMarket'
+  requirements:
+    _permission: 'access content'
+liberal_custom_content.liberal_markets:
+  path: '/liberal-markets'
+  defaults:
+    _title: 'Liberal Markets'
+    _controller: '\Drupal\liberal_custom_content\Controller\LiberalCustomContentController::liberalMarkets'
+  requirements:
+    _permission: 'access content'
+liberal_custom_content.apopseis_admin_ui_settings:
+  path: '/admin/config/liberal-apopseis/settings'
+  defaults:
+    _form: '\Drupal\liberal_custom_content\Form\LiberalApopseisAdminForm'
+    _title: 'Liberal Opinions Settings'
+  requirements:
+    _permission: 'administer opinions site tools'
+liberal_custom_content.region_weight_mapping:
+  path: '/api/regions-weight-mapping'
+  defaults:
+    _controller: '\Drupal\liberal_custom_content\Controller\LiberalRegionsMapping::getRegionsMapping'
+  methods: ['GET']
+  requirements:
+    _permission: 'access content'
+liberal_custom_content.news_feed:
+  path: '/news-feed/{date}'
+  defaults:
+    _title: 'News Feed Page'
+    _controller: '\Drupal\liberal_custom_content\Controller\NewsFeedController::renderNewsFeed'
+    date: null
+  requirements:
+    _permission: 'access content'
+liberal_custom_content.markets_feed:
+  path: '/markets-feed/{date}'
+  defaults:
+    _title: 'Markets Feed Page'
+    _controller: '\Drupal\liberal_custom_content\Controller\NewsFeedController::renderMarketsFeed'
+    date: null
+  requirements:
+    _permission: 'access content'

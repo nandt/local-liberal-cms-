@@ -1,0 +1,10 @@
+uuid: 95980a03-38fd-4cfa-90f3-cc760db6b569
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.blackbox
+label: Blackbox
+targetEntityType: node
+cache: true

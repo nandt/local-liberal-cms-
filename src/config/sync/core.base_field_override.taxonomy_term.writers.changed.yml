@@ -1,0 +1,18 @@
+uuid: 3b293159-dfff-44c1-a5a3-ec658e12aacd
+langcode: el
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.writers
+id: taxonomy_term.writers.changed
+field_name: changed
+entity_type: taxonomy_term
+bundle: writers
+label: Τροποποιημένο
+description: 'Πότε επεξεργάστηκε τελευταία φορά ο όρος.'
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: changed

@@ -1,0 +1,7 @@
+liberal_podcasts.admin_settings:
+  path: '/admin/config/liberal_podcasts/settings'
+  defaults:
+    _form: '\Drupal\liberal_podcasts\Form\LiberalPodcastsSettingsForm'
+    _title: 'Liberal Podcasts Settings'
+  requirements:
+    _permission: 'administer site configuration'

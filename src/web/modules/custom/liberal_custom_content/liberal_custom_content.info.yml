@@ -1,0 +1,6 @@
+name: Liberal Custom Content
+description: Custom Pages and Theming Overrides
+package: Custom
+type: module
+version: 1.0.0
+core_version_requirement: '^10 || ^11'

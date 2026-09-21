@@ -1,0 +1,29 @@
+uuid: 936a2a54-6070-4eb8-a823-12cd44d7b404
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_article_links
+    - node.type.article_liberal
+    - taxonomy.vocabulary.regions
+id: taxonomy_term.regions.field_article_links
+field_name: field_article_links
+entity_type: taxonomy_term
+bundle: regions
+label: article_links
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings:
+  handler: 'default:node'
+  handler_settings:
+    target_bundles:
+      article_liberal: article_liberal
+    sort:
+      field: field_weight
+      direction: ASC
+    auto_create: false
+    auto_create_bundle: article_liberal
+field_type: entity_reference

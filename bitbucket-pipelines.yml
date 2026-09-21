@@ -1,0 +1,271 @@
+image: atlassian/default-image:4
+
+
+# The default 1024M are not enough to build the React application
+definitions:
+  steps:
+    - step: &rector
+        name: Rector
+        # Keep this aligned with the Drupal/PHP base image in Dockerfile.
+        image: drupal:11.3.11-php8.4-apache-bookworm
+        caches:
+          - composer
+        script:
+          - cd src
+          - composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
+          - composer rector -- --dry-run
+    - step: &trivy
+        caches:
+          - docker
+        name: Check vulnerabilities
+        script:
+          # The official trivy pipe seems to be abandoned.
+          # This pipe is updated to the latest version and allows us to work around https://github.com/aquasecurity/trivy/discussions/7699
+          - pipe: docker://unicorndomaindevops/trivy-pipe:latest
+            variables:
+              scanType: fs
+              format: sarif
+              output: trivy-results.sarif
+        artifacts:
+          - trivy-results.sarif
+    - step: &sonarqube-scan
+        name: SonarQube analysis
+        script:
+          - pipe: sonarsource/sonarqube-scan:3.1.0
+            variables:
+              SONAR_HOST_URL: ${SONAR_HOST_URL}
+              SONAR_TOKEN: ${SONAR_TOKEN}
+              EXTRA_ARGS: ['-Dsonar.sarifReportPaths=trivy-results.sarif']
+    # - step: &phpcs
+    #     name: PHP CodeSniffer
+    #     # Keep this aligned with the Drupal/PHP base image in Dockerfile.
+    #     image: drupal:11.3.11-php8.4-apache-bookworm
+    #     caches:
+    #       - composer
+    #     script:
+    #       - cd src
+    #       - composer install --no-interaction --no-progress
+    #       - composer cs:check
+    - step: &phpstan
+        name: PHPStan
+        # Keep this aligned with the Drupal/PHP base image in Dockerfile.
+        image: drupal:11.3.11-php8.4-apache-bookworm
+        caches:
+          - composer
+        script:
+          - cd src
+          - composer install --no-interaction --no-progress --prefer-dist --optimize-autoloader
+          - composer phpstan
+  services:
+    docker:
+      memory: 2048
+
+clone:
+  depth: full
+
+pipelines:
+  branches:
+    develop:
+      # - step: *phpcs
+      - step: *phpstan
+      - step: *rector
+      - step: *trivy
+      - step: *sonarqube-scan
+      - step:
+          name: Build and push image to Docker Hub
+          services:
+            - docker
+          script:
+            - export DOCKER_BUILDKIT=1
+            - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
+            - docker build --target dev -f Dockerfile -t unicorndomaingr/liberal-cms:latest-dev .
+            - docker push unicorndomaingr/liberal-cms:latest-dev
+      - step:
+          name: Trigger devops
+          script:
+            - pipe: atlassian/trigger-pipeline:5.8.1
+              variables:
+                BITBUCKET_ACCESS_TOKEN: $LIBERAL_DEVOPS_TOKEN
+                REPOSITORY: 'liberal-devops'
+                REF_TYPE: 'branch'
+                REF_NAME: 'feature/master-liberal-v3'
+                CUSTOM_PIPELINE_NAME: 'develop'
+                WAIT: 'true'
+
+    release/*:
+      # - step: *phpcs
+      - step: *phpstan
+      - step: *rector
+      - step: *trivy
+      - step: *sonarqube-scan
+      - step:
+          name: Build and push images to Docker Hub
+          services:
+            - docker
+          script:
+            - export DOCKER_BUILDKIT=1
+            - export TAG="${BITBUCKET_BRANCH#release/}-rc-$BITBUCKET_COMMIT"
+            - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
+            # APP_PREFIX must match the path staging serves the CMS on: the ALB listener
+            # rule (terraform/alb.tf priority 47997), the helm chart's
+            # config.drupal.headless.basePath, and the frontend's baked
+            # NEXT_PUBLIC_API_URL all say /liberal-cms. The Dockerfile ARG defaults to
+            # /liberal for develop, so without this override a release build produces a
+            # /liberal image and every /liberal-cms request 404s.
+            - docker build --target prod --build-arg APP_PREFIX=liberal-cms -f Dockerfile -t unicorndomaingr/liberal-cms:$TAG .
+            # Without this push the tag below is committed to helm/staging.yaml for an
+            # image that was never uploaded — a phantom tag that ImagePullBackOffs on the
+            # cluster. This is how 0.1.0-rc-9492aff7… came to 404 on Docker Hub.
+            - docker push unicorndomaingr/liberal-cms:$TAG
+            - wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
+            - export TARGET_BRANCH="${TARGET_BRANCH:-master}"
+            - export TARGET_FILE="${TARGET_FILE:-helm/staging.yaml}"
+            - git clone -b "$TARGET_BRANCH" --single-branch https://x-token-auth:$LIBERAL_DEVOPS_TOKEN@bitbucket.org/unicorndomain/liberal-devops.git
+            - cd liberal-devops
+            - git config user.name "bitbucket"
+            - git config user.email $LIBERAL_DEVOPS_BOT_MAIL
+            # Four pipelines now write to this one branch — release/* and v3-release/*
+            # in this repo and in liberal-dashboard-app-web-v3. A bare push loses the
+            # race non-fast-forward AFTER the image is published, leaving a green
+            # build and a tag that was never recorded. Each attempt re-applies the
+            # edit on top of the current remote rather than replaying a diff, so
+            # writers on different keys never conflict; exhausting the retries exits 1.
+            - |
+              for i in 1 2 3 4 5; do
+                git fetch origin "$TARGET_BRANCH"
+                git reset --hard "origin/$TARGET_BRANCH"
+                yq -i '.cms.tag = env(TAG)' "$TARGET_FILE"
+                git commit -am "Update liberal-cms@staging to $TAG" || exit 0
+                git push origin "HEAD:$TARGET_BRANCH" && exit 0
+                sleep $((i * 5))
+              done
+              echo "ERROR: could not record $TAG in $TARGET_FILE on $TARGET_BRANCH after 5 attempts" >&2
+              exit 1
+    # Builds for the SECOND staging environment (staging-liberal-3). Same shape as
+    # release/* above; four things differ and each one is load-bearing:
+    #   the prefix stripped (v3-release/, not release/ — see TAG below),
+    #   the image repository (liberal-cms-v3 — the two environments must never
+    #     share a build; only works because image.repository is an environment
+    #     value in the helmfile),
+    #   the devops branch and file written (staging-liberal-3.yaml, NOT
+    #     staging.yaml, which is bound to the OLD environment at helmfile.yaml:84),
+    #   and the deploy: there is none. Recording the tag does not ship it — the
+    #     v3-staging pipeline's manual stage does.
+    v3-release/*:
+      # - step: *phpcs
+      - step: *phpstan
+      - step: *rector
+      - step: *trivy
+      - step: *sonarqube-scan
+      - step:
+          name: Build and push image, record tag for staging-liberal-3
+          services:
+            - docker
+          script:
+            - export DOCKER_BUILDKIT=1
+            # Both are overridable by a repository/deployment variable of the same
+            # name, so retargeting after a branch merge needs no code change here.
+            - export TARGET_BRANCH="${TARGET_BRANCH:-feature/master-liberal-v3}"
+            - export TARGET_FILE="${TARGET_FILE:-helm/staging-liberal-3.yaml}"
+            # `#` strips a PREFIX. Using #release/ here would leave the branch name
+            # intact, and a `/` in a docker tag fails with invalid reference format.
+            - export TAG="${BITBUCKET_BRANCH#v3-release/}-rc-$BITBUCKET_COMMIT"
+            - docker login -u $DOCKER_HUB_USER -p $DOCKER_HUB_PASSWORD
+            # APP_PREFIX=liberal-cms for the same reason as release/* above: the ALB
+            # rule, the chart's basePath and the frontend's baked NEXT_PUBLIC_API_URL
+            # all say /liberal-cms, and the Dockerfile ARG defaults to /liberal.
+            - docker build --target prod --build-arg APP_PREFIX=liberal-cms -f Dockerfile -t unicorndomaingr/liberal-cms-v3:$TAG .
+            - docker push unicorndomaingr/liberal-cms-v3:$TAG
+            - wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
+            - git clone -b "$TARGET_BRANCH" --single-branch https://x-token-auth:$LIBERAL_DEVOPS_TOKEN@bitbucket.org/unicorndomain/liberal-devops.git
+            - cd liberal-devops
+            - git config user.name "bitbucket"
+            - git config user.email $LIBERAL_DEVOPS_BOT_MAIL
+            # Two repos now write to one branch, so the push races. Each attempt
+            # re-applies the edit on top of the current remote instead of replaying a
+            # diff: last writer wins on its OWN key and leaves the other's alone, and
+            # there is no rebase to conflict. Exhausting the retries exits 1 — a
+            # silently-green build that never recorded the tag is the worse failure.
+            - |
+              for i in 1 2 3 4 5; do
+                git fetch origin "$TARGET_BRANCH"
+                git reset --hard "origin/$TARGET_BRANCH"
+                yq -i '.cms.tag = env(TAG)' "$TARGET_FILE"
+                git commit -am "Update liberal-cms@staging-liberal-3 to $TAG (deploy: run v3-staging)" || exit 0
+                git push origin "HEAD:$TARGET_BRANCH" && exit 0
+                sleep $((i * 5))
+              done
+              echo "ERROR: could not record $TAG in $TARGET_FILE on $TARGET_BRANCH after 5 attempts" >&2
+              exit 1
+    hotfix/*:
+      # - step: *phpcs
+      - step: *phpstan
+      - step: *rector
+      - step: *trivy
+      - step: *sonarqube-scan
+      - step:
+          name: Build and push images to Docker Hub
+          services:
+            - docker
+          script:
+            - export DOCKER_BUILDKIT=1
+            - export TAG="${BITBUCKET_BRANCH#hotfix/}-rc-$BITBUCKET_COMMIT"
+            - ./build_images.sh prod $TAG,latest-staging
+            - wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
+            - git clone -b master --single-branch https://x-token-auth:$LIBERAL_DEVOPS_TOKEN@bitbucket.org/unicorndomain/liberal-devops.git
+            - cd liberal-devops
+            - git config user.name "bitbucket"
+            - git config user.email $LIBERAL_DEVOPS_BOT_MAIL
+            - yq -i '.cms.tag = env(TAG)' helm/staging.yaml
+            - git add helm/staging.yaml
+            - git commit -m "Update liberal-cms@staging to $TAG"
+            - git push
+
+  pull-requests:
+    '**':
+      # - step: *phpcs
+      - step: *phpstan
+      - step: *rector
+      - step: *trivy
+      - step: *sonarqube-scan
+  custom:
+    Lint:
+      - step: *phpstan
+      - step: *rector
+      - step: *trivy
+      - step: *sonarqube-scan
+    BoM-Check:
+      - step:
+          name: Check composer.json for updates
+          image: composer:2.7.1
+          script:
+            - apk update && apk add jq
+            - composer outdated --direct --locked --format=json --working-dir=./src > bom.json
+            - export OUTDATED=$(jq -r -f bom.jq bom.json)
+            - pipe: atlassian/jira-create-issue:0.7.0
+              variables:
+                JIRA_PROJECT: "LIBER"
+                JIRA_ISSUE_SUMMARY: "Update dependencies on liberal-cms"
+                JIRA_ISSUE_DESCRIPTION: $OUTDATED
+                JIRA_ASSIGNEE: "-1"
+
+  tags:
+    '*':
+      - step: *trivy
+      - step: *sonarqube-scan
+      - step:
+          name: Build and push images to Docker Hub
+          services:
+            - docker
+          script:
+            - export DOCKER_BUILDKIT=1
+            - ./build_images.sh prod $BITBUCKET_TAG,latest
+            - wget https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -O /usr/bin/yq && chmod +x /usr/bin/yq
+            - git clone -b master --single-branch https://x-token-auth:$LIBERAL_DEVOPS_TOKEN@bitbucket.org/unicorndomain/liberal-devops.git
+            - cd liberal-devops
+            - git config user.name "bitbucket"
+            - git config user.email $LIBERAL_DEVOPS_BOT_MAIL
+            - yq -i '.cms.tag = env(BITBUCKET_TAG)' helm/production.yaml
+            - git add helm/production.yaml
+            - git commit -m "Update liberal-cms@production to $BITBUCKET_TAG"
+            - git push

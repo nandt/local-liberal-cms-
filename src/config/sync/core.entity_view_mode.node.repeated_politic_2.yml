@@ -1,0 +1,10 @@
+uuid: ffc00640-9f95-4fae-afe2-22fd81912d09
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.repeated_politic_2
+label: 'Repeated Politic 2'
+targetEntityType: node
+cache: true

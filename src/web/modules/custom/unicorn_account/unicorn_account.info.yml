@@ -1,0 +1,12 @@
+name: Unicorn Account
+type: module
+description: 'Current-user endpoints — profile with roles (bypasses admin-only field access), and change password.'
+package: Unicorn Domain
+core_version_requirement: ^11
+dependencies:
+  - drupal:user
+  - drupal:node
+  - drupal:jsonapi
+  - unicorn_core:unicorn_core
+  - liberal_custom_content:liberal_custom_content
+  - simple_oauth:simple_oauth

@@ -1,0 +1,18 @@
+uuid: 232bd9c1-56a6-4b38-bf67-3e1c21cbaa04
+langcode: el
+status: true
+dependencies:
+  config:
+    - comment.type.comment
+id: comment.comment.homepage
+field_name: homepage
+entity_type: comment
+bundle: comment
+label: Ιστοσελίδα
+description: 'Η διεύθυνση της αρχικής σελίδας του συντάκτη του σχολίου.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: uri

@@ -1,0 +1,23 @@
+unicorn_account.me:
+  path: '/customapi/me'
+  defaults:
+    _controller: '\Drupal\unicorn_account\Controller\AccountController::me'
+  methods: [GET]
+  requirements:
+    _user_is_logged_in: 'TRUE'
+
+unicorn_account.update_profile:
+  path: '/customapi/me'
+  defaults:
+    _controller: '\Drupal\unicorn_account\Controller\AccountController::updateProfile'
+  methods: [PATCH]
+  requirements:
+    _permission: 'manage own liberal profile'
+
+unicorn_account.change_password:
+  path: '/customapi/change-password'
+  defaults:
+    _controller: '\Drupal\unicorn_account\Controller\AccountController::changePassword'
+  methods: [POST]
+  requirements:
+    _permission: 'manage own liberal profile'

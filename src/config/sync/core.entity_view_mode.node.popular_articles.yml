@@ -1,0 +1,10 @@
+uuid: 468be15e-4985-4718-a524-6c48307ad262
+langcode: en
+status: true
+dependencies:
+  module:
+    - node
+id: node.popular_articles
+label: Popular
+targetEntityType: node
+cache: true

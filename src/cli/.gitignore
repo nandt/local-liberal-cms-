@@ -1,0 +1,3 @@
+photo/
+*.sql
+!fix_encoding.sql

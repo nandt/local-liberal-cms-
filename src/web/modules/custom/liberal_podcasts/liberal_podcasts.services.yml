@@ -1,0 +1,4 @@
+services:
+  liberal_podcasts.get_data:
+    class: Drupal\liberal_podcasts\Service\LiberalPodcastsGetData
+    arguments: ['@http_client','@config.factory']

@@ -1,0 +1,14 @@
+uuid: 8267ffff-af54-45a1-bad3-264c0686d9d7
+langcode: el
+status: true
+dependencies:
+  module:
+    - node
+id: cron.node
+crontab: '*/15 * * * *'
+plugin: cron
+type: node
+configuration: {  }
+provider: node
+single: false
+weight: 0

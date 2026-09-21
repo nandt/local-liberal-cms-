@@ -1,0 +1,23 @@
+uuid: b93321de-a7ed-4deb-846c-ea1c3a56a8d8
+langcode: el
+status: false
+dependencies:
+  module:
+    - search
+  theme:
+    - liberal_theme
+_core:
+  default_config_hash: Q-4EcGAsu26ICu4ejEz0uE1zv4akpiaOsizxgZfAmEw
+id: liberal_theme_search
+theme: liberal_theme
+region: navigation
+weight: -1
+provider: null
+plugin: search_form_block
+settings:
+  id: search_form_block
+  label: Αναζήτηση
+  label_display: visible
+  provider: search
+  page_id: node_search
+visibility: {  }

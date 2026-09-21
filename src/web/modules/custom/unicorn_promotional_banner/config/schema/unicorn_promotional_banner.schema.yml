@@ -1,0 +1,19 @@
+unicorn_promotional_banner.settings:
+  type: config_object
+  label: 'Promotional banner settings'
+  mapping:
+    filepath:
+      type: uri
+      label: 'Banner File Path'
+    target_url:
+      type: uri
+      label: 'Banner Target URL'
+    status:
+      type: boolean
+      label: "Banner Status. If it's active or not"
+    width:
+      type: string
+      label: 'Image Width'
+    height:
+      type: string
+      label: 'Image Height'

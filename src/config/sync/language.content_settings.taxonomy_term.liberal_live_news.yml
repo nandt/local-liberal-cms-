@@ -1,0 +1,18 @@
+uuid: c7baf4fc-dddb-40bb-80b3-672393bb0bb5
+langcode: el
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.liberal_live_news
+  module:
+    - content_translation
+third_party_settings:
+  content_translation:
+    enabled: true
+    bundle_settings:
+      untranslatable_fields_hide: '0'
+id: taxonomy_term.liberal_live_news
+target_entity_type_id: taxonomy_term
+target_bundle: liberal_live_news
+default_langcode: site_default
+language_alterable: true

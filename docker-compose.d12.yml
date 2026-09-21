@@ -1,0 +1,65 @@
+# d12 — ΠΕΡΙΒΑΛΛΟΝ ΔΟΚΙΜΩΝ για το Drupal 12 upgrade (LIBER-4480 query optimizer).
+#
+# develop + unicorn_query_optimizer + αντίγραφο της βάσης του staging2 (volume clone).
+# ΔΕΝ αγγίζει ούτε το staging2 (reference) ούτε το liberal-cms-d11 (κοινόχρηστο).
+#
+#   docker compose -p d12 -f docker-compose.yml -f docker-compose.d12.yml up -d
+#
+services:
+  drupal:
+    container_name: d12-drupal
+    image: d12-cms:latest
+    build:
+      target: ${DRUPAL_ENV:-dev}
+      args:
+        STOCKS_APP_WEB_TAG: ${STOCKS_APP_WEB_TAG:-latest}
+        DASHBOARD_APP_WEB_TAG: ${DASHBOARD_APP_WEB_TAG:-latest-staging}
+    ports: !override
+      - "127.0.0.1:8120:80"
+    depends_on: !override
+      - mariadb
+      - apachesolr
+
+  mariadb:
+    container_name: d12-mariadb
+    ports: !override
+      - "127.0.0.1:3341:3306"
+    volumes: !override
+      - type: volume
+        source: d12_db
+        target: /var/lib/mysql
+      - type: bind
+        source: ./ci/max_allowed_packet.cnf
+        target: /etc/mysql/conf.d/max_allowed_packet.cnf
+    command: >
+      --max_allowed_packet=512M
+      --innodb_buffer_pool_size=2G
+      --innodb_log_file_size=512M
+
+  apachesolr:
+    container_name: d12-solr
+    ports: !override
+      - "127.0.0.1:8995:8983"
+    volumes: !override
+      # Named volume — τα ./liberalcores, ./solr-config είναι άδεια + root-owned
+      # και το Solr τρέχει ως uid 8983 → Permission denied.
+      - d12_solr:/var/solr
+
+  varnish:
+    container_name: d12-varnish
+    # Δεν το χρειαζόμαστε στις δοκιμές του headless. Μένει σταματημένο.
+    profiles: ["with-varnish"]
+
+  redis:
+    container_name: d12-redis
+
+  redisinsight:
+    container_name: d12-redisinsight
+    # Δεν χρειάζεται στις δοκιμές.
+    profiles: ["with-redisinsight"]
+
+volumes:
+  d12_db:
+    external: true
+    name: d12_d12_db
+  d12_solr:

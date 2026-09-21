@@ -1,0 +1,22 @@
+uuid: 85c79666-bb0d-4d7a-9035-626c74ce45ed
+langcode: el
+status: true
+dependencies:
+  config:
+    - node.type.article
+id: node.article.status
+field_name: status
+entity_type: node
+bundle: article
+label: Δημοσιευμένο
+description: ''
+required: false
+translatable: false
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  on_label: Ανοικτό
+  off_label: Κλειστό
+field_type: boolean

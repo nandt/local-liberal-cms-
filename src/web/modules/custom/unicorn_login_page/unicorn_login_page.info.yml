@@ -1,0 +1,9 @@
+name: 'Unicorn Login Page'
+type: module
+description: 'Login page used by OAuth authentication.'
+package: Unicorn Domain
+core_version_requirement: ^11
+dependencies:
+  - drupal:user
+  - mail_login:mail_login
+  - unicorn_core:unicorn_core

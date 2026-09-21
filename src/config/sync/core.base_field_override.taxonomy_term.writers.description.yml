@@ -1,0 +1,20 @@
+uuid: 303eb55e-cadb-4ab2-9471-3375ba2f576e
+langcode: el
+status: true
+dependencies:
+  config:
+    - taxonomy.vocabulary.writers
+  module:
+    - text
+id: taxonomy_term.writers.description
+field_name: description
+entity_type: taxonomy_term
+bundle: writers
+label: Περιγραφή
+description: ''
+required: false
+translatable: true
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: text_long

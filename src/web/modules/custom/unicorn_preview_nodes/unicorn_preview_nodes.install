@@ -1,0 +1,40 @@
+<?php
+
+function unicorn_preview_nodes_install(): void {
+  $etm = \Drupal::entityTypeManager();
+
+  $role_storage = $etm->getStorage('user_role');
+  $role = $role_storage->load('preview');
+  if (!$role) {
+    $role = $role_storage->create(['id' => 'preview', 'label' => 'Preview (service)']);
+  }
+  $role->grantPermission('view unpublished for preview');
+  $role->save();
+
+  $user_storage = $etm->getStorage('user');
+  $existing = $user_storage->loadByProperties(['name' => 'preview_service']);
+  $user = reset($existing);
+  if (!$user) {
+    $user = $user_storage->create([
+      'name' => 'preview_service',
+      'status' => 1,
+    ]);
+    $user->setEmail('preview_service@liberal.local');
+  }
+  if (!$user->hasRole('preview')) {
+    $user->addRole('preview');
+  }
+  $password = getenv('DRUPAL_PREVIEW_PASSWORD') ?: 'preview-svc-pass-dev';
+  $user->setPassword($password);
+  $user->save();
+}
+
+function unicorn_preview_nodes_uninstall(): void {
+  $etm = \Drupal::entityTypeManager();
+  foreach ($etm->getStorage('user')->loadByProperties(['name' => 'preview_service']) as $user) {
+    $user->delete();
+  }
+  if ($role = $etm->getStorage('user_role')->load('preview')) {
+    $role->delete();
+  }
+}

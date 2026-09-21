@@ -1,0 +1,12 @@
+name: Unicorn Computed Fields
+description: Provides reusable computed fields and related API integrations.
+package: Unicorn Domain
+dependencies:
+  - drupal:jsonapi
+  - drupal:node
+  - drupal:taxonomy
+  - jsonapi_extras:jsonapi_extras
+  - unicorn_api_alterations:unicorn_api_alterations
+  - unicorn_core:unicorn_core
+type: module
+core_version_requirement: ^11

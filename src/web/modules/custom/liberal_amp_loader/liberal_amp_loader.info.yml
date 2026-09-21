@@ -1,0 +1,12 @@
+name: Liberal AMP Loader
+description: Liberal AMP Loader
+package: Custom
+type: module
+version: 1.0.0
+core_version_requirement: '^10 || ^11'
+dependencies:
+  - liberal_custom_content
+  - unicorn_core
+  - unicorn_advertising_tools
+  - unicorn_video_article
+  - amp

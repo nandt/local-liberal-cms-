@@ -1,0 +1,29 @@
+uuid: 8142525f-457d-400d-97d2-3aecf20f3132
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.blackbox_region
+  module:
+    - system
+    - views
+  theme:
+    - liberal_theme
+id: views_block__blackbox_region_block
+theme: liberal_theme
+region: blackbox
+weight: 0
+provider: null
+plugin: 'views_block:blackbox_region-block'
+settings:
+  id: 'views_block:blackbox_region-block'
+  label: ''
+  provider: views
+  label_display: '0'
+  views_label: ''
+  items_per_page: none
+visibility:
+  request_path:
+    id: request_path
+    pages: '<front>'
+    negate: false

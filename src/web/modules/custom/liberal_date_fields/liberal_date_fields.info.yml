@@ -1,0 +1,6 @@
+name: Liberal Date Fields
+description: A module to implement custom logic for last updated and publised date fields.
+package: Custom
+type: module
+version: 1.0.0
+core_version_requirement: '^10 || ^11'

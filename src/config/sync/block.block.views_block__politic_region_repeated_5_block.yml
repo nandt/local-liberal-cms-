@@ -1,0 +1,24 @@
+uuid: c738723b-bb8a-4897-b6f3-a849a5f85eef
+langcode: en
+status: true
+dependencies:
+  config:
+    - views.view.politic_region_repeated_5
+  module:
+    - views
+  theme:
+    - liberal_theme
+id: views_block__politic_region_repeated_5_block
+theme: liberal_theme
+region: politic_repeated_5
+weight: 0
+provider: null
+plugin: 'views_block:politic_region_repeated_5-block'
+settings:
+  id: 'views_block:politic_region_repeated_5-block'
+  label: ''
+  label_display: '0'
+  provider: views
+  views_label: ''
+  items_per_page: none
+visibility: {  }

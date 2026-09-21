@@ -1,0 +1,6 @@
+name: 'Unicorn Basic'
+type: theme
+base theme: false
+description: 'Never active as a theme. Exists only to hold the CSS/JS/image assets for the branded /user/login page — see unicorn_login_page module''s LoginFormHooks, which attaches unicorn_basic_theme/login directly to the login form.'
+package: Custom
+core_version_requirement: ^10 || ^11

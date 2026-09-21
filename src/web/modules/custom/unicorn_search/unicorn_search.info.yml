@@ -1,0 +1,10 @@
+name: Unicorn Search
+description: Exposes the liberal_index Search API index as a JSON endpoint for the headless frontend.
+package: Unicorn Domain
+dependencies:
+  - unicorn_core:unicorn_core
+  - search_api:search_api
+  - drupal:image
+type: module
+version: 1.0.0
+core_version_requirement: '^10 || ^11'

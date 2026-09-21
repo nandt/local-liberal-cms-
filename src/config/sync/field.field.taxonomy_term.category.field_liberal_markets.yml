@@ -1,0 +1,23 @@
+uuid: 8fe44c93-18c0-4c54-bb26-96b01971be3c
+langcode: el
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_liberal_markets
+    - taxonomy.vocabulary.category
+id: taxonomy_term.category.field_liberal_markets
+field_name: field_liberal_markets
+entity_type: taxonomy_term
+bundle: category
+label: liberal_markets
+description: ''
+required: false
+translatable: true
+default_value:
+  -
+    value: 0
+default_value_callback: ''
+settings:
+  on_label: '1'
+  off_label: '0'
+field_type: boolean

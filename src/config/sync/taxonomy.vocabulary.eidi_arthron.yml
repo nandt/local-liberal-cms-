@@ -1,0 +1,8 @@
+uuid: dad4f2fa-c235-4f15-9e35-8938f5ef3a3c
+langcode: el
+status: true
+dependencies: {  }
+name: 'Είδη Άρθρων'
+vid: eidi_arthron
+description: ''
+weight: 0

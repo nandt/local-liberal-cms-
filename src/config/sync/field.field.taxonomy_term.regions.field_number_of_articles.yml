@@ -1,0 +1,25 @@
+uuid: 708b4d90-b6ec-4b06-bbb4-88b7ba767c89
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_number_of_articles
+    - taxonomy.vocabulary.regions
+id: taxonomy_term.regions.field_number_of_articles
+field_name: field_number_of_articles
+entity_type: taxonomy_term
+bundle: regions
+label: 'Number of articles'
+description: ''
+required: true
+translatable: true
+default_value:
+  -
+    value: 1
+default_value_callback: ''
+settings:
+  min: 1
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer
