@@ -1,115 +1,35 @@
-# Description
+# local-liberal-cms- — snapshot του τοπικού test env «d12»
 
-Liberal-cms is a Drupal based content management system and provides all the necessary functionality to host the Liberal newspaper
+Αντίγραφο **χωρίς git ιστορικό** του worktree `~/liberal/liberal-cms-d12` (21/09/2026). Ίδιος κώδικας με το
+`liberal-cms` (branch `d12/query-optimizer` = develop + LIBER-4480 + LIBER-4647 + LIBER-4668), **συν** τα
+τοπικά αρχεία που δεν είναι στο εταιρικό repo:
 
-## Deployment
+| Αρχείο | Τι είναι |
+|---|---|
+| `docker-compose.d12.yml` | override για το d12 stack: drupal `127.0.0.1:8120`, mariadb `3341`, solr `8995`, volumes `d12_clean_db`, `d12_oauth_keys` |
+| `.env` | τοπικά credentials (DB, HASH_SALT) — **μην το δημοσιεύσεις** |
+| `Dockerfile` / `composer.json` (τροποποιημένα) | προετοιμασία για Drupal core 11.4.6 (LIBER-4648): s3fs 3.11, `allow-plugins symfony/runtime` |
 
-First you have to clone the project from the github/bitbucket repo. Then using command line (terminal for macOS, Git Bash here option, Cywin for win10) you have to navigate into the root folder of the project. You will find a bash script ./run.sh
+Δεν συμπεριλαμβάνονται: `.git`, `node_modules`, `vendor`, `docker/app/sql/*.sql`.
 
-```bash
-./run.sh
-```
+## Τι δοκιμάστηκε εδώ
 
-The first time, you should select option 7 to download the latest database snapshot from develop.unicorndomain.gr. Then select one of the choices `1` or `2` to start the development or production image respectively. On the first run the database will be populated and this will take a few minutes, therefore ignore any errors on the browser and try again in a while. On subsequent runs, the database will be loaded from the volume, so it will be much faster.
+- Drupal 11.4 / 12 alpha: το GROUP BY των JSON:API listings **παραμένει** στο 11.4, άλλαξε μόνο το SQL shape
+  → το module `unicorn_query_optimizer` χρειάζεται και στο 11.4 (με 2 fixes που μπήκαν στο LIBER-4480).
+- Πλήρης προσομοίωση `migrate.sh` σε κλώνο της staging βάσης (`d12_clean_db`).
+- LIBER-4668 «env product»: `unicorn_field_registry` — machine names μέσω env vars ώστε ο ίδιος κώδικας να
+  τρέχει σε Liberal και Μακεδονικά Νέα.
 
-### Overriding confguration
-
-Configuration of the deployment takes place through environment variables. If you need to override any, copy `.env.example` to `.env` and edit them.
-
-### Run commands inside docker
-
-```bash
-docker exec -it liberal-cms-drupal /bin/bash
-```
-
-After your connection inside docker try to find a salt.txt file and get from there the hash_salt and place it on your .env file
-
-### Troubleshooting - Rebuild cache
-
-In case you get errors after the DB has been created, you probably need to clear the cache from the database. So, get a shell to the drupal container as above and
+## Τρέξιμο
 
 ```bash
-./vendor/drush/drush/drush cr
+docker compose -p d12 -f docker-compose.yml -f docker-compose.d12.yml build drupal
+docker compose -p d12 -f docker-compose.yml -f docker-compose.d12.yml up -d
+# API: http://localhost:8120/liberal/unicornapi/   login: liberal@unicorndomain.gr
 ```
+Βάση: Google Drive `liberal-local-20260921.sql.gz` (4,7 GB).
 
-For convenience you can use option `5` of the `run.sh` script.
+## Σχετικά repos (nandt)
 
-### Recreate database
-
-The database is populated the first time you run the deployment, stored in a docker volume and reused on each subsequent run. To clear the database and recreate it (for example, when you download a new snapshot from the development server), you need to remove the volume. So, with the deployment terminated:
-
-```bash
-docker volume rm liberal-cms_liberal
-```
-
-For convenience you can use options `6` of the `run.sh` script.
-
-The proceed with options 1 or 2 and the new DB will be loaded
-
-## React Installation
-
-Navigate to
-
-```
-/src/web/modules/custom/liberal_dashboard_app/react_app
-```
-
-Install the node packages
-
-```
-npm install
-```
-
-### 1. Local development flow
-
-- Copy `.env.local.example` to `.env.local` and fill the `APP_URL` env variable accordingly (E.g. http://$DRUPAL_TRUSTED_HOST:$DRUPAL_PORT)
-- Build the development app (also watches for changes in codebase)
-
-```
-npm run start
-```
-
-### 2. Deploy staging server
-
-```
-npm run dev
-or
-npm run develop
-or
-npm run development
-```
-
-### 3. Deploy live server
-
-```
-npm run build
-or
-npm run prod
-or
-npm run production
-```
-
-## TinyMCE local development API KEY (if you dont want to publish one for yourself)
-
-```
-go17ops5o6n1o9zr2ok4g61r9bmxkwrmatyzte0he0436waw
-```
-
-## Tips for development
-
-After pulling from develop, it is good enough to clear cache tables from db_schema, in case you receive a message `The website encountered an unexpected error. Please try again later.`. Use a db viewer like workbench to empty all tables that contains the wording `cache`.
-All composer require modules must be done on develop branch. Do not require a module on a personal branch usually after merging it, you will face conflicts
-All db_schemas must be cleared from cached data. Every time a new module is installed through composer, then each user has to enable it or passing the newly db_schema.
-In order to login into admin panel please use the following url /user/login (ex. http://liberal.test/en/user/login).
-
-## Add new file-types on Drupal
-
-In case you would like to upload a file (image, doc, pdf, csv), you have first to declare it on allowed file type (admin/structure/file-types). Click add new provide file's mime-type and save it.
-
-### Kubernetes deployment
-Go to /helm
-Execute helmfile -i apply
-
-version: 0.0.6 (30/08/2024)
-
-Dummy: YP
+- `liberal-cms` — το κανονικό repo με ιστορικό (develop + master)
+- `Liberal-dashboard` — το frontend· το chip «env site» στο login δείχνει σε αυτό το backend (:8120)
